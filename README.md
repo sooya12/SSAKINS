@@ -100,3 +100,17 @@ README(이름)
 feature/기능명 으로 develop에서 분기해서 사용하고, 기능 개발 완료 후 develop에 머지!
 
 ---
+
+## Stack
+
+
+![batge](https://img.shields.io/badge/JDK-11.0.8-blue) ![batge](https://img.shields.io/badge/Spring%20Boot-2.3.4-blue) ![batge](https://img.shields.io/badge/JPA----blue) ![batge](https://img.shields.io/badge/mongeDB----blue)  
+![batge](https://img.shields.io/badge/Vue.js-2.6.11-blue) ![batge](https://img.shields.io/badge/Node.js-12.18.2-blue) ![batge](https://img.shields.io/badge/Maven-3.6.3-blue)
+
+![batge](https://img.shields.io/badge/VSCode-1.49.0-green) ![batge](https://img.shields.io/badge/STS-3.9.12-green) ![batge](https://img.shields.io/badge/Intellij-2020.2.1-green)  
+
+![batge](https://img.shields.io/badge/Jira-8.2-lightgreen) ![batge](https://img.shields.io/badge/Gitlab-11.6.2-lightgreen) ![batge](https://img.shields.io/badge/Notion----lightgreen) ![batge](https://img.shields.io/badge/MatterMost----lightgreen)
+
+
+![batge](https://img.shields.io/badge/Ubuntu-18.04.1%20LTS-black) ![batge](https://img.shields.io/badge/Docker-19.03.12-black) ![batge](https://img.shields.io/badge/NginX----black) ![batge](https://img.shields.io/badge/Jenkins-2.176.1-black)
+
