@@ -12,7 +12,7 @@ Debian GNU/Linux 배포판 계열 배포판에서 sw를 설치/제거하는 일�
 
 sw package의 확인, 구성, 설치를 자동화함으로써 unix 계열 컴퓨터 시스템 상의 sw를 관리하는 작업을 단순하게 만듦
 
-```apt
+```shell
 // 패키지 설치
 $ sudo apt insatll [packageName]
 $ sudo apt-get install [packageName]
@@ -54,7 +54,7 @@ apt-get과 달리 apt는 진행도를 보여줌 (시각적)
 
   - shell script와 배치 파일에서 화면이나 파일로 상황을 알리는 문자열을 출력할 때 사용
 
-    ```echo
+    ```shell
     // 문자열 출력
     $ echo [문자열]
     
@@ -76,7 +76,7 @@ apt-get과 달리 apt는 진행도를 보여줌 (시각적)
 
   - 파일이 길어서 한 화면을 벗어나는 경우, 자동 스크롤. 파일 앞부분 말고 마지막 부분만 볼 수 있음
 
-    ```cat
+    ```shell
     // 파일 내용 출력
     $ cat [파일명]
     
@@ -91,7 +91,7 @@ apt-get과 달리 apt는 진행도를 보여줌 (시각적)
 
   - spaceBar로 다음 화면을 보여줌
 
-    ```more
+    ```shell
     $ more [파일명]
     ```
 
@@ -99,7 +99,7 @@ apt-get과 달리 apt는 진행도를 보여줌 (시각적)
 
 #### :black_nib: Docker
 
-```docker
+```shell
 // 도커 구 버전 삭제
 $ sudo apt-get remove docker docker-engine docker.io containerd runc
 
@@ -115,7 +115,7 @@ $ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ub
 
 // 도커 엔진 설치
 $ sudo apt-get update
-$ sudo apt-get install docker-ce docer-ce-cli containerd.io
+$ sudo apt-get install docker-ce docker-ce-cli containerd.io
 
 // 도커 엔진 버전 확인
 $ apt-cache madison docker-ce
@@ -291,4 +291,75 @@ ubuntu에서 dist 폴더 이동
 ```shell
 $ sudo mv ~/dist /var/www/html/dist
 ```
+
+
+
+## :calendar: 20.10.16
+
+### :black_nib: Jenkins
+
+[Linux + Jenkins 설치 Doc](https://pkg.jenkins.io/debian-stable/)
+
+ubuntu에 Jenkins 설치
+
+```shell
+$ wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+
+// 설치를 위해 sources.list에 접근
+$ cd /etc/apt
+$ sudo vi sources.list
+
+// sources.list에 추가
+deb https://pkg.jenkins.io/debian-stable binary/ 
+
+// Jenkins 설치
+$ sudo apt-get update
+$ sudo apt-get install jenkins
+```
+
+
+
+Jenkins 설치 중 에러 발생
+
+- ![image-20201016131042747](C:\Users\multicampus\AppData\Roaming\Typora\typora-user-images\image-20201016131042747.png)
+
+- Jenkins에서는 Java 8 사용
+
+  ```shell
+  $ sudo apt install openjdk-8-jre
+  $ java -version
+  ```
+
+
+
+이어서 Jenkins 설치 후, Jenkins 접속
+
+```shell
+$ sudo apt-get install jenkins
+
+// Jenkins 기본 포트 8080을 8082로 변경
+$ sudo vi /etc/default/jenkins
+
+// jenkins
+HTTP_PORT=8082
+
+// Jenkins 서비스 시작
+$ sudo service jenkins start
+
+// Jenkins.war 위치 찾기
+$ find / -name "jenkins.war"
+// /usr/share/jenkins/jenkins.war 에 있음을 찾음
+
+// Jenkins 접속
+$ java -jar /usr/share/jenkins/jenkins.war --httpPort=8082
+```
+
+
+
+발급받은 패스워드로 [퍼블릭 DNS]:8082 접속해서 Jenkins 실행
+
+> 18466a11ca92435fbc55d369c3e6bc6c
+> admin / blockchallen 
+
+
 
