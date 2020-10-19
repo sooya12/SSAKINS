@@ -291,3 +291,57 @@ sudo docker restart mysql
 sudo docker ps -a // -a 옵션을 빼면 실행 중인 컨테이너만 조회
 ```
 
+
+
+### Docker 백엔드 배포
+
+###### dockerBack 폴더 생성
+
+```shell
+mkdir dockerBack
+```
+
+
+
+###### docker 이미지 생성
+
+> dockerBack 폴더에서 DockerFile 만들기
+
+```shell
+vi DockerFile
+```
+
+위 파일 안에 다음 내용 추가
+
+```
+FROM openjdk:8-jdk-alpine
+EXPOSE 8080
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
+```
+
+
+
+>  백엔드 폴더가서 jar 파일 복사해오기
+
+```shell
+cp -r target/ ~/dockerBack
+```
+
+
+
+> dockerBack 폴더 에서 이미지 빌드
+
+```shell
+// backend 라는 이름으로 도커 이미지 빌드
+sudo docker build -t backend .
+```
+
+> 도커 image 확인 및 실행
+
+``` shell
+sudo docker images
+sudo docker run -d -p 8080:8080 backend
+```
+
