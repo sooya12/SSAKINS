@@ -335,7 +335,7 @@ cp -r target/ ~/dockerBack
 
 ```shell
 // backend 라는 이름으로 도커 이미지 빌드
-sudo docker build -t backend .
+sudo docker build -f DockerFile -t backend .
 ```
 
 > 도커 image 확인 및 실행
@@ -345,3 +345,48 @@ sudo docker images
 sudo docker run -d -p 8080:8080 backend
 ```
 
+
+
+> 도커 log 확인
+
+```shell
+sudo docker logs competent_clarke // 이름 지정 안 해서 이상하게 생김
+```
+
+
+
+
+
+### CI/CD
+
+###### Jenkins 도커 이미지 사용
+
+> Jenkins 이미지 다운로드
+
+```shell
+sudo docker pull jenkins/jenkins
+```
+
+> 잘 받아졌는 지 확인
+
+``` shell
+sudo docker images
+```
+
+> 컨테이너 실행
+
+```shell
+docker run -d -p 9090:8080 -v /jenkins:/var/jenkins_home --name jenkins -u root jenkins/jenkins
+```
+
+> -d : 백그라운드 실행
+>
+> -p : 내 서버 아이피 9090 포트로 접근하면 컨테이너 내부 포트 8080으로 매핑
+>
+> -v : 볼륨 옵션. 호스트와 볼륨을 공유하는 설정.
+>
+> ​	(내 호스트 서버의 루트 경로):(실제 컨테이너 내부의 젠킨스 폴더)
+>
+> ​	/jenkins:/var/jenkins_home 
+>
+> ​	젠킨스가 빌드하고 난 결과물들을 직접 호스트에서 공유할 수 있다.
