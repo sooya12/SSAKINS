@@ -363,3 +363,208 @@ $ java -jar /usr/share/jenkins/jenkins.war --httpPort=8082
 
 
 
+## :calendar: 20.10.21
+
+### :black_nib: Jenkins로 무중단 배포 설정하기
+
+webhook을 사용하여 git이랑 Jenkins 연동
+
+```shell
+// Jenkins 작업공간 확인
+$ cd /var/lib/jenkins/workspace/
+```
+
+
+
+젠킨스에서 frontend, backend npm이랑 maven으로 build
+
+> ##### Jenkins 관리 - Global Tool Configuration
+>
+> - JDK
+>
+>   - JAVA_HOME 설정
+>
+>     $ echo $JAVA_HOME으로 얻은 경로 추가
+>
+>     ```shell
+>     // root 권한 획득
+>     $ sudo su
+>     
+>     // javac 경로 확인
+>     $ readlink -f /usr/bin/javac
+>     
+>     // JAVA_HOME, PATH 설정
+>     $ vi ~/.bashrc
+>     
+>     // ~/.bashrc
+>     JAVA_HOME=$(readlink -f /usr/bin/javac | sed "s:/bin/javac::")
+>     export JAVA_HOME
+>     PATH=$PATH:$JAVA_HOME/bin
+>     export PATH
+>     
+>     $ source ~/.bashrc
+>     $ echo $JAVA_HOME
+>     ```
+>
+> - Maven
+>
+>   - Install automatically 선택해서 없으면 자동 설치되게 하기
+>
+> - NodeJS
+>
+>   - Install automatically 선택
+
+> ##### Item - 구성
+>
+> - 빌드 유발
+>
+>   - Gitlab 사용 시, Build when a change is pushed to Gitlab 선택
+>   - GitHub hook trigger for GITScm polling 으로 webhook 발생 시, 빌드되게 설정
+>
+> - 빌드 환경
+>
+>   - npm 사용 위해서 Provide Node & npm bin/ folder to PATH 선택
+>
+> - Build
+>
+>   - Invoke top-level Maven targets
+>
+>     - Maven 사용해서 backend 빌드 시, 사용
+>     - Maven version은 Global Tool Configuration에서 설정한 것 사용
+>     - Goals는 빌드하려면 package
+>
+>   - Execute shell
+>
+>     - npm 사용해서 frontend 빌드 시, 사용
+>
+>       ```shell
+>       cd frontend
+>       npm install
+>       npm run build
+>       ```
+>
+>   - Execute shell
+>
+>     - application.properties 없으면 서버에 넣어주기 위해서 사용
+>
+>       ```shell
+>       echo "spring.datasource.driverClassName=com.mysql.cj.jdbc.Driver
+>       spring.datasource.url=jdbc:mysql://[DB IP]:3306/[Database명]?allowPublicKeyRetrieval=true&useSSL=false
+>       spring.datasource.username=[UserName]
+>       spring.datasource.password=[Password]
+>       spring.jpa.hibernate.ddl-auto=update" > backend/src/main/resources/application.properties
+>       ```
+>
+> - 빌드 후 조치
+>
+>   - 빌드된 파일들을 SSH로 Jenkins 작업 공간에서 서버 특정 경로로 옮기기
+>
+>   - .jar, dist/, Dockerfile (있으면)
+>
+>   - Send build artifacts over SSH
+>
+>     - Transfers
+>
+>       > Source files : 이동시킬 파일/폴더 경로 (frontend/dist/ 또는 backend/target/*.jar)
+>       >
+>       > Remove prefix : Source files에서 제거할 prefix (frontend/ 또는 backend/target)
+>       >
+>       > Remote directory : 이동될 경로 (deploy)
+>       >
+>       > Exec command : 이동하고 나서 실행시킬 명령어 (.sh 실행)
+
+
+
+Dockerfile 없으면 생성
+
+```shell
+// Dockerfile
+
+FROM openjdk:[버전]
+ARG JAR_FILE=./*.jar
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java", "-jar", "-Dserver.port=[서버 Port]", "app.jar"]
+```
+
+
+
+nginx에서 upstream으로 무중단배포 설정
+
+```shell
+$ cd /etc/nginx/sites-available
+$ vi default
+
+// default
+
+upstream [UpstreamName] {
+	least_conn; // 클라이언트 연결 개수가 적은 서버로 전달
+	server 127.0.0.1:8081 weight=5 max_fails=3 fail_timeout=10s;
+	server 127.0.0.1:8082 weight=10 max_fails=3 fail_timeout=10s;
+}
+
+server {
+	listen 8080 default_server;
+	listen [::]:8080 default_server;
+	server_name _;
+	
+	location / {
+		proxy_pass http://[UpstreamName];
+	}
+}
+```
+
+
+
+8081, 8082 포트에 따라서 sh파일 구분
+
+> 도커파일이랑 .jar가 있는 경로에서 도커이미지 생성 및 도커이미지 실행
+>
+> port forwarding으로 8081/8082 전부 8080으로 접속
+>
+> ```shell
+> // docker81.sh
+> 
+> docker build -t [dockerImageNameA] .
+> docker run --name "[dockerImageNameA]" -p 8081:8080 -d [dockerImageNameA]
+> 
+> 
+> // docker82.sh
+> 
+> docker build -t [dockerImageNameB] .
+> docker run --name "[dockerImageNameB]" -p 8082:8080 -d [dockerImageNameB]
+> ```
+
+
+
+무중단 배포하기 위해서 실행 중인 port(8081 / 8082)에 따라 sh파일 선택
+
+```shell
+// dockermu.sh
+
+D81_IS_RUNNING=$(docker ps -a | grep [dockerImageNameA])
+D82_IS_RUNNING=$(docker ps -a | grep [dockerImageNameB])
+	if [ "$D81_IS_RUNNING" ]; then
+		echo "8082 포트로 실행"
+		sh docker82.sh
+		
+		sleep 10
+		
+		echo "8081 포트 종료"
+		docker stop [dockerImageNameA]
+		docker rm [dockerImageNameA]
+		docker rmi [dockerImageNameA]
+	else
+    	echo "8081 포트로 실행"
+    	sh docker81.sh
+    	
+    	sleep 10
+    	
+    	if [ "$D82_IS_RUNNING" ]; then
+    		echo "8081 포트 종료"
+    		docker stop [dockerImageNameB]
+			docker rm [dockerImageNameB]
+			docker rmi [dockerImageNameB]
+		fi
+	fi
+```
+
