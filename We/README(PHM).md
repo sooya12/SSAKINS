@@ -40,7 +40,7 @@ jenkins container 내부에서 여러 설정들을 고치고 commit 을 한 다�
 
 그렇다고 프로젝트를 포기할 수는 없으니 대안을 찾아봄. 구글링을 하다 volume이라는 기술을 활용해서 해볼 수 있겠다는 생각이 듦.
 
-[volume](https://docs.docker.com/storage/volumes/)
+[Docker Volume](https://docs.docker.com/storage/volumes/)
 
 docker container 구동할 때 ```-v``` 옵션으로 호스트 서버의 디렉토리와 컨테이너 디렉토리를 공유할 수 있음.
 
