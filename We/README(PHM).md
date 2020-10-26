@@ -46,7 +46,7 @@ docker container 구동할 때 ```-v``` 옵션으로 호스트 서버의 디렉�
 
 기존 컨테이너 내에 커스터마이징한 디렉토리들을 호스트 서버로 가지고와서 docker container 구동 시 이 디렉토리를 연동시켜주는 법을 해봐야겠다란 생각이 듦.
 
-그런데, Container에서 host 디렉토리로 접근할 때 denied가 뜸.. 이유를 보니 컨테이너의 접근 권한 문제인 것 같아 ```-u``` 옵션을 통해 해결함. ~~일단 급한대로 root 권한을 줬지만 여유가 된다면 다른 방법을 찾아보는게 좋을듯..!~~
+그런데, Container에서 host 디렉토리로 접근할 때 denied가 뜸.. 이유를 보니 컨테이너의 접근 권한 문제인 것 같아 ```-u``` 옵션을 통해 해결함. ~~일단 급한대로 root 권한을 줬지만 여유가 된다면 다른 방법을 찾아보는게 좋을듯..!~~  
 [Docker의 uid, gid](https://medium.com/@mccode/understanding-how-uid-and-gid-work-in-docker-containers-c37a01d01cf)
 
 
