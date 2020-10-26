@@ -298,7 +298,7 @@ $ sudo mv ~/dist /var/www/html/dist
 
 ## :calendar: 20.10.16
 
-### :black_nib: Jenkins
+#### :black_nib: Jenkins
 
 [Linux + Jenkins 설치 Doc](https://pkg.jenkins.io/debian-stable/)
 
@@ -367,7 +367,7 @@ $ java -jar /usr/share/jenkins/jenkins.war --httpPort=8082
 
 ## :calendar: 20.10.21
 
-### :black_nib: Jenkins로 무중단 배포 설정하기
+#### :black_nib: Jenkins로 무중단 배포 설정하기
 
 webhook을 사용하여 git이랑 Jenkins 연동
 
@@ -574,7 +574,7 @@ D82_IS_RUNNING=$(docker ps -a | grep [dockerImageNameB])
 
 ## :calendar: 20.10.26
 
-### :black_nib: Jenkins docker로 설치
+#### :black_nib: Jenkins docker로 설치
 
 ```shell
 $ sudo docker pull jenkins/jenkins:lts
@@ -597,7 +597,7 @@ $ docker exec -u root -it test /bin/bash
 
 
 
-### :black_nib: Jenkins 잠금 해제
+#### :black_nib: Jenkins 잠금 해제
 
 ```shell
 // 루트 계정 접속
@@ -617,9 +617,11 @@ config.xml에서 true를 false로 해서 잠금 해제
 
 ![image-20201026152526142](C:\Users\multicampus\AppData\Roaming\Typora\typora-user-images\image-20201026152526142.png)
 
+![image-20201026152526142](/uploads/48c4a05142d426d99a2d4f235b6b6e02/image-20201026152526142.png)
 
 
-### :black_nib: jenkins-cli.jar 없을 때 설치
+
+#### :black_nib: jenkins-cli.jar 없을 때 설치
 
 ```shell
 // /root/bin 경로에 jenkins.cli.jar 설치됨
@@ -632,7 +634,7 @@ $ java -jar ~/bin/jenkins-cli.jar -s [Jenkins 경로] -webSocket help
 
 
 
-### :black_nib: jenkins-cli로 Plugin 설치
+#### :black_nib: jenkins-cli로 Plugin 설치
 
 ```shell
 $ java -jar ~/bin/jenkins-cli.jar -s http://localhost:8080/ install-plugin [plugin명] -deploy -restart
