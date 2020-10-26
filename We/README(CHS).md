@@ -1,3 +1,5 @@
+
+
 ## :calendar: 20.10.14
 
 #### :black_nib: apt-get 와 apt
@@ -566,5 +568,82 @@ D82_IS_RUNNING=$(docker ps -a | grep [dockerImageNameB])
 			docker rmi [dockerImageNameB]
 		fi
 	fi
+```
+
+
+
+## :calendar: 20.10.26
+
+### :black_nib: Jenkins docker로 설치
+
+```shell
+$ sudo docker pull jenkins/jenkins:lts
+$ sudo docker run -d --name "test" -p 8090:8080 jenkins/jenkins:lts
+
+```
+
+```shell
+$ sudo su
+$ docker exec test cat /var/jenkins_home/secrets/initialAdminPassword
+
+// docker 컨테이너 터미널에 bash 접속
+// 컨테이너는 비어 있다. 아무것도 없다. 필요한 것만 깔려있다. 근데 내가 필요한건 없다.
+$ docker exec -it test /bin/bash
+
+// 루트 계정 접속
+$ docker exec -u root -it test /bin/bash
+
+```
+
+
+
+### :black_nib: Jenkins 잠금 해제
+
+```shell
+// 루트 계정 접속
+$ docker exec -u root -it test /bin/bash
+
+$ apt-get update
+$ apt-get upgrade
+$ apt-get install vim
+$ vi /var/jenkins_home/config.xml
+```
+
+config.xml에서 true를 false로 해서 잠금 해제
+
+```xml
+<useSecurity>false</useSecurity>
+```
+
+![image-20201026152526142](C:\Users\multicampus\AppData\Roaming\Typora\typora-user-images\image-20201026152526142.png)
+
+
+
+### :black_nib: jenkins-cli.jar 없을 때 설치
+
+```shell
+// /root/bin 경로에 jenkins.cli.jar 설치됨
+$ wget -P ~/bin [Jenkins 경로]/jnlpJars/jenkins-cli.jar
+
+// jenkins-cli.jar 명령어 확인
+// 브라우저로 Jenkins 접속해서 jenkins 관리 - Jenkins CLI 에 있음
+$ java -jar ~/bin/jenkins-cli.jar -s [Jenkins 경로] -webSocket help
+```
+
+
+
+### :black_nib: jenkins-cli로 Plugin 설치
+
+```shell
+$ java -jar ~/bin/jenkins-cli.jar -s http://localhost:8080/ install-plugin [plugin명] -deploy -restart
+
+// NodeJS 설치
+$ java -jar ~/bin/jenkins-cli.jar -s http://localhost:8080/ install-plugin NodeJS -deploy -restart
+
+// Maven 설치
+$ java -jar ~/bin/jenkins-cli.jar -s http://localhost:8080/ install-plugin maven-plugin -deploy -restart
+
+// Publish-Over-SSH 설치
+$ java -jar ~/bin/jenkins-cli.jar -s http://localhost:8080/ install-plugin publish-over-ssh -deploy -restart
 ```
 
