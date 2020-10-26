@@ -323,7 +323,7 @@ $ sudo apt-get install jenkins
 
 Jenkins 설치 중 에러 발생
 
-- ![image-20201016131042747](C:\Users\multicampus\AppData\Roaming\Typora\typora-user-images\image-20201016131042747.png)
+- ![image-20201016131042747](https://lab.ssafy.com/s03-final/s03p31a201/uploads/e88d2a521151ef12faceb1e050de0251/image-20201016131042747.png)
 
 - Jenkins에서는 Java 8 사용
 
@@ -615,9 +615,7 @@ config.xml에서 true를 false로 해서 잠금 해제
 <useSecurity>false</useSecurity>
 ```
 
-![image-20201026152526142](C:\Users\multicampus\AppData\Roaming\Typora\typora-user-images\image-20201026152526142.png)
-
-![image-20201026152526142](/uploads/48c4a05142d426d99a2d4f235b6b6e02/image-20201026152526142.png)
+![image-20201026152526142](https://lab.ssafy.com/s03-final/s03p31a201/uploads/48c4a05142d426d99a2d4f235b6b6e02/image-20201026152526142.png)
 
 
 
