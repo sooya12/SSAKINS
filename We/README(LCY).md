@@ -72,9 +72,6 @@ sudo systemctl start nginx
 sudo service nginx stop
 sudo systemctl stop nginx			// 중지
 
-
-
-
 ```
 
 
@@ -351,7 +348,6 @@ FROM openjdk:8-jdk-alpine
 ARG JAR_FILE=target/*.jar 		// target/jar 넣기 (경로지정)
 COPY ${JAR_FILE} app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
-
 ```
 
 
@@ -378,14 +374,9 @@ sudo docker images		// 이미지 확인
 sudo docker run -d -p 8081:8080 dockerback // 일반배포 백그라운드 8080 실행중 -> 8081로 실행
 
 sudo docker ps -a 		// 도커 이름 확인
-
 ```
 
 
-
-실행 결과
-
-![image-20201019101334610](C:\Users\multicampus\AppData\Roaming\Typora\typora-user-images\image-20201019101334610.png
 
 
 
@@ -407,6 +398,14 @@ which java // 환경변수 설정 위치
 wget -qO - https://pkg.jenkins.io/debian-stable/jenkins.io.key | apt-key add -
 ```
 
+>// 설치를 위해 sources.list에 접근
+>$ cd /etc/apt
+>$ sudo vi sources.list
+>// sources.list에 추가
+>deb https://pkg.jenkins.io/debian-stable binary/ 
+
+
+
 
 
 * 젠킨스 포트 설정
@@ -422,8 +421,6 @@ vi /etc/default/jenkins 		// HTTP PORT 변경
 젠킨스 아이디/비번
 
 젠킨스 user id : admin
-
-0596a597821c421783389b7403778448
 
 
 
@@ -470,7 +467,6 @@ npm run build
 
 cd [main/resources .. ]
 echo .. 		// application.properties 생성
-
 ```
 
 ```
@@ -527,7 +523,6 @@ CURRENT_PID=$(ps -ef | grep java | grep block | awk '{print $2}')
         fi
         echo "새 백엔드 서버 구동"
         nohup java -jar ~/deploy/*.jar &
-
 ```
 
 이 파일을 [빌드 후 조치] 에서 exec command 로 실행
@@ -678,6 +673,83 @@ gitlab -> github : https://lazyren.github.io/devlog/gitlab-to-github-repo-clone.
 webhook 환경구축 : https://ict-nroo.tistory.com/37
 
 nginx 공식 : http://nginx.org/en/docs/http/ngx_http_upstream_module.html
+
+
+
+
+
+
+
+# 2020년 10월 26일
+
+/var/lib/jenkins/plugins
+
+config.xml
+
+jobs/test
+
+
+
+$ java -jar ~/bin/jenkins-cli.jar -s http://localhost:8080/ install-plugin NodeJS -deploy -restart
+
+
+
+
+
+
+
+# 2020년 10월 27일
+
+* spring boot에서 쉘 스크립트 코드를 실행하기 위함
+
+  1. ssh 로 접속
+
+     ```java
+     private static String keyname="C:/Users/multicampus/Documents/pem/awspwd.pem";
+     private static String publicDNS = "ec2-3-17-145-7.us-east-2.compute.amazonaws.com";
+     
+     JSch jsch = new JSch();
+     String user = "ubuntu";	 	// 마음대로 설정가능
+     String host = publicDNS;	
+     int port =22;
+     String privateKey = keyname;
+     			
+     jsch.addIdentity(privateKey);
+     			
+     Session session = jsch.getSession(user, host, port);	// 세선 설정
+     session.setConfig("StrictHostKeyChecking","no");
+     session.setConfig("GSSAPIAuthentication","no");
+     session.setServerAliveInterval(120 * 1000);
+     session.setServerAliveCountMax(1000);
+     session.setConfig("TCPKeepAlive","yes");
+     
+     session.connect();		// 세션 연결
+     
+     ```
+
+     
+
+  2. 쉘 스크립트 코드 사용
+
+     ```java
+     Channel channel = session.openChannel("exec");
+     ChannelExec channelExec = (ChannelExec) channel;
+     
+     channelExec.setCommand("sh /home/ubuntu/test.sh");		// 리눅스 명령어 
+     channelExec.connect();									// 명령어 연결
+     ```
+
+     
+
+> **삽질 내용**
+>
+> * ssh로 접속하지 않으면 window 기 때문에 리눅스 명령어 안먹힘. 근데 계속 삽질함.
+>
+> cmd 명령어 성공하고 정신차림.
+>
+> * ssh로 접속하려고 처음 시도했을 때, publicDNS 를 잘 못 적어둠. 무슨 정신인지 나도 모름. 내 AWS서버 주소로 고치니깐 접속됨
+
+
 
 
 
