@@ -647,3 +647,34 @@ $ java -jar ~/bin/jenkins-cli.jar -s http://localhost:8080/ install-plugin maven
 $ java -jar ~/bin/jenkins-cli.jar -s http://localhost:8080/ install-plugin publish-over-ssh -deploy -restart
 ```
 
+
+
+## :calendar: 20.10.27
+
+#### :black_nib: Backend로 설치 파일 받아서 install.sh 실행하기 (dos2unix)
+
+1. backend 코드를 Java 11로 실행
+
+2. 브라우저에서 localhost:8080/zip에 접속 - 자동으로 ssakins.zip 파일 다운로드 됨
+
+3. ssakins.zip 압축 해제하고 scp로 aws 서버에 ssakins 파일 이동
+
+   - ssakins 파일
+
+     > install.sh
+     >
+     > ssakins_home/
+
+4. install.sh 파일 실행으로 Docker 이미지 생성
+
+   ```sh
+   // 개행문자가 다르면 파일 실행이 안되서 dos2unix로 해결하기 위하여
+   $ sudo apt install dos2unix
+   $ dos2unix install.sh
+   
+   // install.sh 파일 실행
+   $ sh install.sh
+   ```
+
+   ![image-20201027111512534](https://lab.ssafy.com/s03-final/s03p31a201/uploads/14fbdb677327655cce6502fc2baf630a/image-20201027111512534.png)
+
