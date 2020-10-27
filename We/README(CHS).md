@@ -630,7 +630,7 @@ $ java -jar ~/bin/jenkins-cli.jar -s [Jenkins 경로] -webSocket help
 
 
 
-#### :black_nib: jenkins-cli로 Plugin 설치
+#### :black_nib: jenkins-cli.jar로 Plugin 설치
 
 ```shell
 $ java -jar ~/bin/jenkins-cli.jar -s http://localhost:8080/ install-plugin [plugin명] -deploy -restart
@@ -678,7 +678,7 @@ $ java -jar ~/bin/jenkins-cli.jar -s http://localhost:8080/ install-plugin publi
 
 
 
-도커 정지 및 삭제
+#### :black_nib: 도커 정지 및 삭제
 
 ```sh
 $ sudo docker stop ssakins
@@ -768,7 +768,7 @@ jenkins_home에 hudson.tasks.Maven.xml 파일로 설정하기
 
 docker에 접속하여 jenkins-cli.jar 사용해서 설정하기
 
-1. jenkins-cli.jar groovy 사용
+1. jenkins-cli.jar groovy 사용 (실패)
 
    ```shell
    // installJdk.groovy
