@@ -9,11 +9,7 @@
 export default {
   name: 'App',
   components: {},
-  data: () => ({}),
-  mounted() {
-    this.$router.push("/");
-  }
-
+  data: () => ({})
 }
 </script>
 
