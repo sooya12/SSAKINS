@@ -166,6 +166,9 @@ gantt
 
 ```mermaid
 erDiagram
-    User ||--o{ Project : setting
+    User 
+    ||--o{ 
+    Project 
+    : setting
 ```
 
