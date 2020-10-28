@@ -162,11 +162,3 @@ gantt
 
 
 
-## ERD
-
-```mermaid
-erDiagram   
-
-User||--o{ Project : settings
-```
-
