@@ -130,7 +130,6 @@ gantt
     dateFormat  YYYY-MM-DD
     title       SSAKINS
     excludes    weekends
-    %% (`excludes` accepts specific dates in YYYY-MM-DD format, days of the week ("sunday") or "weekends", but not the word "weekdays".)
 
     section 프로젝트 설계
     기능 설계	:done, 2020-10-12, 5d
