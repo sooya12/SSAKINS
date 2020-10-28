@@ -14,12 +14,12 @@
 
 <script>
 export default {
-    name: 'Home',
-    methods: {
+  name: 'Home',
+  methods: {
     kakaoLogin() {
       window.location.href = 'https://kauth.kakao.com/oauth/authorize?client_id=3c19efe27e2021f8a6476f487212d326&redirect_uri=' + this.$store.state.server + '/login&response_type=code'
     }
-  }
+  } 
 }
 </script>
 
