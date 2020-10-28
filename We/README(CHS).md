@@ -12,7 +12,7 @@ Debian GNU/Linux 배포판 계열 배포판에서 sw를 설치/제거하는 일�
 
 sw package의 확인, 구성, 설치를 자동화함으로써 unix 계열 컴퓨터 시스템 상의 sw를 관리하는 작업을 단순하게 만듦
 
-```apt
+```shell
 // 패키지 설치
 $ sudo apt insatll [packageName]
 $ sudo apt-get install [packageName]
@@ -54,7 +54,7 @@ apt-get과 달리 apt는 진행도를 보여줌 (시각적)
 
   - shell script와 배치 파일에서 화면이나 파일로 상황을 알리는 문자열을 출력할 때 사용
 
-    ```echo
+    ```shell
     // 문자열 출력
     $ echo [문자열]
     
@@ -76,7 +76,7 @@ apt-get과 달리 apt는 진행도를 보여줌 (시각적)
 
   - 파일이 길어서 한 화면을 벗어나는 경우, 자동 스크롤. 파일 앞부분 말고 마지막 부분만 볼 수 있음
 
-    ```cat
+    ```shell
     // 파일 내용 출력
     $ cat [파일명]
     
@@ -91,7 +91,7 @@ apt-get과 달리 apt는 진행도를 보여줌 (시각적)
 
   - spaceBar로 다음 화면을 보여줌
 
-    ```more
+    ```shell
     $ more [파일명]
     ```
 
@@ -99,7 +99,7 @@ apt-get과 달리 apt는 진행도를 보여줌 (시각적)
 
 #### :black_nib: Docker
 
-```docker
+```shell
 // 도커 구 버전 삭제
 $ sudo apt-get remove docker docker-engine docker.io containerd runc
 
@@ -115,7 +115,7 @@ $ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ub
 
 // 도커 엔진 설치
 $ sudo apt-get update
-$ sudo apt-get install docker-ce docer-ce-cli containerd.io
+$ sudo apt-get install docker-ce docker-ce-cli containerd.io
 
 // 도커 엔진 버전 확인
 $ apt-cache madison docker-ce
@@ -291,4 +291,507 @@ ubuntu에서 dist 폴더 이동
 ```shell
 $ sudo mv ~/dist /var/www/html/dist
 ```
+
+
+
+## :calendar: 20.10.16
+
+#### :black_nib: Jenkins
+
+[Linux + Jenkins 설치 Doc](https://pkg.jenkins.io/debian-stable/)
+
+ubuntu에 Jenkins 설치
+
+```shell
+$ wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+
+// 설치를 위해 sources.list에 접근
+$ cd /etc/apt
+$ sudo vi sources.list
+
+// sources.list에 추가
+deb https://pkg.jenkins.io/debian-stable binary/ 
+
+// Jenkins 설치
+$ sudo apt-get update
+$ sudo apt-get install jenkins
+```
+
+
+
+Jenkins 설치 중 에러 발생
+
+- ![image-20201016131042747](https://lab.ssafy.com/s03-final/s03p31a201/uploads/e88d2a521151ef12faceb1e050de0251/image-20201016131042747.png)
+
+- Jenkins에서는 Java 8 사용
+
+  ```shell
+  $ sudo apt install openjdk-8-jre
+  $ java -version
+  ```
+
+
+
+이어서 Jenkins 설치 후, Jenkins 접속
+
+```shell
+$ sudo apt-get install jenkins
+
+// Jenkins 기본 포트 8080을 8082로 변경
+$ sudo vi /etc/default/jenkins
+
+// jenkins
+HTTP_PORT=8082
+
+// Jenkins 서비스 시작
+$ sudo service jenkins start
+
+// Jenkins.war 위치 찾기
+$ find / -name "jenkins.war"
+// /usr/share/jenkins/jenkins.war 에 있음을 찾음
+
+// Jenkins 접속
+$ java -jar /usr/share/jenkins/jenkins.war --httpPort=8082
+```
+
+
+
+발급받은 패스워드로 [퍼블릭 DNS]:8082 접속해서 Jenkins 실행
+
+> 18466a11ca92435fbc55d369c3e6bc6c
+> admin / blockchallen 
+
+
+
+## :calendar: 20.10.21
+
+#### :black_nib: Jenkins로 무중단 배포 설정하기
+
+webhook을 사용하여 git이랑 Jenkins 연동
+
+```shell
+// Jenkins 작업공간 확인
+$ cd /var/lib/jenkins/workspace/
+```
+
+
+
+젠킨스에서 frontend, backend npm이랑 maven으로 build
+
+> ##### Jenkins 관리 - Global Tool Configuration
+>
+> - JDK
+>
+>   - JAVA_HOME 설정
+>
+>     $ echo $JAVA_HOME으로 얻은 경로 추가
+>
+>     ```shell
+>     // root 권한 획득
+>     $ sudo su
+>     
+>     // javac 경로 확인
+>     $ readlink -f /usr/bin/javac
+>     
+>     // JAVA_HOME, PATH 설정
+>     $ vi ~/.bashrc
+>     
+>     // ~/.bashrc
+>     JAVA_HOME=$(readlink -f /usr/bin/javac | sed "s:/bin/javac::")
+>     export JAVA_HOME
+>     PATH=$PATH:$JAVA_HOME/bin
+>     export PATH
+>     
+>     $ source ~/.bashrc
+>     $ echo $JAVA_HOME
+>     ```
+>
+> - Maven
+>
+>   - Install automatically 선택해서 없으면 자동 설치되게 하기
+>
+> - NodeJS
+>
+>   - Install automatically 선택
+
+> ##### Item - 구성
+>
+> - 빌드 유발
+>
+>   - Gitlab 사용 시, Build when a change is pushed to Gitlab 선택
+>   - GitHub hook trigger for GITScm polling 으로 webhook 발생 시, 빌드되게 설정
+>
+> - 빌드 환경
+>
+>   - npm 사용 위해서 Provide Node & npm bin/ folder to PATH 선택
+>
+> - Build
+>
+>   - Invoke top-level Maven targets
+>
+>     - Maven 사용해서 backend 빌드 시, 사용
+>     - Maven version은 Global Tool Configuration에서 설정한 것 사용
+>     - Goals는 빌드하려면 package
+>
+>   - Execute shell
+>
+>     - npm 사용해서 frontend 빌드 시, 사용
+>
+>       ```shell
+>       cd frontend
+>       npm install
+>       npm run build
+>       ```
+>
+>   - Execute shell
+>
+>     - application.properties 없으면 서버에 넣어주기 위해서 사용
+>
+>       ```shell
+>       echo "spring.datasource.driverClassName=com.mysql.cj.jdbc.Driver
+>       spring.datasource.url=jdbc:mysql://[DB IP]:3306/[Database명]?allowPublicKeyRetrieval=true&useSSL=false
+>       spring.datasource.username=[UserName]
+>       spring.datasource.password=[Password]
+>       spring.jpa.hibernate.ddl-auto=update" > backend/src/main/resources/application.properties
+>       ```
+>
+> - 빌드 후 조치
+>
+>   - 빌드된 파일들을 SSH로 Jenkins 작업 공간에서 서버 특정 경로로 옮기기
+>
+>   - .jar, dist/, Dockerfile (있으면)
+>
+>   - Send build artifacts over SSH
+>
+>     - Transfers
+>
+>       > Source files : 이동시킬 파일/폴더 경로 (frontend/dist/ 또는 backend/target/*.jar)
+>       >
+>       > Remove prefix : Source files에서 제거할 prefix (frontend/ 또는 backend/target)
+>       >
+>       > Remote directory : 이동될 경로 (deploy)
+>       >
+>       > Exec command : 이동하고 나서 실행시킬 명령어 (.sh 실행)
+
+
+
+Dockerfile 없으면 생성
+
+```shell
+// Dockerfile
+
+FROM openjdk:[버전]
+ARG JAR_FILE=./*.jar
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java", "-jar", "-Dserver.port=[서버 Port]", "app.jar"]
+```
+
+
+
+nginx에서 upstream으로 무중단배포 설정
+
+```shell
+$ cd /etc/nginx/sites-available
+$ vi default
+
+// default
+
+upstream [UpstreamName] {
+	least_conn; // 클라이언트 연결 개수가 적은 서버로 전달
+	server 127.0.0.1:8081 weight=5 max_fails=3 fail_timeout=10s;
+	server 127.0.0.1:8082 weight=10 max_fails=3 fail_timeout=10s;
+}
+
+server {
+	listen 8080 default_server;
+	listen [::]:8080 default_server;
+	server_name _;
+	
+	location / {
+		proxy_pass http://[UpstreamName];
+	}
+}
+```
+
+
+
+8081, 8082 포트에 따라서 sh파일 구분
+
+> 도커파일이랑 .jar가 있는 경로에서 도커이미지 생성 및 도커이미지 실행
+>
+> port forwarding으로 8081/8082 전부 8080으로 접속
+>
+> ```shell
+> // docker81.sh
+> 
+> docker build -t [dockerImageNameA] .
+> docker run --name "[dockerImageNameA]" -p 8081:8080 -d [dockerImageNameA]
+> 
+> 
+> // docker82.sh
+> 
+> docker build -t [dockerImageNameB] .
+> docker run --name "[dockerImageNameB]" -p 8082:8080 -d [dockerImageNameB]
+> ```
+
+
+
+무중단 배포하기 위해서 실행 중인 port(8081 / 8082)에 따라 sh파일 선택
+
+```shell
+// dockermu.sh
+
+D81_IS_RUNNING=$(docker ps -a | grep [dockerImageNameA])
+D82_IS_RUNNING=$(docker ps -a | grep [dockerImageNameB])
+	if [ "$D81_IS_RUNNING" ]; then
+		echo "8082 포트로 실행"
+		sh docker82.sh
+		
+		sleep 10
+		
+		echo "8081 포트 종료"
+		docker stop [dockerImageNameA]
+		docker rm [dockerImageNameA]
+		docker rmi [dockerImageNameA]
+	else
+    	echo "8081 포트로 실행"
+    	sh docker81.sh
+    	
+    	sleep 10
+    	
+    	if [ "$D82_IS_RUNNING" ]; then
+    		echo "8081 포트 종료"
+    		docker stop [dockerImageNameB]
+			docker rm [dockerImageNameB]
+			docker rmi [dockerImageNameB]
+		fi
+	fi
+```
+
+
+
+## :calendar: 20.10.26
+
+#### :black_nib: Jenkins docker로 설치
+
+```shell
+$ sudo docker pull jenkins/jenkins:lts
+$ sudo docker run -d --name "test" -p 8090:8080 jenkins/jenkins:lts
+
+```
+
+```shell
+$ sudo su
+$ docker exec test cat /var/jenkins_home/secrets/initialAdminPassword
+
+// docker 컨테이너 터미널에 bash 접속
+// 컨테이너는 비어 있다. 아무것도 없다. 필요한 것만 깔려있다. 근데 내가 필요한건 없다.
+$ docker exec -it test /bin/bash
+
+// 루트 계정 접속
+$ docker exec -u root -it test /bin/bash
+
+```
+
+
+
+#### :black_nib: Jenkins 잠금 해제
+
+```shell
+// 루트 계정 접속
+$ docker exec -u root -it test /bin/bash
+
+$ apt-get update
+$ apt-get upgrade
+$ apt-get install vim
+$ vi /var/jenkins_home/config.xml
+```
+
+config.xml에서 true를 false로 해서 잠금 해제
+
+```xml
+<useSecurity>false</useSecurity>
+```
+
+![image-20201026152526142](https://lab.ssafy.com/s03-final/s03p31a201/uploads/48c4a05142d426d99a2d4f235b6b6e02/image-20201026152526142.png)
+
+
+
+#### :black_nib: jenkins-cli.jar 없을 때 설치
+
+```shell
+// /root/binㅊㅇ  경로에 jenkins.cli.jar 설치됨
+$ wget -P ~/bin [Jenkins 경로]/jnlpJars/jenkins-cli.jar
+
+// jenkins-cli.jar 명령어 확인
+// 브라우저로 Jenkins 접속해서 jenkins 관리 - Jenkins CLI 에 있음
+$ java -jar ~/bin/jenkins-cli.jar -s [Jenkins 경로] -webSocket help
+```
+
+
+
+#### :black_nib: jenkins-cli.jar로 Plugin 설치
+
+```shell
+$ java -jar ~/bin/jenkins-cli.jar -s http://localhost:8080/ install-plugin [plugin명] -deploy -restart
+
+// NodeJS 설치
+$ java -jar ~/bin/jenkins-cli.jar -s http://localhost:8080/ install-plugin NodeJS -deploy -restart
+
+// Maven 설치
+$ java -jar ~/bin/jenkins-cli.jar -s http://localhost:8080/ install-plugin maven-plugin -deploy -restart
+
+// Publish-Over-SSH 설치
+$ java -jar ~/bin/jenkins-cli.jar -s http://localhost:8080/ install-plugin publish-over-ssh -deploy -restart
+```
+
+
+
+## :calendar: 20.10.27
+
+#### :black_nib: Backend로 설치 파일 받아서 install.sh 실행하기 (dos2unix)
+
+1. backend 코드를 Java 11로 실행
+
+2. 브라우저에서 localhost:8080/zip에 접속 - 자동으로 ssakins.zip 파일 다운로드 됨
+
+3. ssakins.zip 압축 해제하고 scp로 aws 서버에 ssakins 파일 이동
+
+   - ssakins 파일
+
+     > install.sh
+     >
+     > ssakins_home/
+
+4. install.sh 파일 실행으로 Docker 이미지 생성
+
+   ```sh
+   // 개행문자가 다르면 파일 실행이 안되서 dos2unix로 해결하기 위하여
+   $ sudo apt install dos2unix
+   $ dos2unix install.sh
+   
+   // install.sh 파일 실행
+   $ sh install.sh
+   ```
+
+   ![image-20201027111512534](https://lab.ssafy.com/s03-final/s03p31a201/uploads/14fbdb677327655cce6502fc2baf630a/image-20201027111512534.png)
+
+
+
+#### :black_nib: 도커 정지 및 삭제
+
+```sh
+$ sudo docker stop ssakins
+$ sudo docker rm ssakins
+```
+
+
+
+#### :black_nib: install.sh 실행 시 NodeJS, Maven, Publish-Over-SSH 플러그인 설치
+
+``` shell
+// install.sh 추가
+...
+
+sudo docker exec -u root ssakins sh /var/jenkins_home/ssakins/installPlugin.sh
+```
+
+```shell
+// ssakins_home/ssakins/installPlugin.sh
+
+wget -P /bin http://15.165.161.87:8000/jnlpJars/jenkins-cli.jar
+sleep 1
+
+echo "NodeJS, Maven, Publish-Over-SSH install!"
+
+java -jar /bin/jenkins-cli.jar -s http://15.165.161.87:8000/ install-plugin NodeJS maven-plugin publish-over-ssh -deploy -restart
+```
+
+
+
+#### :black_nib: ssakins Docker 죽이는 sh
+
+```shell
+// killDocker.sh
+$ sudo docker stop ssakins
+$ sudo docker rm ssakins
+
+$ sh killDocker.sh
+```
+
+
+
+#### :black_nib: wget으로 설정.zip 파일 받아서 unzip 하고 실행시키기
+
+```shell
+$ sudo apt install unzip
+$ wget [백엔드 주소]/zip -O ssakins.zip && unzip -d ssakins ssakins.zip && rm ssakins.zip
+
+// dos2unix로 개행문자 에러 처리
+$ sudo apt install dos2unix
+$ dos2unix ssakins/ssakins/install.sh
+
+$ sh ssakins/ssakins/install.sh
+```
+
+
+
+#### :black_nib: Global Tools - Maven 설정
+
+jenkins_home에 hudson.tasks.Maven.xml 파일로 설정하기
+
+```xml
+<?xml version='1.1' encoding='UTF-8'?>
+<hudson.tasks.Maven_-DescriptorImpl>
+  <installations>
+    <hudson.tasks.Maven_-MavenInstallation>
+      <name>maven</name>
+      <properties>
+        <hudson.tools.InstallSourceProperty>
+          <installers>
+            <hudson.tasks.Maven_-MavenInstaller>
+              <id>3.6.3</id>
+            </hudson.tasks.Maven_-MavenInstaller>
+          </installers>
+        </hudson.tools.InstallSourceProperty>
+      </properties>
+    </hudson.tasks.Maven_-MavenInstallation>
+  </installations>
+</hudson.tasks.Maven_-DescriptorImpl>
+```
+
+![image-20201027233016638](https://lab.ssafy.com/s03-final/s03p31a201/uploads/e963f88125a86a356aff7c966b49497e/image-20201027233016638.png)
+
+
+
+#### :black_nib: Global Tools - JDK 설정 (진행 중)
+
+docker에 접속하여 jenkins-cli.jar 사용해서 설정하기
+
+1. jenkins-cli.jar groovy 사용 (실패)
+
+   ```shell
+   // installJdk.groovy
+   dis=new hudson.model.JDK.DescriptorImpl();
+   dis.setInstallations(new hudson.model.JDK("JDK8", "/usr/local/openjdk-8"));
+   
+   // 실행 안됨
+   $ java -jar /bin/jenkins-cli.jar -s http://[Jenkins 주소]/ groovy installJdk.groovy 
+   ```
+
+   
+
+2. jenkins-cli.jar groovysh 사용
+
+   ```shell
+   $ sudo docker exec -u root -it [dockerName] /bin/bash
+   
+   $ java -jar /bin/jenkins-cli.jar -s http://[Jenkins 주소]/ groovysh
+   > dis=new hudson.model.JDK.DescriptorImpl();
+   > dis.setInstallations(new hudson.model.JDK("JDK8", "/usr/local/openjdk-8"));
+   ```
+
+![image-20201027222810488](https://lab.ssafy.com/s03-final/s03p31a201/uploads/259d4f1c9ea5a508d60c03296a552dac/image-20201027222810488.png)
+
+
 

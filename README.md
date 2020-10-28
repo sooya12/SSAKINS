@@ -37,6 +37,7 @@
       ```
 
 + for 
+  
   + 단순 반복문은 iterator를 i, j, k, ... ,z 순으로 명명 하기
 
 
@@ -82,6 +83,8 @@
 
 ---
 
+
+
 ## Commit message
 
 [BE/FE/FS] initial/update | 내용 | Jira 이슈 번호
@@ -99,7 +102,9 @@ README(이름)
 
 feature/기능명 으로 develop에서 분기해서 사용하고, 기능 개발 완료 후 develop에 머지!
 
----
+
+
+
 
 ## Stack
 
@@ -113,4 +118,54 @@ feature/기능명 으로 develop에서 분기해서 사용하고, 기능 개발 
 
 
 ![batge](https://img.shields.io/badge/Ubuntu-18.04.1%20LTS-black) ![batge](https://img.shields.io/badge/Docker-19.03.12-black) ![batge](https://img.shields.io/badge/NginX----black) ![batge](https://img.shields.io/badge/Jenkins-2.176.1-black)
+
+
+
+
+
+## Gantt Chart
+
+```mermaid
+gantt
+    dateFormat  YYYY-MM-DD
+    title       SSAKINS
+    excludes    weekends
+    %% (`excludes` accepts specific dates in YYYY-MM-DD format, days of the week ("sunday") or "weekends", but not the word "weekdays".)
+
+    section 프로젝트 설계
+    기능 설계	:done, 2020-10-12, 5d
+    와이어프레임 설계	:done, 2020-10-12, 5d
+    ERD 설계	:done, 2020-10-12, 5d
+    
+    section 프로젝트 준비
+    기술 학습	:crit, active, 2020-10-17, 16d
+
+
+    section 기능 구현
+    설정 CRUD	:active, 2020-10-26, 7d
+    회원	:active, 2020-10-28, 3d
+    DB	:active, 2020-10-28, 3d
+    레퍼런스	:2020-11-04, 4d
+    설치형 패키지	:crit, active, 2020-10-19, 21d
+
+    section TEST
+    알파 TEST	:2020-11-09, 12d
+    베타 TEST	:2020-11-17, 6d
+   
+    section 유지보수
+    유지보수	:2020-11-09, 12d 
+    
+    section 최종발표
+    UCC	:2020-11-23, 4d
+    PPT	:2020-11-23, 4d
+```
+
+
+
+## ERD
+
+```mermaid
+erDiagram
+    User ||--o{ Project : setting
+```
 
