@@ -932,3 +932,34 @@ root# mongo
 > $each
 >
 > $pop
+
+
+
+:white_check_mark: 참고 : https://doorbw.tistory.com/19
+
+
+
+
+
+* 날짜
+
+```sql
+// 현재 시간 추가
+> db.컬렉션이름.insert({"date":ISODate()})
+```
+
+```
+// 한국 시간 매핑 방법 1
+function getCurrentDate(){
+	var date = new Date();
+	var year = date.getFullYear();
+	var month = data.getDate();
+	var today = date.getHours();
+	var minutes = date.getMinutes();
+	var seconds = date.getSeconds();
+	var milliseconds = date.getMilliseconds();
+	
+	return new Date(Date.UTC(year, month, today, hours, minutes, seconds, milliseconds));
+}
+```
+
