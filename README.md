@@ -165,6 +165,8 @@ gantt
 ## ERD
 
 ```mermaid
-erDiagram User||--o{Project:settings
+erDiagram   
+
+User||--o{ Project : settings
 ```
 
