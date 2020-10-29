@@ -7,18 +7,28 @@
       <template v-slot:default>
         <tbody>
           <tr>
-            <td class="text-left thead">
+            <td class="text-left thead font15">
               설정 CI/CD 명
             </td>
             <td class="text-left">
-              <v-text-field  v-model="name" placeholder="내용을 입력해주세요" hide-details="auto" dense outlined></v-text-field>
+              <v-text-field  v-model="name" class="font15" placeholder="내용을 입력해주세요" hide-details="auto" dense filled shaped></v-text-field>
             </td>
           </tr>
           <tr>
-            <td class="text-left">설정 내용</td>
+            <td class="text-left font15">설정 내용</td>
             <td>
-              <div id="content">
+              <div id="content" class="font15">
               컴포넌트들이 들어갈 자리입니다.
+              <p>아</p>
+              <p>아</p>
+              <p>아</p>
+              <p>아</p>
+              <p>아</p>
+              <p>아</p>
+              <p>아</p>
+              <p>아</p>
+              <p>아</p>
+              <p>아</p>
               </div>
             </td>
           </tr>
@@ -56,6 +66,10 @@ v-simple-table {
   padding: 0;
 }
 
+.font15 {
+  font-size: 15px;
+}
+
 #title {
   margin: 20px;
 }
@@ -72,6 +86,10 @@ v-simple-table {
   width: 15vw;
   max-width: 180px;
   min-width: 120px;
+}
+
+tbody tr:hover {
+  background-color: transparent !important;
 }
 
 </style>
