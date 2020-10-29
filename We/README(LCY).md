@@ -753,3 +753,213 @@ $ java -jar ~/bin/jenkins-cli.jar -s http://localhost:8080/ install-plugin NodeJ
 
 
 
+# 2020년 10월 28일(수)
+
+
+
+## mongoDB 학습
+
+* 도커를 통해서 디비에 접속하기
+
+```
+// 몽고 디비 시작
+$ sudo docker start mongodb
+
+// 몽고 디비 실행
+$ sudo docker exec -u root -it mongodb /bin/bash
+
+// 몽고 디비 접속
+root# mongo
+```
+
+
+
+* 몽고 디비 구조
+
+**database** 동일 | table => **collection** | recodes, row => **document**
+
+
+
+* database
+
+```sql
+// database 조회
+> show dbs
+
+// database 접속 및 생성
+// (단, 생성하고 바로 조회는 불가 -> 안에 내용을 추가하면 조회 가능)
+> use ssakins
+
+// 현재 사용중인 database
+> db
+```
+
+
+
+* collection 
+
+```sql
+// collection(table) 조회
+> show collections
+
+// 생성
+> db.createCollection("컬렉션이름")
+
+// 삭제
+> db.컬렉션이름.drop()
+
+```
+
+
+
+* document
+
+```sql
+// 삽입
+> db.컬렉션이름.insert({"key":"value"})
+
+// 삭제
+> db.컬렉션이름.remove({"key":"value"},true)
+
+// 수정
+> db.컬렉션이름.update({"key1","value1"},{$set:{"key2":"value2"}})
+
+// 조회
+> db.컬렉션이름.find()
+> db.컬렉션이름.find().pretty()		// 예쁘게 조회
+
+
+// 부분 조회 1
+// key1이 value인 document 찾기
+> db.컬렉션이름.find({"key1":"value"})
+
+
+// 부분 조회 2
+// key1이 value인 key2 값 찾기 && _id 는 출력하지 않음 
+> db.컬렉션이름.find({"key1":"value"},{"_id":false,"key2":true})
+
+```
+
+
+
+> **비교**
+>
+> $eq : 동일한 값
+>
+> $ne : 다른 값
+>
+> $gt : 큰 값
+>
+> $gre : 크거나 같은 값
+>
+> $lt : 작은 갑
+>
+> $lte : 작거나 같은 값
+>
+> $in : 배열에 속하는 어떤 값
+>
+> $nin : 배열에 속하지 않는 어떤 값
+>
+> 
+>
+> **논리**
+>
+> $or 	$and 	$not 	$nor
+>
+> 
+>
+> **요소**
+>
+> $exists
+>
+> $type
+>
+> 
+>
+> **평가**
+>
+> $mod
+>
+> $regex		// 정규표현식과 일치하는 document 선택
+>
+> $text			// 텍스트 검색
+>
+> $where		// javascript
+>
+> 
+>
+> **배열**
+>
+> $all 				// 모든 요소 포함하는 배열
+>
+> $elemMatch // 지정된 조건과 모두 일치
+>
+> $size	
+
+```sql
+// 예시1
+> db.컬렉션이름.find({"score":{$gt:45,$lte:70}}).pretty()
+
+// 예시2
+> db.컬렉션이름.find({"grade":{$nin:["A","B","C","D"]}}).pretty()
+
+// 예시3
+> db.컬렉션이름.find({$and:[{"sex":"male","score":{$lte:50}}]}).pretty()
+```
+
+
+
+* 배열 array
+
+```sql
+// 추가 $push
+// key1, value1인 배열에 key2:value2 추가
+> db.컬렉션이름.update({"key1":"value1"},{$push:{"key2":"value2"}})
+
+// 삭제 $pull
+```
+
+> **제한자**
+>
+> $set		$unset
+>
+> $nc		 $inc
+>
+> $push	$pull
+>
+> $addToSet
+>
+> $each
+>
+> $pop
+
+
+
+:white_check_mark: 참고 : https://doorbw.tistory.com/19
+
+
+
+
+
+* 날짜
+
+```sql
+// 현재 시간 추가
+> db.컬렉션이름.insert({"date":ISODate()})
+```
+
+```
+// 한국 시간 매핑 방법 1
+function getCurrentDate(){
+	var date = new Date();
+	var year = date.getFullYear();
+	var month = data.getDate();
+	var today = date.getHours();
+	var minutes = date.getMinutes();
+	var seconds = date.getSeconds();
+	var milliseconds = date.getMilliseconds();
+	
+	return new Date(Date.UTC(year, month, today, hours, minutes, seconds, milliseconds));
+}
+```
+
