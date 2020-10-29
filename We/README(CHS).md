@@ -1,5 +1,3 @@
-
-
 ## :calendar: 20.10.14
 
 #### :black_nib: apt-get 와 apt
@@ -622,7 +620,7 @@ config.xml에서 true를 false로 해서 잠금 해제
 #### :black_nib: jenkins-cli.jar 없을 때 설치
 
 ```shell
-// /root/bin 경로에 jenkins.cli.jar 설치됨
+// /root/binㅊㅇ  경로에 jenkins.cli.jar 설치됨
 $ wget -P ~/bin [Jenkins 경로]/jnlpJars/jenkins-cli.jar
 
 // jenkins-cli.jar 명령어 확인
@@ -632,7 +630,7 @@ $ java -jar ~/bin/jenkins-cli.jar -s [Jenkins 경로] -webSocket help
 
 
 
-#### :black_nib: jenkins-cli로 Plugin 설치
+#### :black_nib: jenkins-cli.jar로 Plugin 설치
 
 ```shell
 $ java -jar ~/bin/jenkins-cli.jar -s http://localhost:8080/ install-plugin [plugin명] -deploy -restart
@@ -646,4 +644,154 @@ $ java -jar ~/bin/jenkins-cli.jar -s http://localhost:8080/ install-plugin maven
 // Publish-Over-SSH 설치
 $ java -jar ~/bin/jenkins-cli.jar -s http://localhost:8080/ install-plugin publish-over-ssh -deploy -restart
 ```
+
+
+
+## :calendar: 20.10.27
+
+#### :black_nib: Backend로 설치 파일 받아서 install.sh 실행하기 (dos2unix)
+
+1. backend 코드를 Java 11로 실행
+
+2. 브라우저에서 localhost:8080/zip에 접속 - 자동으로 ssakins.zip 파일 다운로드 됨
+
+3. ssakins.zip 압축 해제하고 scp로 aws 서버에 ssakins 파일 이동
+
+   - ssakins 파일
+
+     > install.sh
+     >
+     > ssakins_home/
+
+4. install.sh 파일 실행으로 Docker 이미지 생성
+
+   ```sh
+   // 개행문자가 다르면 파일 실행이 안되서 dos2unix로 해결하기 위하여
+   $ sudo apt install dos2unix
+   $ dos2unix install.sh
+   
+   // install.sh 파일 실행
+   $ sh install.sh
+   ```
+
+   ![image-20201027111512534](https://lab.ssafy.com/s03-final/s03p31a201/uploads/14fbdb677327655cce6502fc2baf630a/image-20201027111512534.png)
+
+
+
+#### :black_nib: 도커 정지 및 삭제
+
+```sh
+$ sudo docker stop ssakins
+$ sudo docker rm ssakins
+```
+
+
+
+#### :black_nib: install.sh 실행 시 NodeJS, Maven, Publish-Over-SSH 플러그인 설치
+
+``` shell
+// install.sh 추가
+...
+
+sudo docker exec -u root ssakins sh /var/jenkins_home/ssakins/installPlugin.sh
+```
+
+```shell
+// ssakins_home/ssakins/installPlugin.sh
+
+wget -P /bin http://15.165.161.87:8000/jnlpJars/jenkins-cli.jar
+sleep 1
+
+echo "NodeJS, Maven, Publish-Over-SSH install!"
+
+java -jar /bin/jenkins-cli.jar -s http://15.165.161.87:8000/ install-plugin NodeJS maven-plugin publish-over-ssh -deploy -restart
+```
+
+
+
+#### :black_nib: ssakins Docker 죽이는 sh
+
+```shell
+// killDocker.sh
+$ sudo docker stop ssakins
+$ sudo docker rm ssakins
+
+$ sh killDocker.sh
+```
+
+
+
+#### :black_nib: wget으로 설정.zip 파일 받아서 unzip 하고 실행시키기
+
+```shell
+$ sudo apt install unzip
+$ wget [백엔드 주소]/zip -O ssakins.zip && unzip -d ssakins ssakins.zip && rm ssakins.zip
+
+// dos2unix로 개행문자 에러 처리
+$ sudo apt install dos2unix
+$ dos2unix ssakins/ssakins/install.sh
+
+$ sh ssakins/ssakins/install.sh
+```
+
+
+
+#### :black_nib: Global Tools - Maven 설정
+
+jenkins_home에 hudson.tasks.Maven.xml 파일로 설정하기
+
+```xml
+<?xml version='1.1' encoding='UTF-8'?>
+<hudson.tasks.Maven_-DescriptorImpl>
+  <installations>
+    <hudson.tasks.Maven_-MavenInstallation>
+      <name>maven</name>
+      <properties>
+        <hudson.tools.InstallSourceProperty>
+          <installers>
+            <hudson.tasks.Maven_-MavenInstaller>
+              <id>3.6.3</id>
+            </hudson.tasks.Maven_-MavenInstaller>
+          </installers>
+        </hudson.tools.InstallSourceProperty>
+      </properties>
+    </hudson.tasks.Maven_-MavenInstallation>
+  </installations>
+</hudson.tasks.Maven_-DescriptorImpl>
+```
+
+![image-20201027233016638](https://lab.ssafy.com/s03-final/s03p31a201/uploads/e963f88125a86a356aff7c966b49497e/image-20201027233016638.png)
+
+
+
+#### :black_nib: Global Tools - JDK 설정 (진행 중)
+
+docker에 접속하여 jenkins-cli.jar 사용해서 설정하기
+
+1. jenkins-cli.jar groovy 사용 (실패)
+
+   ```shell
+   // installJdk.groovy
+   dis=new hudson.model.JDK.DescriptorImpl();
+   dis.setInstallations(new hudson.model.JDK("JDK8", "/usr/local/openjdk-8"));
+   
+   // 실행 안됨
+   $ java -jar /bin/jenkins-cli.jar -s http://[Jenkins 주소]/ groovy installJdk.groovy 
+   ```
+
+   
+
+2. jenkins-cli.jar groovysh 사용
+
+   ```shell
+   $ sudo docker exec -u root -it [dockerName] /bin/bash
+   
+   $ java -jar /bin/jenkins-cli.jar -s http://[Jenkins 주소]/ groovysh
+   > dis=new hudson.model.JDK.DescriptorImpl();
+   > dis.setInstallations(new hudson.model.JDK("JDK8", "/usr/local/openjdk-8"));
+   ```
+
+![image-20201027222810488](https://lab.ssafy.com/s03-final/s03p31a201/uploads/259d4f1c9ea5a508d60c03296a552dac/image-20201027222810488.png)
+
+
 
