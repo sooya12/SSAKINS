@@ -1,32 +1,34 @@
 <template>
-  <div id="create">
-    <h2>CI/CD 설정 생성</h2>
-    <div id="createForm">
-      <!-- <form @submit.prevent="submint"> -->
-        <v-simple-table id="st">
-          <tbody> 
-            <tr>
-              <th class="text-left">
-                설정 CI/CD 명
-              </th>
-              <th>
-                <input v-model="name" placeholder="내용을 입력해주세요" >
-              </th>
-            </tr>
-            <tr>
-              <th>
-                설정 내용
-              </th>
-              <th>
-              </th>
-            </tr>
-          </tbody>
-        </v-simple-table>
-        
-      <!-- </form> -->
+  <v-container id="create">
+    <div id="title">
+      <h2>CI/CD 설정 생성</h2>
     </div>
-    <button>저장하기</button>
-  </div>
+    <v-simple-table dense>
+      <template v-slot:default>
+        <tbody>
+          <tr>
+            <td class="text-left thead">
+              설정 CI/CD 명
+            </td>
+            <td class="text-left">
+              <v-text-field  v-model="name" placeholder="내용을 입력해주세요" style="padding: 0" hide-details="auto" dense outlined></v-text-field>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-left">설정 내용</td>
+            <td>
+              <div id="content">
+              컴포넌트들이 들어갈 자리입니다.
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </template>
+    </v-simple-table>
+    <div id="btn-area">
+      <v-btn elevation="2" color="grey darken-3" style="color: white">저장하기</v-btn>
+    </div>
+  </v-container>
 </template>
 
 <script>
@@ -34,8 +36,8 @@ export default {
   name: 'Create',
   data() {
     return {
-      name: '',
-
+      name: '나의 첫 CI/CD',
+    
     }
   }
 }
@@ -44,17 +46,32 @@ export default {
 <style scoped>
 #create {
     text-align: center;
-    width: 90%;
-    margin: 0 auto;
-
-}
-
-#createForm {
-    width: 100%;
-}
-
-#st {
-    width: 100%;
+    width: 70vw;
     margin: 0 auto;
 }
+
+v-simple-table {
+  table-layout: fixed;
+  margin: 0 auto;
+  padding: 0;
+}
+
+#title {
+  margin: 20px;
+}
+
+#content {
+  background: #EEEEEE;
+}
+
+#btn-area {
+  margin: 20px auto;
+}
+
+.thead {
+  width: 15vw;
+  max-width: 180px;
+  min-width: 120px;
+}
+
 </style>
