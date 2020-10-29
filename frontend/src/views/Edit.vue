@@ -1,7 +1,7 @@
 <template>
   <v-container id="create">
     <div id="title">
-      <h2>CI/CD 설정 생성</h2>
+      <h2>CI/CD 설정 수정</h2>
     </div>
     <v-simple-table dense>
       <template v-slot:default>
@@ -33,7 +33,7 @@
 
 <script>
 export default {
-  name: 'Create',
+  name: 'Edit',
   data() {
     return {
       name: '나의 첫 CI/CD',
