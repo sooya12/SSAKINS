@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Main from '@/views/Main.vue'
+import Notice from '@/views/Notice.vue'
 
 Vue.use(VueRouter)
 
@@ -9,6 +10,11 @@ const routes =[
         path : '/main',
         name : 'Main',
         component : Main
+    },
+    {
+        path : '/notice',
+        name : 'Notice',
+        component : Notice
     },
 ]
 

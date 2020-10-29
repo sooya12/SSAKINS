@@ -4,24 +4,26 @@
         <headers></headers>
       </div>
         <div style="float:center">
-            <div style="float:left; margin-top:16px;">
+              <div class ="navigator" style="float:left; margin-top:16px; margin-right:40px;">
                 <navigator></navigator>
-            </div>
-            <div class="table" style="float:left; padding:0; margin:0 auto;">
-                <v-data-table
-                    v-model="selected"
-                    :headers="headers"
-                    :items="desserts"
-                    :single-select="singleSelect"
-                    item-key="name"
-                    show-select="show-select"
-                    class="elevation-1">
-                    <template v-slot:top>
-                        <v-switch v-model="singleSelect" label="Single select" class="pa-3"></v-switch>
-                    </template>
+              </div>
+            <div class="table" style="float:left; margin-top:16px;">
+                <v-data-table v-model="selected" :headers="headers" :items="desserts" item-key="name" show-select="show-select" class="elevation-1">
+                    <!-- <template v-slot:top>
+                        <v-switch v-model="singleSelect" label="Single select" class="pa-3">123</v-switch>
+                    </template> -->
                 </v-data-table>
+                <v-btn color="primary" style="float:left">
+                  생성하기
+                </v-btn>
+                <v-btn color="error" style="float:right">
+                  삭제하기
+                </v-btn>
             </div>
         </div>
+        <child items></child>
+        <span>{{selected}}</span>
+        <li v-for="name in selected" :key="name">{{name['name']}}</li>
     </v-container>
 </template>
 
@@ -34,43 +36,32 @@
             "navigator": Navigator,
             "headers": Header
         },
+        props: {
+          items: String
+        },
+        template:'<span>{{items}}</span>',
         data() {
             return {
-                items: [
-                    {
-                        title: 'Dashboard',
-                        icon: 'mdi-view-dashboard'
-                    }, {
-                        title: 'Photos',
-                        icon: 'mdi-image'
-                    }, {
-                        title: 'About',
-                        icon: 'mdi-help-box'
-                    }
-                ],
-                right: null,
-                singleSelect: false,
-                selected: [],
+                selected:[],
                 headers: [
                     {
-                        text: 'Dessert (100g serving)',
+                        text: 'No.',
                         align: 'start',
-                        sortable: false,
                         value: 'name'
                     }, {
-                        text: 'Calories',
+                        text: '설정 CI/CD 명',
                         value: 'calories'
                     }, {
-                        text: 'Fat (g)',
+                        text: '특징',
                         value: 'fat'
                     }, {
-                        text: 'Carbs (g)',
+                        text: '생성일',
                         value: 'carbs'
                     }, {
-                        text: 'Protein (g)',
+                        text: '수정일',
                         value: 'protein'
                     }, {
-                        text: 'Iron (%)',
+                        text: '비고',
                         value: 'iron'
                     }
                 ],
@@ -152,12 +143,13 @@
     }
 </script>
 
-<style scoped="scoped">
+<style>
     .table {
-        width: 70%;
-        max-width: 1000px;
-        text-align: center;
-        margin: 0 auto;
-        padding: 20px;
+         width: 70%;
+         max-width: 70%;
+         text-align: center; 
+    }
+    .navigator {
+         width: 256px;
     }
 </style>

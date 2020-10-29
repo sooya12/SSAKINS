@@ -1,10 +1,7 @@
 <template>
-     <v-card
-    height="660"
-    width="256"
-  >
+     <v-card>
         <v-navigation-drawer permanent="permanent">
-            <v-list-item>
+            <!-- <v-list-item>
                 <v-list-item-content>
                     <v-list-item-title class="title">
                         Application
@@ -15,7 +12,7 @@
                 </v-list-item-content>
             </v-list-item>
 
-            <v-divider></v-divider>
+            <v-divider></v-divider> -->
 
             <v-list dense="dense" nav="nav">
                 <v-list-item v-for="item in items" :key="item.title" link="link">
@@ -24,7 +21,7 @@
                     </v-list-item-icon>
 
                     <v-list-item-content>
-                        <v-list-item-title>{{ item.title }}</v-list-item-title>
+                        <v-list-item-title @click="goInfo">{{ item.title }} </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
@@ -38,24 +35,33 @@
             return {
                 items: [
                     {
-                        title: 'Dashboard',
+                        title: 'SSAKINS 안내',
                         icon: 'mdi-view-dashboard'
                     }, {
-                        title: 'Photos',
+                        title: 'SSAKINS 사용법',
                         icon: 'mdi-image'
                     }, {
-                        title: 'About',
+                        title: 'SSAKINS 문의',
+                        icon: 'mdi-help-box'
+                    }, {
+                        title: 'SSAKINS 이용약관',
+                        icon: 'mdi-help-box'
+                    }, {
+                        title: '개발자를 위한 쉼터',
                         icon: 'mdi-help-box'
                     }
                 ],
                 right: null
             }
+        },
+        methods : {
+          goInfo() {
+            this.$router.push('/Notice')
+          }
         }
     }
 </script>
 
 <style>
-    .container {
-        height: 100%;
-    }
+
 </style>
