@@ -1,29 +1,36 @@
 package com.ssafy.ssakins.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
-@Document(collation = "account")
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@Document()
 public class Account {
-    @Id
-    private int id;
+
 
     private String email;
 
     private String name;
 
-    private Date regdate;
+    @CreatedDate
+    private LocalDateTime regdate;
 
     public Account() {}
 
-    public Account(int id, String email, String name) {
-        this.id = id;
+    public Account(String email, String name) {
         this.email = email;
         this.name = name;
     }
@@ -31,7 +38,6 @@ public class Account {
     @Override
     public String toString() {
         return "Account{" +
-                "id='" + id + '\'' +
                 ", email='" + email + '\'' +
                 ", name='" + name + '\'' +
                 ", regdate=" + regdate +
