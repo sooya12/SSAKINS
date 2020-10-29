@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
 import Main from '@/views/Main.vue'
 import Create from '@/views/Create.vue'
+import Edit from '@/views/Edit.vue'
 
 Vue.use(VueRouter)
 
@@ -18,9 +19,14 @@ const routes = [
     component: Create
   },
   {
-    path : '/main',
-    name : 'Main',
-    component : Main
+    path: '/main',
+    name: 'Main',
+    component: Main
+  },
+  {
+    path: '/edit',
+    name: 'Edit',
+    component: Edit 
   }
 ]
 
