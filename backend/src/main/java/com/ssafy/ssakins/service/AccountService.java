@@ -1,17 +1,14 @@
 package com.ssafy.ssakins.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.ssakins.dto.AccountDoc;
-import com.ssafy.ssakins.repository.AccountMongoRepo;
 
 @Service
 public class AccountService {
