@@ -795,3 +795,67 @@ docker에 접속하여 jenkins-cli.jar 사용해서 설정하기
 
 
 
+## :calendar: 20.10.30
+
+#### :black_nib: MongoDB
+
+- 관리자 계정 생성
+
+  ```javascript
+  db.createUser(
+      {
+          user: "userName",
+          pwd: "pwd",
+          roles: ["root"]
+      }
+  )
+  ```
+
+  
+
+- CrudRepository Interface
+
+  ```java
+  public interface CrudRepository<T, ID> extents Repository<T, ID> {
+      
+      <S extends T> S save(S entity); 	// 엔티티 생성
+      
+      Optional<T> findByID(ID pk); 		// id로 조회
+      
+      Iterable<T> findAll(); 				// 모든 엔티티 조회
+      
+      long count(); 						// 엔티티 개수 조회
+      
+      void delete(T entity); 				// 엔티티 삭제
+      
+      boolean existsById(ID pk); 			// id로 엔티티 유무 조회
+  }
+  ```
+
+  - JpaRepository
+  - MongoRepository
+
+  
+
+- class annotaions
+
+  ```java
+  // JPA annotation
+  @Entity
+  class ClassName {}
+  
+  // Spring Data MongoDB annotation
+  @Document
+  class ClassName {}
+  ```
+
+  - @Entity와 @Document 같이 사용 가능
+
+
+
+- Query creation from method names
+  - find..By / read..By / query..By / count..By / get..By
+  - And / OR
+  - Beween / LessThan / GreaterThan / Like
+  - IgnoreCase
+  - OrderBy..Asc / OrderBy..Desc
