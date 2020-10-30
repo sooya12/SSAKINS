@@ -1,29 +1,23 @@
 <template>
-    <v-container>
+    <v-container id = "container">
       <div>
         <headers></headers>
       </div>
         <div style="float:center">
-              <div class ="navigator" style="float:left; margin-top:16px; margin-right:40px;">
+              <div id ="navigator" style="float:left; margin-top:16px; margin-right:20px; margin-left:20px;">
                 <navigator></navigator>
               </div>
-            <div class="table" style="float:left; margin-top:16px;">
-                <v-data-table v-model="selected" :headers="headers" :items="desserts" item-key="name" show-select="show-select" class="elevation-1">
-                    <!-- <template v-slot:top>
-                        <v-switch v-model="singleSelect" label="Single select" class="pa-3">123</v-switch>
-                    </template> -->
+            <div id="table" style="float:left; margin-top:16px; margin-left:20px;">
+                <v-data-table v-model="selected" :headers="headers" :items="desserts" item-key="name" show-select="show-select" class="elevation-1" @click="select(selected)">
                 </v-data-table>
-                <v-btn color="primary" style="float:left">
+                <v-btn color="primary" style="float:center; margin-right:20px; margin-top:20px;" @click="create">
                   생성하기
                 </v-btn>
-                <v-btn color="error" style="float:right">
+                <v-btn color="error" style="float:center; margin-top:20px;" @click="deleted">
                   삭제하기
                 </v-btn>
             </div>
         </div>
-        <child items></child>
-        <span>{{selected}}</span>
-        <li v-for="name in selected" :key="name">{{name['name']}}</li>
     </v-container>
 </template>
 
@@ -36,10 +30,6 @@
             "navigator": Navigator,
             "headers": Header
         },
-        props: {
-          items: String
-        },
-        template:'<span>{{items}}</span>',
         data() {
             return {
                 selected:[],
@@ -139,17 +129,38 @@
                     }
                 ]
             }
+        },
+        methods: {
+          create() {
+            this.$router.push('/create')
+          },
+          deleted() {
+            console.log(this.selected);
+            if(this.selected.length > 0){
+              alert("선택한 항목을 삭제하시겠습니까?");
+            }
+            else{
+              alert("선택을 하세요...............");
+            }
+          }
         }
     }
 </script>
 
 <style>
-    .table {
-         width: 70%;
-         max-width: 70%;
+
+    #container{
+        width: 100%;
+        min-width: 100px;
+    }
+
+    #table {
+         width: 72.5%;
+         min-width: 200px;
          text-align: center; 
     }
-    .navigator {
-         width: 256px;
+    #navigator {
+         width: 20%;
+         min-width: 100px;
     }
 </style>

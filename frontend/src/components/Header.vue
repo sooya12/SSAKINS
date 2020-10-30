@@ -1,16 +1,16 @@
 <template>
 <div>
     <div id = "header">
-        <div id = "left" style="float:left">
+        <div id = "left" style="float:left; margin-left:10px;">
             <div id = "logo" style="float:left">
                 <img :src="require('@/assets/ssakins.jpg')" style="">
             </div>
-            <div id = "ssakins" style="float:left">
+            <div id = "ssakins" style="float:left; font-family:Recipekorea">
                 <p>SSAKINS</p>
             </div>
         </div>
         <div id = "right" style="float:right">
-            <div id = "profile" style="float:left; margin-top:30px; margin-left:50px;">
+            <div id = "profile" style="float:left; margin-top:15px; margin-left:50px;">
                  <!-- <v-row justify="space-around">
                     <v-avatar
                     color="indigo"
@@ -21,15 +21,15 @@
                  </v-row> -->
                  <v-icon size="60" style="float:center;">mdi-account-circle</v-icon>
             </div>
-            <div id = "name" style="float:left; margin-top:50px; margin-left:50px;">
+            <div id = "name" style="float:left; margin-top:35px; margin-left:60px;">
                 <h3>감자</h3>
             </div>
-            <div id = "logout" style="float:left; margin-left:50px; margin-top:45px;">
+            <div id = "logout" style="float:left;  margin-top:30px; margin-left:60px;">
                 <v-row
                     align="center"
                     justify="space-around"
                 >
-                <v-btn text>
+                <v-btn text style="float:left; margin-right:20px;">
                     logout
                 </v-btn>
                 </v-row>
@@ -55,17 +55,19 @@ export default {
 <style>
     #header{
         width: 100%;
+        min-width: 200px;
         height: 100px;
     }
 
     img {
-        width: 100px;
+        width: 70px;
         margin: 0 auto;
         text-align: center;
     }
 
     p {
-        font-size: 70px;
+        margin-top:15px;
+        font-size: 50px;
     }
 
     h5{
@@ -73,6 +75,7 @@ export default {
     }
 
     #line{
-        width: 100%;
+        width: 96%;
+        margin-left:20px;
     }
 </style>

@@ -1,6 +1,5 @@
 <template>
      <v-card>
-        <v-navigation-drawer permanent="permanent">
             <!-- <v-list-item>
                 <v-list-item-content>
                     <v-list-item-title class="title">
@@ -25,7 +24,6 @@
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
-        </v-navigation-drawer>
     </v-card>
 </template>
 
@@ -56,7 +54,7 @@
         },
         methods : {
           goInfo() {
-            this.$router.push('/Notice')
+            this.$router.push('/notice')
           }
         }
     }
