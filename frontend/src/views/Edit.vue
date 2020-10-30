@@ -1,5 +1,5 @@
 <template>
-  <v-container id="create">
+  <v-container id="edit">
     <div id="title">
       <h2>CI/CD 설정 수정</h2>
     </div>
@@ -7,10 +7,10 @@
       <template v-slot:default>
         <tbody>
           <tr>
-            <td class="text-left thead font15">
+            <td class="text-left font15" style="width: 8vw">
               설정 CI/CD 명
             </td>
-            <td class="text-left">
+            <td class="text-left font15" style="width: 62vw">
               <v-text-field  v-model="name" class="font15" placeholder="내용을 입력해주세요" hide-details="auto" dense filled shaped></v-text-field>
             </td>
           </tr>
@@ -46,7 +46,7 @@ export default {
   name: 'Edit',
   data() {
     return {
-      name: '나의 첫 CI/CD',
+      name: 'SSAKINS 1차 CI/CD 설정',
     
     }
   }
@@ -54,7 +54,7 @@ export default {
 </script>
 
 <style scoped>
-#create {
+#edit {
     text-align: center;
     width: 70vw;
     margin: 0 auto;
@@ -80,12 +80,6 @@ v-simple-table {
 
 #btn-area {
   margin: 20px auto;
-}
-
-.thead {
-  width: 15vw;
-  max-width: 180px;
-  min-width: 120px;
 }
 
 tbody tr:hover {

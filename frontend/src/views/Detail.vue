@@ -1,5 +1,5 @@
 <template>
-  <v-container id="create">
+  <v-container id="detail">
     <div id="title">
       <h2>CI/CD 설정 상세</h2>
     </div>
@@ -7,16 +7,20 @@
       <template v-slot:default>
         <tbody>
           <tr>
-            <td class="text-left thead font15">
+            <td class="text-left font15" style="width: 8vw">
               설정 CI/CD 명
             </td>
-            <td class="text-left">
-              <v-text-field  v-model="name" class="font15" readonly hide-details="auto" dense filled shaped></v-text-field>
+            <td class="text-left font15" style="width: 40vw">
+              {{ name }}
             </td>
+            <td class="font15" style="width: 5vw">생성일</td>
+            <td class="font15" style="width: 6vw">{{ createDay }}</td>
+            <td class="font15" style="width: 5vw">수정일</td>
+            <td class="font15" style="width: 6vw">{{ editDay }}</td>
           </tr>
           <tr>
             <td class="text-left font15">설정 내용</td>
-            <td>
+            <td colspan="5">
               <div id="content" c class="font15">
               컴포넌트들이 들어갈 자리입니다.
               <p>아</p>
@@ -37,7 +41,7 @@
     </v-simple-table>
     <div id="btn-area">
       <v-btn color="grey lighten-3" style="float:left; margin-left:20px;">삭제하기</v-btn>
-      <v-btn elevation="2" color="grey darken-3" style="color: white; float:right; margin-right:20px">수정하기</v-btn>
+      <v-btn elevation="2" color="grey darken-3" style="color: white; float:right; margin-right:20px" @click="goEdit">수정하기</v-btn>
     </div>
   </v-container>
 </template>
@@ -47,16 +51,22 @@ export default {
   name: 'Detail',
   data() {
     return {
-      name: '나의 첫 CI/CD',
-      createDay: '',
-      editDay: '',
+      name: 'SSAKINS 1차 CI/CD 설정',
+      createDay: '2020.10.12',
+      editDay: '2020.10.13',
+    }
+  },
+  methods: {
+    goEdit() {
+      this.$router.push("/edit")
     }
   }
+  
 }
 </script>
 
 <style scoped>
-#create {
+#detail {
     text-align: center;
     width: 70vw;
     margin: 0 auto;
@@ -82,12 +92,6 @@ v-simple-table {
 
 #btn-area {
   margin: 20px auto;
-}
-
-.thead {
-  width: 15vw;
-  max-width: 180px;
-  min-width: 120px;
 }
 
 tbody tr:hover {
