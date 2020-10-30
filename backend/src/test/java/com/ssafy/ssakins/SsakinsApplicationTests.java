@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
 
+import java.util.Optional;
+
 @SpringBootTest
 class SsakinsApplicationTests {
 
@@ -14,19 +16,41 @@ class SsakinsApplicationTests {
     AccountRepository accountRepository;
 
     @Test
-    void saveTest() {
-        Account account = Account.builder()
-                .email("naju1@lcy.com")
-                .name("나주")
-                .build();
+    void findByEmail(){
+        Optional<Account> account = accountRepository.findByEmail("a@b.com");
 
-        Assert.notNull(accountRepository.save(account));
+        if(account.isPresent()){
+            System.out.println(account.get().toString());
+        }
+
+        Assert.isNull(accountRepository.findByEmail("a@b.com").get(),"null이 아니다");
     }
 
     @Test
-    void findAll(){
-        accountRepository.findAll().stream().forEach(System.out::println);
-        Assert.notNull(accountRepository.findAll());
+    void findByEmail2(){
+        Optional<Account> account = accountRepository.findByEmail("a@a.com");
+
+        if(account.isPresent()){
+            System.out.println(account.get().toString());
+        }
+
+        Assert.notNull(accountRepository.findByEmail("a@a.com").get(),"있다");
     }
+
+//    @Test
+//    void saveTest() {
+//        Account account = Account.builder()
+//                .email("a@a.com")
+//                .name("AAA")
+//                .build();
+//
+//        Assert.notNull(accountRepository.save(account));
+//    }
+//
+//    @Test
+//    void findAll(){
+//        accountRepository.findAll().stream().forEach(System.out::println);
+//        Assert.notNull(accountRepository.findAll());
+//    }
 
 }

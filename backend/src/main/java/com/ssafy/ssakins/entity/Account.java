@@ -1,23 +1,15 @@
 package com.ssafy.ssakins.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
-@Getter
-@Setter
 @Builder
-@AllArgsConstructor
-@Document()
+@Getter
+@Document(collection = "account")
 public class Account {
 
 
@@ -25,22 +17,26 @@ public class Account {
 
     private String name;
 
-    @CreatedDate
-    private LocalDateTime regdate;
+    private List<Project> projects;
 
-    public Account() {}
 
-    public Account(String email, String name) {
-        this.email = email;
-        this.name = name;
+    public void addProject(Project project){
+        getProjectsInternal().add(project);
+    }
+
+    private List<Project> getProjectsInternal(){
+        if(this.projects==null){
+            this.projects=new ArrayList<>();
+        }
+        return this.projects;
     }
 
     @Override
     public String toString() {
         return "Account{" +
-                ", email='" + email + '\'' +
+                "email='" + email + '\'' +
                 ", name='" + name + '\'' +
-                ", regdate=" + regdate +
+                ", projects=" + projects +
                 '}';
     }
 }
