@@ -27,14 +27,14 @@ const Fetch = {
         xhr.open('GET', url, true);
         xhr.onload = function () {
             const status = xhr.status;
-            if(callback) {
+            if (callback) {
                 callback(null, status);
             }
         };
-        xhr.onerror = function(){
+        xhr.onerror = function () {
             const message = xhr.responseText;
             const status = xhr.status;
-            if(callback) {
+            if (callback) {
                 callback(message, status);
             }
         };
@@ -44,15 +44,15 @@ const Fetch = {
 
 function safeRedirector(url) {
     const timeout = 5000;
-    window.setTimeout(function() {
+    window.setTimeout(function () {
         const statusChecker = arguments.callee;
-        Fetch.get(url, function(error, status) {
-            if((status >= 502 && status <= 504) || status === 0) {
+        Fetch.get(url, function (error, status) {
+            if ((status >= 502 && status <= 504) || status === 0) {
                 window.setTimeout(statusChecker, timeout)
             } else {
                 window.location.replace(url);
             }
-            if(error) {
+            if (error) {
                 console.error(error);
             }
         })

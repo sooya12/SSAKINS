@@ -1,11 +1,11 @@
 // We match the end of the name using $= because the beginning of the name is 
 // dynamically generated to avoid name clashes.
-Behaviour.specify("input[name$=_configuredByUrlRadio]", 'GitHubSCMSourceRadioConfiguration', 0, function(e) {
+Behaviour.specify("input[name$=_configuredByUrlRadio]", 'GitHubSCMSourceRadioConfiguration', 0, function (e) {
     if (e.gitHubSCMSourceRadioConfiguration) {
         return;
     }
 
-    var getNthParent = function(e, n) {
+    var getNthParent = function (e, n) {
         while (n > 0) {
             if (e.parentNode) {
                 e = e.parentNode;
@@ -18,7 +18,7 @@ Behaviour.specify("input[name$=_configuredByUrlRadio]", 'GitHubSCMSourceRadioCon
     };
 
     // Todo: Replace with a query selector?
-    var findNeighboringDynamicInput = function(e) {
+    var findNeighboringDynamicInput = function (e) {
         var inputTbody = getNthParent(e, 4 /*tbody > tr > td > label > input*/);
         if (inputTbody) {
             // input hidden is always in the 4th position
@@ -29,7 +29,7 @@ Behaviour.specify("input[name$=_configuredByUrlRadio]", 'GitHubSCMSourceRadioCon
 
     var neighboringDynamicInput = findNeighboringDynamicInput(e);
     if (neighboringDynamicInput) {
-        e.onclick = function() {
+        e.onclick = function () {
             neighboringDynamicInput.value = e.value;
             // When changing to true the event is triggered.
             if (e.value == "false") {

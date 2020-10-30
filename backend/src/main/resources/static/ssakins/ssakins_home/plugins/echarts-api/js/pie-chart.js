@@ -29,8 +29,7 @@ jQuery3(document).ready(function () {
                         },
                         left: 'center'
                     };
-                }
-                else {
+                } else {
                     return null;
                 }
             }

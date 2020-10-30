@@ -16,7 +16,7 @@ EChartsJenkinsApi.prototype.renderTrendChart = function (chartDivId, enableLinks
      * @param {String} model - the line chart model
      * @param {Boolean} enableOnClickHandler - to enable clicking on the chart to see the results
      */
-     function render(chartPlaceHolder, chart, model, enableOnClickHandler) { // eslint-disable-line no-unused-vars
+    function render(chartPlaceHolder, chart, model, enableOnClickHandler) { // eslint-disable-line no-unused-vars
         const chartModel = JSON.parse(model);
         let selectedBuild; // the tooltip formatter will change this value while hoovering
 

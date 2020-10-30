@@ -11,10 +11,10 @@ version: 2.9.0
  * @optional animation
  * @module resize
  */
-(function() {
-var D = YAHOO.util.Dom,
-    Event = YAHOO.util.Event,
-    Lang = YAHOO.lang;
+(function () {
+    var D = YAHOO.util.Dom,
+        Event = YAHOO.util.Event,
+        Lang = YAHOO.lang;
 
     /**
      * @constructor
@@ -23,33 +23,33 @@ var D = YAHOO.util.Dom,
      * @description <p>Makes an element resizable</p>
      * @param {String/HTMLElement} el The element to make resizable.
      * @param {Object} attrs Object liternal containing configuration parameters.
-    */
+     */
 
-    var Resize = function(el, config) {
+    var Resize = function (el, config) {
         YAHOO.log('Creating Resize Object', 'info', 'Resize');
         var oConfig = {
             element: el,
             attributes: config || {}
         };
 
-        Resize.superclass.constructor.call(this, oConfig.element, oConfig.attributes);    
+        Resize.superclass.constructor.call(this, oConfig.element, oConfig.attributes);
     };
 
     /**
-    * @private
-    * @static
-    * @property _instances
-    * @description Internal hash table for all resize instances
-    * @type Object
-    */ 
+     * @private
+     * @static
+     * @property _instances
+     * @description Internal hash table for all resize instances
+     * @type Object
+     */
     Resize._instances = {};
     /**
-    * @static
-    * @method getResizeById 
-    * @description Get's a resize object by the HTML id of the element associated with the Resize object.
-    * @return {Object} The Resize Object
-    */ 
-    Resize.getResizeById = function(id) {
+     * @static
+     * @method getResizeById
+     * @description Get's a resize object by the HTML id of the element associated with the Resize object.
+     * @return {Object} The Resize Object
+     */
+    Resize.getResizeById = function (id) {
         if (Resize._instances[id]) {
             return Resize._instances[id];
         }
@@ -59,179 +59,179 @@ var D = YAHOO.util.Dom,
 
     YAHOO.extend(Resize, YAHOO.util.Element, {
         /**
-        * @private
-        * @property CSS_RESIZE
-        * @description Base CSS class name
-        * @type String
-        */ 
+         * @private
+         * @property CSS_RESIZE
+         * @description Base CSS class name
+         * @type String
+         */
         CSS_RESIZE: 'yui-resize',
         /**
-        * @private
-        * @property CSS_DRAG
-        * @description Class name added when dragging is enabled
-        * @type String
-        */ 
+         * @private
+         * @property CSS_DRAG
+         * @description Class name added when dragging is enabled
+         * @type String
+         */
         CSS_DRAG: 'yui-draggable',
         /**
-        * @private
-        * @property CSS_HOVER
-        * @description Class name used for hover only handles
-        * @type String
-        */ 
+         * @private
+         * @property CSS_HOVER
+         * @description Class name used for hover only handles
+         * @type String
+         */
         CSS_HOVER: 'yui-resize-hover',
         /**
-        * @private
-        * @property CSS_PROXY
-        * @description Class name given to the proxy element
-        * @type String
-        */ 
+         * @private
+         * @property CSS_PROXY
+         * @description Class name given to the proxy element
+         * @type String
+         */
         CSS_PROXY: 'yui-resize-proxy',
         /**
-        * @private
-        * @property CSS_WRAP
-        * @description Class name given to the wrap element
-        * @type String
-        */ 
+         * @private
+         * @property CSS_WRAP
+         * @description Class name given to the wrap element
+         * @type String
+         */
         CSS_WRAP: 'yui-resize-wrap',
         /**
-        * @private
-        * @property CSS_KNOB
-        * @description Class name used to make the knob style handles
-        * @type String
-        */ 
+         * @private
+         * @property CSS_KNOB
+         * @description Class name used to make the knob style handles
+         * @type String
+         */
         CSS_KNOB: 'yui-resize-knob',
         /**
-        * @private
-        * @property CSS_HIDDEN
-        * @description Class name given to the wrap element to make all handles hidden
-        * @type String
-        */ 
+         * @private
+         * @property CSS_HIDDEN
+         * @description Class name given to the wrap element to make all handles hidden
+         * @type String
+         */
         CSS_HIDDEN: 'yui-resize-hidden',
         /**
-        * @private
-        * @property CSS_HANDLE
-        * @description Class name given to all handles, used as a base for single handle names as well.. Handle "t" will get this.CSS_HANDLE + '-t' as well as this.CSS_HANDLE
-        * @type String
-        */ 
+         * @private
+         * @property CSS_HANDLE
+         * @description Class name given to all handles, used as a base for single handle names as well.. Handle "t" will get this.CSS_HANDLE + '-t' as well as this.CSS_HANDLE
+         * @type String
+         */
         CSS_HANDLE: 'yui-resize-handle',
         /**
-        * @private
-        * @property CSS_STATUS
-        * @description Class name given to the status element
-        * @type String
-        */ 
+         * @private
+         * @property CSS_STATUS
+         * @description Class name given to the status element
+         * @type String
+         */
         CSS_STATUS: 'yui-resize-status',
         /**
-        * @private
-        * @property CSS_GHOST
-        * @description Class name given to the wrap element when the ghost property is active
-        * @type String
-        */ 
+         * @private
+         * @property CSS_GHOST
+         * @description Class name given to the wrap element when the ghost property is active
+         * @type String
+         */
         CSS_GHOST: 'yui-resize-ghost',
         /**
-        * @private
-        * @property CSS_RESIZING
-        * @description Class name given to the wrap element when a resize action is taking place.
-        * @type String
-        */ 
+         * @private
+         * @property CSS_RESIZING
+         * @description Class name given to the wrap element when a resize action is taking place.
+         * @type String
+         */
         CSS_RESIZING: 'yui-resize-resizing',
         /**
-        * @private
-        * @property _resizeEvent
-        * @description The mouse event used to resize with
-        * @type Event
-        */ 
+         * @private
+         * @property _resizeEvent
+         * @description The mouse event used to resize with
+         * @type Event
+         */
         _resizeEvent: null,
         /**
-        * @private
-        * @property dd
-        * @description The <a href="YAHOO.util.DragDrop.html">YAHOO.util.DragDrop</a> instance used if draggable is true
-        * @type Object
-        */ 
+         * @private
+         * @property dd
+         * @description The <a href="YAHOO.util.DragDrop.html">YAHOO.util.DragDrop</a> instance used if draggable is true
+         * @type Object
+         */
         dd: null,
-        /** 
-        * @private
-        * @property browser
-        * @description A copy of the YAHOO.env.ua property
-        * @type Object
-        */
+        /**
+         * @private
+         * @property browser
+         * @description A copy of the YAHOO.env.ua property
+         * @type Object
+         */
         browser: YAHOO.env.ua,
-        /** 
-        * @private
-        * @property _locked
-        * @description A flag to show if the resize is locked
-        * @type Boolean
-        */
+        /**
+         * @private
+         * @property _locked
+         * @description A flag to show if the resize is locked
+         * @type Boolean
+         */
         _locked: null,
-        /** 
-        * @private
-        * @property _positioned
-        * @description A flag to show if the element is absolutely positioned
-        * @type Boolean
-        */
+        /**
+         * @private
+         * @property _positioned
+         * @description A flag to show if the element is absolutely positioned
+         * @type Boolean
+         */
         _positioned: null,
-        /** 
-        * @private
-        * @property _dds
-        * @description An Object containing references to all of the <a href="YAHOO.util.DragDrop.html">YAHOO.util.DragDrop</a> instances used for the resize handles
-        * @type Object
-        */
+        /**
+         * @private
+         * @property _dds
+         * @description An Object containing references to all of the <a href="YAHOO.util.DragDrop.html">YAHOO.util.DragDrop</a> instances used for the resize handles
+         * @type Object
+         */
         _dds: null,
-        /** 
-        * @private
-        * @property _wrap
-        * @description The HTML reference of the element wrapper
-        * @type HTMLElement
-        */
+        /**
+         * @private
+         * @property _wrap
+         * @description The HTML reference of the element wrapper
+         * @type HTMLElement
+         */
         _wrap: null,
-        /** 
-        * @private
-        * @property _proxy
-        * @description The HTML reference of the element proxy
-        * @type HTMLElement
-        */
+        /**
+         * @private
+         * @property _proxy
+         * @description The HTML reference of the element proxy
+         * @type HTMLElement
+         */
         _proxy: null,
-        /** 
-        * @private
-        * @property _handles
-        * @description An object containing references to all of the resize handles.
-        * @type Object
-        */
+        /**
+         * @private
+         * @property _handles
+         * @description An object containing references to all of the resize handles.
+         * @type Object
+         */
         _handles: null,
-        /** 
-        * @private
-        * @property _currentHandle
-        * @description The string identifier of the currently active handle. e.g. 'r', 'br', 'tl'
-        * @type String
-        */
+        /**
+         * @private
+         * @property _currentHandle
+         * @description The string identifier of the currently active handle. e.g. 'r', 'br', 'tl'
+         * @type String
+         */
         _currentHandle: null,
-        /** 
-        * @private
-        * @property _currentDD
-        * @description A link to the currently active DD object
-        * @type Object
-        */
+        /**
+         * @private
+         * @property _currentDD
+         * @description A link to the currently active DD object
+         * @type Object
+         */
         _currentDD: null,
-        /** 
-        * @private
-        * @property _cache
-        * @description An lookup table containing key information for the element being resized. e.g. height, width, x position, y position, etc..
-        * @type Object
-        */
+        /**
+         * @private
+         * @property _cache
+         * @description An lookup table containing key information for the element being resized. e.g. height, width, x position, y position, etc..
+         * @type Object
+         */
         _cache: null,
-        /** 
-        * @private
-        * @property _active
-        * @description Flag to show if the resize is active. Used for events.
-        * @type Boolean
-        */
+        /**
+         * @private
+         * @property _active
+         * @description Flag to show if the resize is active. Used for events.
+         * @type Boolean
+         */
         _active: null,
-        /** 
-        * @private
-        * @method _createProxy
-        * @description Creates the proxy element if the proxy config is true
-        */
-        _createProxy: function() {
+        /**
+         * @private
+         * @method _createProxy
+         * @description Creates the proxy element if the proxy config is true
+         */
+        _createProxy: function () {
             if (this.get('proxy')) {
                 YAHOO.log('Creating the Proxy Element', 'info', 'Resize');
                 this._proxy = document.createElement('div');
@@ -244,12 +244,12 @@ var D = YAHOO.util.Dom,
                 this.set('animate', false);
             }
         },
-        /** 
-        * @private
-        * @method _createWrap
-        * @description Creates the wrap element if the wrap config is true. It will auto wrap the following element types: img, textarea, input, iframe, select
-        */
-        _createWrap: function() {
+        /**
+         * @private
+         * @method _createWrap
+         * @description Creates the wrap element if the wrap config is true. It will auto wrap the following element types: img, textarea, input, iframe, select
+         */
+        _createWrap: function () {
             YAHOO.log('Create the wrap element', 'info', 'Resize');
             this._positioned = false;
             //Force wrap for elements that can't have children 
@@ -311,25 +311,28 @@ var D = YAHOO.util.Dom,
             }
             D.addClass(this._wrap, this.CSS_RESIZE);
         },
-        /** 
-        * @private
-        * @method _setupDragDrop
-        * @description Setup the <a href="YAHOO.util.DragDrop.html">YAHOO.util.DragDrop</a> instance on the element
-        */
-        _setupDragDrop: function() {
+        /**
+         * @private
+         * @method _setupDragDrop
+         * @description Setup the <a href="YAHOO.util.DragDrop.html">YAHOO.util.DragDrop</a> instance on the element
+         */
+        _setupDragDrop: function () {
             YAHOO.log('Setting up the dragdrop instance on the element', 'info', 'Resize');
             D.addClass(this._wrap, this.CSS_DRAG);
-            this.dd = new YAHOO.util.DD(this._wrap, this.get('id') + '-resize', { dragOnly: true, useShim: this.get('useShim') });
-            this.dd.on('dragEvent', function() {
+            this.dd = new YAHOO.util.DD(this._wrap, this.get('id') + '-resize', {
+                dragOnly: true,
+                useShim: this.get('useShim')
+            });
+            this.dd.on('dragEvent', function () {
                 this.fireEvent('dragEvent', arguments);
             }, this, true);
         },
-        /** 
-        * @private
-        * @method _createHandles
-        * @description Creates the handles as specified in the config
-        */
-        _createHandles: function() {
+        /**
+         * @private
+         * @method _createHandles
+         * @description Creates the handles as specified in the config
+         */
+        _createHandles: function () {
             YAHOO.log('Creating the handles', 'info', 'Resize');
             this._handles = {};
             this._dds = {};
@@ -345,7 +348,7 @@ var D = YAHOO.util.Dom,
                 this._wrap.appendChild(this._handles[h[i]]);
                 Event.on(this._handles[h[i]], 'mouseover', this._handleMouseOver, this, true);
                 Event.on(this._handles[h[i]], 'mouseout', this._handleMouseOut, this, true);
-                this._dds[h[i]] = new YAHOO.util.DragDrop(this._handles[h[i]], this.get('id') + '-handle-' + h, { useShim: this.get('useShim') });
+                this._dds[h[i]] = new YAHOO.util.DragDrop(this._handles[h[i]], this.get('id') + '-handle-' + h, {useShim: this.get('useShim')});
                 this._dds[h[i]].setPadding(15, 15, 15, 15);
                 this._dds[h[i]].on('startDragEvent', this._handleStartDrag, this._dds[h[i]], this);
                 this._dds[h[i]].on('mouseDownEvent', this._handleMouseDown, this._dds[h[i]], this);
@@ -355,27 +358,27 @@ var D = YAHOO.util.Dom,
             this._status.className = this.CSS_STATUS;
             document.body.insertBefore(this._status, document.body.firstChild);
         },
-        /** 
-        * @private
-        * @method _ieSelectFix
-        * @description The function we use as the onselectstart handler when we start a drag in Internet Explorer
-        */
-        _ieSelectFix: function() {
+        /**
+         * @private
+         * @method _ieSelectFix
+         * @description The function we use as the onselectstart handler when we start a drag in Internet Explorer
+         */
+        _ieSelectFix: function () {
             return false;
         },
-        /** 
-        * @private
-        * @property _ieSelectBack
-        * @description We will hold a copy of the current "onselectstart" method on this property, and reset it after we are done using it.
-        */
+        /**
+         * @private
+         * @property _ieSelectBack
+         * @description We will hold a copy of the current "onselectstart" method on this property, and reset it after we are done using it.
+         */
         _ieSelectBack: null,
-        /** 
-        * @private
-        * @method _setAutoRatio
-        * @param {Event} ev A mouse event.
-        * @description This method checks to see if the "autoRatio" config is set. If it is, we will check to see if the "Shift Key" is pressed. If so, we will set the config ratio to true.
-        */
-        _setAutoRatio: function(ev) {
+        /**
+         * @private
+         * @method _setAutoRatio
+         * @param {Event} ev A mouse event.
+         * @description This method checks to see if the "autoRatio" config is set. If it is, we will check to see if the "Shift Key" is pressed. If so, we will set the config ratio to true.
+         */
+        _setAutoRatio: function (ev) {
             if (this.get('autoRatio')) {
                 YAHOO.log('Setting up AutoRatio', 'info', 'Resize');
                 if (ev && ev.shiftKey) {
@@ -388,13 +391,13 @@ var D = YAHOO.util.Dom,
                 }
             }
         },
-        /** 
-        * @private
-        * @method _handleMouseDown
-        * @param {Event} ev A mouse event.
-        * @description This method preps the autoRatio on MouseDown.
-        */
-        _handleMouseDown: function(ev) {
+        /**
+         * @private
+         * @method _handleMouseDown
+         * @param {Event} ev A mouse event.
+         * @description This method preps the autoRatio on MouseDown.
+         */
+        _handleMouseDown: function (ev) {
             if (this._locked) {
                 YAHOO.log('Resize Locked', 'info', 'Resize');
                 return false;
@@ -410,13 +413,13 @@ var D = YAHOO.util.Dom,
                 document.body.onselectstart = this._ieSelectFix;
             }
         },
-        /** 
-        * @private
-        * @method _handleMouseOver
-        * @param {Event} ev A mouse event.
-        * @description Adds CSS class names to the handles
-        */
-        _handleMouseOver: function(ev) {
+        /**
+         * @private
+         * @method _handleMouseOver
+         * @param {Event} ev A mouse event.
+         * @description Adds CSS class names to the handles
+         */
+        _handleMouseOver: function (ev) {
             if (this._locked) {
                 YAHOO.log('Resize Locked', 'info', 'Resize');
                 return false;
@@ -444,13 +447,13 @@ var D = YAHOO.util.Dom,
 
             D.addClass(this._wrap, this.CSS_RESIZE);
         },
-        /** 
-        * @private
-        * @method _handleMouseOut
-        * @param {Event} ev A mouse event.
-        * @description Removes CSS class names to the handles
-        */
-        _handleMouseOut: function(ev) {
+        /**
+         * @private
+         * @method _handleMouseOut
+         * @param {Event} ev A mouse event.
+         * @description Removes CSS class names to the handles
+         */
+        _handleMouseOut: function (ev) {
             D.removeClass(this._wrap, this.CSS_RESIZE);
             if (this.get('hover') && !this._active) {
                 D.addClass(this._wrap, this.CSS_HOVER);
@@ -472,14 +475,14 @@ var D = YAHOO.util.Dom,
             }
             D.addClass(this._wrap, this.CSS_RESIZE);
         },
-        /** 
-        * @private
-        * @method _handleStartDrag
-        * @param {Object} args The args passed from the CustomEvent.
-        * @param {Object} dd The <a href="YAHOO.util.DragDrop.html">YAHOO.util.DragDrop</a> object we are working with.
-        * @description Resizes the proxy, sets up the <a href="YAHOO.util.DragDrop.html">YAHOO.util.DragDrop</a> handlers, updates the status div and preps the cache
-        */
-        _handleStartDrag: function(args, dd) {
+        /**
+         * @private
+         * @method _handleStartDrag
+         * @param {Object} args The args passed from the CustomEvent.
+         * @param {Object} dd The <a href="YAHOO.util.DragDrop.html">YAHOO.util.DragDrop</a> object we are working with.
+         * @description Resizes the proxy, sets up the <a href="YAHOO.util.DragDrop.html">YAHOO.util.DragDrop</a> handlers, updates the status div and preps the cache
+         */
+        _handleStartDrag: function (args, dd) {
             YAHOO.log('startDrag', 'info', 'Resize');
             var tar = dd.getDragEl();
             if (D.hasClass(tar, this.CSS_HANDLE)) {
@@ -526,15 +529,15 @@ var D = YAHOO.util.Dom,
                 this._setCache();
                 this._updateStatus(this._cache.height, this._cache.width, this._cache.top, this._cache.left);
                 YAHOO.log('Firing startResize Event', 'info', 'Resize');
-                this.fireEvent('startResize', { type: 'startresize', target: this});
+                this.fireEvent('startResize', {type: 'startresize', target: this});
             }
         },
-        /** 
-        * @private
-        * @method _setCache
-        * @description Sets up the this._cache hash table.
-        */
-        _setCache: function() {
+        /**
+         * @private
+         * @method _setCache
+         * @description Sets up the this._cache hash table.
+         */
+        _setCache: function () {
             YAHOO.log('Setting up property cache', 'info', 'Resize');
             this._cache.xy = D.getXY(this._wrap);
             D.setXY(this._wrap, this._cache.xy);
@@ -549,13 +552,13 @@ var D = YAHOO.util.Dom,
             this.set('height', this._cache.height, true);
             this.set('width', this._cache.width, true);
         },
-        /** 
-        * @private
-        * @method _handleMouseUp
-        * @param {Event} ev A mouse event.
-        * @description Cleans up listeners, hides proxy element and removes class names.
-        */
-        _handleMouseUp: function(ev) {
+        /**
+         * @private
+         * @method _handleMouseUp
+         * @param {Event} ev A mouse event.
+         * @description Cleans up listeners, hides proxy element and removes class names.
+         */
+        _handleMouseUp: function (ev) {
             this._active = false;
 
             var handle = '_handle_for_' + this._currentHandle;
@@ -571,7 +574,14 @@ var D = YAHOO.util.Dom,
                     this.resize(ev, this._cache.height, this._cache.width, this._cache.top, this._cache.left, true);
                 } else {
                     YAHOO.log('Firing Resize Event', 'info', 'Resize');
-                    this.fireEvent('resize', { ev: 'resize', target: this, height: this._cache.height, width: this._cache.width, top: this._cache.top, left: this._cache.left });
+                    this.fireEvent('resize', {
+                        ev: 'resize',
+                        target: this,
+                        height: this._cache.height,
+                        width: this._cache.width,
+                        top: this._cache.top,
+                        left: this._cache.left
+                    });
                 }
 
                 if (this.get('ghost')) {
@@ -614,26 +624,33 @@ var D = YAHOO.util.Dom,
 
             this._resizeEvent = null;
             this._currentHandle = null;
-            
+
             if (!this.get('animate')) {
                 this.set('height', this._cache.height, true);
                 this.set('width', this._cache.width, true);
             }
 
             YAHOO.log('Firing endResize Event', 'info', 'Resize');
-            this.fireEvent('endResize', { ev: 'endResize', target: this, height: this._cache.height, width: this._cache.width, top: this._cache.top, left: this._cache.left });
+            this.fireEvent('endResize', {
+                ev: 'endResize',
+                target: this,
+                height: this._cache.height,
+                width: this._cache.width,
+                top: this._cache.top,
+                left: this._cache.left
+            });
         },
-        /** 
-        * @private
-        * @method _setRatio
-        * @param {Number} h The height offset.
-        * @param {Number} w The with offset.
-        * @param {Number} t The top offset.
-        * @param {Number} l The left offset.
-        * @description Using the Height, Width, Top & Left, it recalcuates them based on the original element size.
-        * @return {Array} The new Height, Width, Top & Left settings
-        */
-        _setRatio: function(h, w, t, l) {
+        /**
+         * @private
+         * @method _setRatio
+         * @param {Number} h The height offset.
+         * @param {Number} w The with offset.
+         * @param {Number} t The top offset.
+         * @param {Number} l The left offset.
+         * @description Using the Height, Width, Top & Left, it recalcuates them based on the original element size.
+         * @return {Array} The new Height, Width, Top & Left settings
+         */
+        _setRatio: function (h, w, t, l) {
             YAHOO.log('Setting Ratio', 'info', 'Resize');
             var oh = h, ow = w;
             if (this.get('ratio')) {
@@ -649,14 +666,14 @@ var D = YAHOO.util.Dom,
                 switch (this._currentHandle) {
                     case 'l':
                         h = nh * (w / nw);
-                        h = Math.min(Math.max(minH, h), maxH);                        
+                        h = Math.min(Math.max(minH, h), maxH);
                         w = nw * (h / nh);
                         t = (this._cache.start.top - (-((nh - h) / 2)));
                         l = (this._cache.start.left - (-((nw - w))));
                         break;
                     case 'r':
                         h = nh * (w / nw);
-                        h = Math.min(Math.max(minH, h), maxH);                        
+                        h = Math.min(Math.max(minH, h), maxH);
                         w = nw * (h / nh);
                         t = (this._cache.start.top - (-((nh - h) / 2)));
                         break;
@@ -708,23 +725,23 @@ var D = YAHOO.util.Dom,
             }
             return [oh, ow, t, l];
         },
-        /** 
-        * @private
-        * @method _updateStatus
-        * @param {Number} h The new height setting.
-        * @param {Number} w The new width setting.
-        * @param {Number} t The new top setting.
-        * @param {Number} l The new left setting.
-        * @description Using the Height, Width, Top & Left, it updates the status element with the elements sizes.
-        */
-        _updateStatus: function(h, w, t, l) {
+        /**
+         * @private
+         * @method _updateStatus
+         * @param {Number} h The new height setting.
+         * @param {Number} w The new width setting.
+         * @param {Number} t The new top setting.
+         * @param {Number} l The new left setting.
+         * @description Using the Height, Width, Top & Left, it updates the status element with the elements sizes.
+         */
+        _updateStatus: function (h, w, t, l) {
             if (this._resizeEvent && (!Lang.isString(this._resizeEvent))) {
                 YAHOO.log('Updating Status Box', 'info', 'Resize');
                 h = ((h === 0) ? this._cache.start.height : h);
                 w = ((w === 0) ? this._cache.start.width : w);
                 var h1 = parseInt(this.get('height'), 10),
                     w1 = parseInt(this.get('width'), 10);
-                
+
                 if (isNaN(h1)) {
                     h1 = parseInt(h, 10);
                 }
@@ -744,13 +761,13 @@ var D = YAHOO.util.Dom,
                 }
             }
         },
-        /** 
-        * @method lock
-        * @description Lock the resize so it can't be resized
-        * @param {Boolean} dd If the draggable config is set, lock it too
-        * @return {<a href="YAHOO.util.Resize.html">YAHOO.util.Resize</a>} The Resize instance
-        */
-        lock: function(dd) {
+        /**
+         * @method lock
+         * @description Lock the resize so it can't be resized
+         * @param {Boolean} dd If the draggable config is set, lock it too
+         * @return {<a href="YAHOO.util.Resize.html">YAHOO.util.Resize</a>} The Resize instance
+         */
+        lock: function (dd) {
             this._locked = true;
             if (dd && this.dd) {
                 D.removeClass(this._wrap, 'yui-draggable');
@@ -758,13 +775,13 @@ var D = YAHOO.util.Dom,
             }
             return this;
         },
-        /** 
-        * @method unlock
-        * @description Unlock the resize so it can be resized
-        * @param {Boolean} dd If the draggable config is set, unlock it too
-        * @return {<a href="YAHOO.util.Resize.html">YAHOO.util.Resize</a>} The Resize instance
-        */
-        unlock: function(dd) {
+        /**
+         * @method unlock
+         * @description Unlock the resize so it can be resized
+         * @param {Boolean} dd If the draggable config is set, unlock it too
+         * @return {<a href="YAHOO.util.Resize.html">YAHOO.util.Resize</a>} The Resize instance
+         */
+        unlock: function (dd) {
             this._locked = false;
             if (dd && this.dd) {
                 D.addClass(this._wrap, 'yui-draggable');
@@ -772,38 +789,38 @@ var D = YAHOO.util.Dom,
             }
             return this;
         },
-        /** 
-        * @method isLocked
-        * @description Check the locked status of the resize instance
-        * @return {Boolean}
-        */
-        isLocked: function() {
+        /**
+         * @method isLocked
+         * @description Check the locked status of the resize instance
+         * @return {Boolean}
+         */
+        isLocked: function () {
             return this._locked;
         },
-        /** 
-        * @method reset
-        * @description Resets the element to is start state.
-        * @return {<a href="YAHOO.util.Resize.html">YAHOO.util.Resize</a>} The Resize instance
-        */
-        reset: function() {
+        /**
+         * @method reset
+         * @description Resets the element to is start state.
+         * @return {<a href="YAHOO.util.Resize.html">YAHOO.util.Resize</a>} The Resize instance
+         */
+        reset: function () {
             YAHOO.log('Resetting to cached sizes and position', 'info', 'Resize');
             this.resize(null, this._cache.start.height, this._cache.start.width, this._cache.start.top, this._cache.start.left, true);
             return this;
         },
-        /** 
-        * @private
-        * @method resize
-        * @param {Event} ev The mouse event.
-        * @param {Number} h The new height setting.
-        * @param {Number} w The new width setting.
-        * @param {Number} t The new top setting.
-        * @param {Number} l The new left setting.
-        * @param {Boolean} force Resize the element (used for proxy resize).
-        * @param {Boolean} silent Don't fire the beforeResize Event.
-        * @description Resizes the element, wrapper or proxy based on the data from the handlers.
-        * @return {<a href="YAHOO.util.Resize.html">YAHOO.util.Resize</a>} The Resize instance
-        */
-        resize: function(ev, h, w, t, l, force, silent) {
+        /**
+         * @private
+         * @method resize
+         * @param {Event} ev The mouse event.
+         * @param {Number} h The new height setting.
+         * @param {Number} w The new width setting.
+         * @param {Number} t The new top setting.
+         * @param {Number} l The new left setting.
+         * @param {Boolean} force Resize the element (used for proxy resize).
+         * @param {Boolean} silent Don't fire the beforeResize Event.
+         * @description Resizes the element, wrapper or proxy based on the data from the handlers.
+         * @return {<a href="YAHOO.util.Resize.html">YAHOO.util.Resize</a>} The Resize instance
+         */
+        resize: function (ev, h, w, t, l, force, silent) {
             if (this._locked) {
                 YAHOO.log('Resize Locked', 'info', 'Resize');
                 return false;
@@ -822,14 +839,14 @@ var D = YAHOO.util.Dom,
                     l = this._cache.left - l;
                 }
             }
-            
-            
+
+
             var ratio = this._setRatio(h, w, t, l);
             h = parseInt(ratio[0], 10);
             w = parseInt(ratio[1], 10);
             t = parseInt(ratio[2], 10);
             l = parseInt(ratio[3], 10);
-            
+
             if (t == 0) {
                 //No Offset, get from cache
                 t = D.getY(el);
@@ -839,7 +856,6 @@ var D = YAHOO.util.Dom,
                 l = D.getX(el);
             }
 
-            
 
             if (this._positioned) {
                 if (this._proxy && force) {
@@ -883,7 +899,14 @@ var D = YAHOO.util.Dom,
             }
             if (!silent) {
                 YAHOO.log('beforeResize', 'info', 'Resize');
-                var beforeReturn = this.fireEvent('beforeResize', { ev: 'beforeResize', target: this, height: h, width: w, top: t, left: l });
+                var beforeReturn = this.fireEvent('beforeResize', {
+                    ev: 'beforeResize',
+                    target: this,
+                    height: h,
+                    width: w,
+                    top: t,
+                    left: l
+                });
                 if (beforeReturn === false) {
                     YAHOO.log('Resized cancelled because befireResize returned false', 'info', 'Resize');
                     return false;
@@ -969,17 +992,17 @@ var D = YAHOO.util.Dom,
                     }
 
                     if (this._wrap != this.get('element')) {
-                        _anim.onTween.subscribe(function() {
+                        _anim.onTween.subscribe(function () {
                             this.get('element').style.height = el.style.height;
                             this.get('element').style.width = el.style.width;
                         }, this, true);
                     }
 
-                    _anim.onComplete.subscribe(function() {
+                    _anim.onComplete.subscribe(function () {
                         YAHOO.log('Animation onComplete fired', 'info', 'Resize');
                         this.set('height', h);
                         this.set('width', w);
-                        this.fireEvent('resize', { ev: 'resize', target: this, height: h, width: w, top: t, left: l });
+                        this.fireEvent('resize', {ev: 'resize', target: this, height: h, width: w, top: t, left: l});
                     }, this, true);
                     _anim.animate();
 
@@ -987,46 +1010,53 @@ var D = YAHOO.util.Dom,
             } else {
                 if (this._proxy && !force) {
                     YAHOO.log('proxyResize', 'info', 'Resize');
-                    this.fireEvent('proxyResize', { ev: 'proxyresize', target: this, height: h, width: w, top: t, left: l });
+                    this.fireEvent('proxyResize', {
+                        ev: 'proxyresize',
+                        target: this,
+                        height: h,
+                        width: w,
+                        top: t,
+                        left: l
+                    });
                 } else {
                     YAHOO.log('resize', 'info', 'Resize');
-                    this.fireEvent('resize', { ev: 'resize', target: this, height: h, width: w, top: t, left: l });
+                    this.fireEvent('resize', {ev: 'resize', target: this, height: h, width: w, top: t, left: l});
                 }
             }
             return this;
         },
-        /** 
-        * @private
-        * @method _handle_for_br
-        * @param {Object} args The arguments from the CustomEvent.
-        * @description Handles the sizes for the Bottom Right handle.
-        */
-        _handle_for_br: function(args) {
+        /**
+         * @private
+         * @method _handle_for_br
+         * @param {Object} args The arguments from the CustomEvent.
+         * @description Handles the sizes for the Bottom Right handle.
+         */
+        _handle_for_br: function (args) {
             YAHOO.log('Handle BR', 'info', 'Resize');
             var newW = this._setWidth(args.e);
             var newH = this._setHeight(args.e);
             this.resize(args.e, newH, newW, 0, 0);
         },
-        /** 
-        * @private
-        * @method _handle_for_bl
-        * @param {Object} args The arguments from the CustomEvent.
-        * @description Handles the sizes for the Bottom Left handle.
-        */
-        _handle_for_bl: function(args) {
+        /**
+         * @private
+         * @method _handle_for_bl
+         * @param {Object} args The arguments from the CustomEvent.
+         * @description Handles the sizes for the Bottom Left handle.
+         */
+        _handle_for_bl: function (args) {
             YAHOO.log('Handle BL', 'info', 'Resize');
             var newW = this._setWidth(args.e, true);
             var newH = this._setHeight(args.e);
             var l = (newW - this._cache.width);
             this.resize(args.e, newH, newW, 0, l);
         },
-        /** 
-        * @private
-        * @method _handle_for_tl
-        * @param {Object} args The arguments from the CustomEvent.
-        * @description Handles the sizes for the Top Left handle.
-        */
-        _handle_for_tl: function(args) {
+        /**
+         * @private
+         * @method _handle_for_tl
+         * @param {Object} args The arguments from the CustomEvent.
+         * @description Handles the sizes for the Top Left handle.
+         */
+        _handle_for_tl: function (args) {
             YAHOO.log('Handle TL', 'info', 'Resize');
             var newW = this._setWidth(args.e, true);
             var newH = this._setHeight(args.e, true);
@@ -1034,100 +1064,100 @@ var D = YAHOO.util.Dom,
             var l = (newW - this._cache.width);
             this.resize(args.e, newH, newW, t, l);
         },
-        /** 
-        * @private
-        * @method _handle_for_tr
-        * @param {Object} args The arguments from the CustomEvent.
-        * @description Handles the sizes for the Top Right handle.
-        */
-        _handle_for_tr: function(args) {
+        /**
+         * @private
+         * @method _handle_for_tr
+         * @param {Object} args The arguments from the CustomEvent.
+         * @description Handles the sizes for the Top Right handle.
+         */
+        _handle_for_tr: function (args) {
             YAHOO.log('Handle TR', 'info', 'Resize');
             var newW = this._setWidth(args.e);
             var newH = this._setHeight(args.e, true);
             var t = (newH - this._cache.height);
             this.resize(args.e, newH, newW, t, 0);
         },
-        /** 
-        * @private
-        * @method _handle_for_r
-        * @param {Object} args The arguments from the CustomEvent.
-        * @description Handles the sizes for the Right handle.
-        */
-        _handle_for_r: function(args) {
+        /**
+         * @private
+         * @method _handle_for_r
+         * @param {Object} args The arguments from the CustomEvent.
+         * @description Handles the sizes for the Right handle.
+         */
+        _handle_for_r: function (args) {
             YAHOO.log('Handle R', 'info', 'Resize');
-            this._dds.r.setYConstraint(0,0);
+            this._dds.r.setYConstraint(0, 0);
             var newW = this._setWidth(args.e);
             this.resize(args.e, 0, newW, 0, 0);
         },
-        /** 
-        * @private
-        * @method _handle_for_l
-        * @param {Object} args The arguments from the CustomEvent.
-        * @description Handles the sizes for the Left handle.
-        */
-        _handle_for_l: function(args) {
+        /**
+         * @private
+         * @method _handle_for_l
+         * @param {Object} args The arguments from the CustomEvent.
+         * @description Handles the sizes for the Left handle.
+         */
+        _handle_for_l: function (args) {
             YAHOO.log('Handle L', 'info', 'Resize');
-            this._dds.l.setYConstraint(0,0);
+            this._dds.l.setYConstraint(0, 0);
             var newW = this._setWidth(args.e, true);
             var l = (newW - this._cache.width);
             this.resize(args.e, 0, newW, 0, l);
         },
-        /** 
-        * @private
-        * @method _handle_for_b
-        * @param {Object} args The arguments from the CustomEvent.
-        * @description Handles the sizes for the Bottom handle.
-        */
-        _handle_for_b: function(args) {
+        /**
+         * @private
+         * @method _handle_for_b
+         * @param {Object} args The arguments from the CustomEvent.
+         * @description Handles the sizes for the Bottom handle.
+         */
+        _handle_for_b: function (args) {
             YAHOO.log('Handle B', 'info', 'Resize');
-            this._dds.b.setXConstraint(0,0);
+            this._dds.b.setXConstraint(0, 0);
             var newH = this._setHeight(args.e);
             this.resize(args.e, newH, 0, 0, 0);
         },
-        /** 
-        * @private
-        * @method _handle_for_t
-        * @param {Object} args The arguments from the CustomEvent.
-        * @description Handles the sizes for the Top handle.
-        */
-        _handle_for_t: function(args) {
+        /**
+         * @private
+         * @method _handle_for_t
+         * @param {Object} args The arguments from the CustomEvent.
+         * @description Handles the sizes for the Top handle.
+         */
+        _handle_for_t: function (args) {
             YAHOO.log('Handle T', 'info', 'Resize');
-            this._dds.t.setXConstraint(0,0);
+            this._dds.t.setXConstraint(0, 0);
             var newH = this._setHeight(args.e, true);
             var t = (newH - this._cache.height);
             this.resize(args.e, newH, 0, t, 0);
         },
-        /** 
-        * @private
-        * @method _setWidth
-        * @param {Event} ev The mouse event.
-        * @param {Boolean} flip Argument to determine the direction of the movement.
-        * @description Calculates the width based on the mouse event.
-        * @return {Number} The new value
-        */
-        _setWidth: function(ev, flip) {
+        /**
+         * @private
+         * @method _setWidth
+         * @param {Event} ev The mouse event.
+         * @param {Boolean} flip Argument to determine the direction of the movement.
+         * @description Calculates the width based on the mouse event.
+         * @return {Number} The new value
+         */
+        _setWidth: function (ev, flip) {
             YAHOO.log('Set width based on Event', 'info', 'Resize');
             var xy = this._cache.xy[0],
                 w = this._cache.width,
                 x = Event.getPageX(ev),
                 nw = (x - xy);
 
-                if (flip) {
-                    nw = (xy - x) + parseInt(this.get('width'), 10);
-                }
-                
-                nw = this._snapTick(nw, this.get('xTicks'));
-                nw = this._checkWidth(nw);
+            if (flip) {
+                nw = (xy - x) + parseInt(this.get('width'), 10);
+            }
+
+            nw = this._snapTick(nw, this.get('xTicks'));
+            nw = this._checkWidth(nw);
             return nw;
         },
-        /** 
-        * @private
-        * @method _checkWidth
-        * @param {Number} w The width to check.
-        * @description Checks the value passed against the maxWidth and minWidth.
-        * @return {Number} the new value
-        */
-        _checkWidth: function(w) {
+        /**
+         * @private
+         * @method _checkWidth
+         * @param {Number} w The width to check.
+         * @description Checks the value passed against the maxWidth and minWidth.
+         * @return {Number} the new value
+         */
+        _checkWidth: function (w) {
             YAHOO.log('Checking the min/max width', 'info', 'Resize');
             if (this.get('minWidth')) {
                 if (w <= this.get('minWidth')) {
@@ -1143,14 +1173,14 @@ var D = YAHOO.util.Dom,
             }
             return w;
         },
-        /** 
-        * @private
-        * @method _checkHeight
-        * @param {Number} h The height to check.
-        * @description Checks the value passed against the maxHeight and minHeight.
-        * @return {Number} The new value
-        */
-        _checkHeight: function(h) {
+        /**
+         * @private
+         * @method _checkHeight
+         * @param {Number} h The height to check.
+         * @description Checks the value passed against the maxHeight and minHeight.
+         * @return {Number} The new value
+         */
+        _checkHeight: function (h) {
             YAHOO.log('Checking the min/max height', 'info', 'Resize');
             if (this.get('minHeight')) {
                 if (h <= this.get('minHeight')) {
@@ -1166,38 +1196,38 @@ var D = YAHOO.util.Dom,
             }
             return h;
         },
-        /** 
-        * @private
-        * @method _setHeight
-        * @param {Event} ev The mouse event.
-        * @param {Boolean} flip Argument to determine the direction of the movement.
-        * @description Calculated the height based on the mouse event.
-        * @return {Number} The new value
-        */
-        _setHeight: function(ev, flip) {
+        /**
+         * @private
+         * @method _setHeight
+         * @param {Event} ev The mouse event.
+         * @param {Boolean} flip Argument to determine the direction of the movement.
+         * @description Calculated the height based on the mouse event.
+         * @return {Number} The new value
+         */
+        _setHeight: function (ev, flip) {
             YAHOO.log('Setting the height based on the Event', 'info', 'Resize');
             var xy = this._cache.xy[1],
                 h = this._cache.height,
                 y = Event.getPageY(ev),
                 nh = (y - xy);
 
-                if (flip) {
-                    nh = (xy - y) + parseInt(this.get('height'), 10);
-                }
-                nh = this._snapTick(nh, this.get('yTicks'));
-                nh = this._checkHeight(nh);
-                
+            if (flip) {
+                nh = (xy - y) + parseInt(this.get('height'), 10);
+            }
+            nh = this._snapTick(nh, this.get('yTicks'));
+            nh = this._checkHeight(nh);
+
             return nh;
         },
-        /** 
-        * @private
-        * @method _snapTick
-        * @param {Number} size The size to tick against.
-        * @param {Number} pix The tick pixels.
-        * @description Adjusts the number based on the ticks used.
-        * @return {Number} the new snapped position
-        */
-        _snapTick: function(size, pix) {
+        /**
+         * @private
+         * @method _snapTick
+         * @param {Number} size The size to tick against.
+         * @param {Number} pix The tick pixels.
+         * @description Adjusts the number based on the ticks used.
+         * @return {Number} the new snapped position
+         */
+        _snapTick: function (size, pix) {
             YAHOO.log('Snapping to ticks', 'info', 'Resize');
             if (!size || !pix) {
                 return size;
@@ -1213,12 +1243,12 @@ var D = YAHOO.util.Dom,
             }
             return _s;
         },
-        /** 
-        * @private
-        * @method init
-        * @description The Resize class's initialization method
-        */        
-        init: function(p_oElement, p_oAttributes) {
+        /**
+         * @private
+         * @method init
+         * @description The Resize class's initialization method
+         */
+        init: function (p_oElement, p_oAttributes) {
             YAHOO.log('init', 'info', 'Resize');
             this._locked = false;
             this._cache = {
@@ -1257,7 +1287,7 @@ var D = YAHOO.util.Dom,
                     this.set('width', parseInt(this.get('element').offsetWidth, 10));
                 }
             }
-            
+
             var id = p_oElement;
             if (!Lang.isString(id)) {
                 id = D.generateId(id);
@@ -1265,72 +1295,72 @@ var D = YAHOO.util.Dom,
             Resize._instances[id] = this;
 
             this._active = false;
-            
+
             this._createWrap();
             this._createProxy();
             this._createHandles();
 
         },
         /**
-        * @method getProxyEl
-        * @description Get the HTML reference for the proxy, returns null if no proxy.
-        * @return {HTMLElement} The proxy element
-        */      
-        getProxyEl: function() {
+         * @method getProxyEl
+         * @description Get the HTML reference for the proxy, returns null if no proxy.
+         * @return {HTMLElement} The proxy element
+         */
+        getProxyEl: function () {
             return this._proxy;
         },
         /**
-        * @method getWrapEl
-        * @description Get the HTML reference for the wrap element, returns the current element if not wrapped.
-        * @return {HTMLElement} The wrap element
-        */      
-        getWrapEl: function() {
+         * @method getWrapEl
+         * @description Get the HTML reference for the wrap element, returns the current element if not wrapped.
+         * @return {HTMLElement} The wrap element
+         */
+        getWrapEl: function () {
             return this._wrap;
         },
         /**
-        * @method getStatusEl
-        * @description Get the HTML reference for the status element.
-        * @return {HTMLElement} The status element
-        */      
-        getStatusEl: function() {
+         * @method getStatusEl
+         * @description Get the HTML reference for the status element.
+         * @return {HTMLElement} The status element
+         */
+        getStatusEl: function () {
             return this._status;
         },
         /**
-        * @method getActiveHandleEl
-        * @description Get the HTML reference for the currently active resize handle.
-        * @return {HTMLElement} The handle element that is active
-        */      
-        getActiveHandleEl: function() {
+         * @method getActiveHandleEl
+         * @description Get the HTML reference for the currently active resize handle.
+         * @return {HTMLElement} The handle element that is active
+         */
+        getActiveHandleEl: function () {
             return this._handles[this._currentHandle];
         },
         /**
-        * @method isActive
-        * @description Returns true or false if a resize operation is currently active on the element.
-        * @return {Boolean}
-        */      
-        isActive: function() {
+         * @method isActive
+         * @description Returns true or false if a resize operation is currently active on the element.
+         * @return {Boolean}
+         */
+        isActive: function () {
             return ((this._active) ? true : false);
         },
         /**
-        * @private
-        * @method initAttributes
-        * @description Initializes all of the configuration attributes used to create a resizable element.
-        * @param {Object} attr Object literal specifying a set of 
-        * configuration attributes used to create the utility.
-        */      
-        initAttributes: function(attr) {
+         * @private
+         * @method initAttributes
+         * @description Initializes all of the configuration attributes used to create a resizable element.
+         * @param {Object} attr Object literal specifying a set of
+         * configuration attributes used to create the utility.
+         */
+        initAttributes: function (attr) {
             Resize.superclass.initAttributes.call(this, attr);
 
             /**
-            * @attribute useShim
-            * @description This setting will be passed to the DragDrop instances on the resize handles and for the draggable property.
-            * This property should be used if you want the resize handles to work over iframe and other elements.
-            * @type Boolean
-            */
+             * @attribute useShim
+             * @description This setting will be passed to the DragDrop instances on the resize handles and for the draggable property.
+             * This property should be used if you want the resize handles to work over iframe and other elements.
+             * @type Boolean
+             */
             this.setAttributeConfig('useShim', {
                 value: ((attr.useShim === true) ? true : false),
                 validator: YAHOO.lang.isBoolean,
-                method: function(u) {
+                method: function (u) {
                     for (var i in this._dds) {
                         if (Lang.hasOwnProperty(this._dds, i)) {
                             this._dds[i].useShim = u;
@@ -1342,22 +1372,22 @@ var D = YAHOO.util.Dom,
                 }
             });
             /**
-            * @attribute setSize
-            * @description Set the size of the resized element, if set to false the element will not be auto resized,
-            * the resize event will contain the dimensions so the end user can resize it on their own.
-            * This setting will only work with proxy set to true and animate set to false.
-            * @type Boolean
-            */
+             * @attribute setSize
+             * @description Set the size of the resized element, if set to false the element will not be auto resized,
+             * the resize event will contain the dimensions so the end user can resize it on their own.
+             * This setting will only work with proxy set to true and animate set to false.
+             * @type Boolean
+             */
             this.setAttributeConfig('setSize', {
                 value: ((attr.setSize === false) ? false : true),
                 validator: YAHOO.lang.isBoolean
             });
 
             /**
-            * @attribute wrap
-            * @description Should we wrap the element
-            * @type Boolean
-            */
+             * @attribute wrap
+             * @description Should we wrap the element
+             * @type Boolean
+             */
             this.setAttributeConfig('wrap', {
                 writeOnce: true,
                 validator: YAHOO.lang.isBoolean,
@@ -1365,15 +1395,15 @@ var D = YAHOO.util.Dom,
             });
 
             /**
-            * @attribute handles
-            * @description The handles to use (any combination of): 't', 'b', 'r', 'l', 'bl', 'br', 'tl', 'tr'. Defaults to: ['r', 'b', 'br'].
-            * Can use a shortcut of All. Note: 8 way resizing should be done on an element that is absolutely positioned.
-            * @type Array
-            */
+             * @attribute handles
+             * @description The handles to use (any combination of): 't', 'b', 'r', 'l', 'bl', 'br', 'tl', 'tr'. Defaults to: ['r', 'b', 'br'].
+             * Can use a shortcut of All. Note: 8 way resizing should be done on an element that is absolutely positioned.
+             * @type Array
+             */
             this.setAttributeConfig('handles', {
                 writeOnce: true,
                 value: attr.handles || ['r', 'b', 'br'],
-                validator: function(handles) {
+                validator: function (handles) {
                     if (Lang.isString(handles) && handles.toLowerCase() == 'all') {
                         handles = ['t', 'b', 'r', 'l', 'bl', 'br', 'tl', 'tr'];
                     }
@@ -1386,14 +1416,14 @@ var D = YAHOO.util.Dom,
             });
 
             /**
-            * @attribute width
-            * @description The width of the element
-            * @type Number
-            */
+             * @attribute width
+             * @description The width of the element
+             * @type Number
+             */
             this.setAttributeConfig('width', {
                 value: attr.width || parseInt(this.getStyle('width'), 10),
                 validator: YAHOO.lang.isNumber,
-                method: function(width) {
+                method: function (width) {
                     width = parseInt(width, 10);
                     if (width > 0) {
                         if (this.get('setSize')) {
@@ -1406,14 +1436,14 @@ var D = YAHOO.util.Dom,
             });
 
             /**
-            * @attribute height
-            * @description The height of the element
-            * @type Number
-            */
+             * @attribute height
+             * @description The height of the element
+             * @type Number
+             */
             this.setAttributeConfig('height', {
                 value: attr.height || parseInt(this.getStyle('height'), 10),
                 validator: YAHOO.lang.isNumber,
-                method: function(height) {
+                method: function (height) {
                     height = parseInt(height, 10);
                     if (height > 0) {
                         if (this.get('setSize')) {
@@ -1426,103 +1456,103 @@ var D = YAHOO.util.Dom,
             });
 
             /**
-            * @attribute minWidth
-            * @description The minimum width of the element
-            * @type Number
-            */
+             * @attribute minWidth
+             * @description The minimum width of the element
+             * @type Number
+             */
             this.setAttributeConfig('minWidth', {
                 value: attr.minWidth || 15,
                 validator: YAHOO.lang.isNumber
             });
 
             /**
-            * @attribute minHeight
-            * @description The minimum height of the element
-            * @type Number
-            */
+             * @attribute minHeight
+             * @description The minimum height of the element
+             * @type Number
+             */
             this.setAttributeConfig('minHeight', {
                 value: attr.minHeight || 15,
                 validator: YAHOO.lang.isNumber
             });
 
             /**
-            * @attribute maxWidth
-            * @description The maximum width of the element
-            * @type Number
-            */
+             * @attribute maxWidth
+             * @description The maximum width of the element
+             * @type Number
+             */
             this.setAttributeConfig('maxWidth', {
                 value: attr.maxWidth || 10000,
                 validator: YAHOO.lang.isNumber
             });
 
             /**
-            * @attribute maxHeight
-            * @description The maximum height of the element
-            * @type Number
-            */
+             * @attribute maxHeight
+             * @description The maximum height of the element
+             * @type Number
+             */
             this.setAttributeConfig('maxHeight', {
                 value: attr.maxHeight || 10000,
                 validator: YAHOO.lang.isNumber
             });
 
             /**
-            * @attribute minY
-            * @description The minimum y coord of the element
-            * @type Number
-            */
+             * @attribute minY
+             * @description The minimum y coord of the element
+             * @type Number
+             */
             this.setAttributeConfig('minY', {
                 value: attr.minY || false
             });
 
             /**
-            * @attribute minX
-            * @description The minimum x coord of the element
-            * @type Number
-            */
+             * @attribute minX
+             * @description The minimum x coord of the element
+             * @type Number
+             */
             this.setAttributeConfig('minX', {
                 value: attr.minX || false
             });
             /**
-            * @attribute maxY
-            * @description The max y coord of the element
-            * @type Number
-            */
+             * @attribute maxY
+             * @description The max y coord of the element
+             * @type Number
+             */
             this.setAttributeConfig('maxY', {
                 value: attr.maxY || false
             });
 
             /**
-            * @attribute maxX
-            * @description The max x coord of the element
-            * @type Number
-            */
+             * @attribute maxX
+             * @description The max x coord of the element
+             * @type Number
+             */
             this.setAttributeConfig('maxX', {
                 value: attr.maxX || false
             });
 
             /**
-            * @attribute animate
-            * @description Should be use animation to resize the element (can only be used if we use proxy).
-            * @type Boolean
-            */
+             * @attribute animate
+             * @description Should be use animation to resize the element (can only be used if we use proxy).
+             * @type Boolean
+             */
             this.setAttributeConfig('animate', {
                 value: attr.animate || false,
-                validator: function(value) {
+                validator: function (value) {
                     var ret = true;
                     if (!YAHOO.util.Anim) {
                         ret = false;
                     }
                     return ret;
-                }               
+                }
             });
 
             /**
-            * @attribute animateEasing
-            * @description The Easing to apply to the animation.
-            * @type Object
-            */
+             * @attribute animateEasing
+             * @description The Easing to apply to the animation.
+             * @type Object
+             */
             this.setAttributeConfig('animateEasing', {
-                value: attr.animateEasing || function() {
+                value: attr.animateEasing || function () {
                     var easing = false;
                     if (YAHOO.util.Easing && YAHOO.util.Easing.easeOut) {
                         easing = YAHOO.util.Easing.easeOut;
@@ -1532,53 +1562,53 @@ var D = YAHOO.util.Dom,
             });
 
             /**
-            * @attribute animateDuration
-            * @description The Duration to apply to the animation.
-            * @type Number
-            */
+             * @attribute animateDuration
+             * @description The Duration to apply to the animation.
+             * @type Number
+             */
             this.setAttributeConfig('animateDuration', {
                 value: attr.animateDuration || 0.5
             });
 
             /**
-            * @attribute proxy
-            * @description Resize a proxy element instead of the real element.
-            * @type Boolean
-            */
+             * @attribute proxy
+             * @description Resize a proxy element instead of the real element.
+             * @type Boolean
+             */
             this.setAttributeConfig('proxy', {
                 value: attr.proxy || false,
                 validator: YAHOO.lang.isBoolean
             });
 
             /**
-            * @attribute ratio
-            * @description Maintain the element's ratio when resizing.
-            * @type Boolean
-            */
+             * @attribute ratio
+             * @description Maintain the element's ratio when resizing.
+             * @type Boolean
+             */
             this.setAttributeConfig('ratio', {
                 value: attr.ratio || false,
                 validator: YAHOO.lang.isBoolean
             });
 
             /**
-            * @attribute ghost
-            * @description Apply an opacity filter to the element being resized (only works with proxy).
-            * @type Boolean
-            */
+             * @attribute ghost
+             * @description Apply an opacity filter to the element being resized (only works with proxy).
+             * @type Boolean
+             */
             this.setAttributeConfig('ghost', {
                 value: attr.ghost || false,
                 validator: YAHOO.lang.isBoolean
             });
 
             /**
-            * @attribute draggable
-            * @description A convienence method to make the element draggable
-            * @type Boolean
-            */
+             * @attribute draggable
+             * @description A convienence method to make the element draggable
+             * @type Boolean
+             */
             this.setAttributeConfig('draggable', {
                 value: attr.draggable || false,
                 validator: YAHOO.lang.isBoolean,
-                method: function(dd) {
+                method: function (dd) {
                     if (dd && this._wrap && !this.dd) {
                         this._setupDragDrop();
                     } else {
@@ -1597,68 +1627,68 @@ var D = YAHOO.util.Dom,
             });
 
             /**
-            * @attribute hover
-            * @description Only show the handles when they are being moused over.
-            * @type Boolean
-            */
+             * @attribute hover
+             * @description Only show the handles when they are being moused over.
+             * @type Boolean
+             */
             this.setAttributeConfig('hover', {
                 value: attr.hover || false,
                 validator: YAHOO.lang.isBoolean
             });
 
             /**
-            * @attribute hiddenHandles
-            * @description Don't show the handles, just use the cursor to the user.
-            * @type Boolean
-            */
+             * @attribute hiddenHandles
+             * @description Don't show the handles, just use the cursor to the user.
+             * @type Boolean
+             */
             this.setAttributeConfig('hiddenHandles', {
                 value: attr.hiddenHandles || false,
                 validator: YAHOO.lang.isBoolean
             });
 
             /**
-            * @attribute knobHandles
-            * @description Use the smaller handles, instead if the full size handles.
-            * @type Boolean
-            */
+             * @attribute knobHandles
+             * @description Use the smaller handles, instead if the full size handles.
+             * @type Boolean
+             */
             this.setAttributeConfig('knobHandles', {
                 value: attr.knobHandles || false,
                 validator: YAHOO.lang.isBoolean
             });
 
             /**
-            * @attribute xTicks
-            * @description The number of x ticks to span the resize to.
-            * @type Number or False
-            */
+             * @attribute xTicks
+             * @description The number of x ticks to span the resize to.
+             * @type Number or False
+             */
             this.setAttributeConfig('xTicks', {
                 value: attr.xTicks || false
             });
 
             /**
-            * @attribute yTicks
-            * @description The number of y ticks to span the resize to.
-            * @type Number or False
-            */
+             * @attribute yTicks
+             * @description The number of y ticks to span the resize to.
+             * @type Number or False
+             */
             this.setAttributeConfig('yTicks', {
                 value: attr.yTicks || false
             });
 
             /**
-            * @attribute status
-            * @description Show the status (new size) of the resize.
-            * @type Boolean
-            */
+             * @attribute status
+             * @description Show the status (new size) of the resize.
+             * @type Boolean
+             */
             this.setAttributeConfig('status', {
                 value: attr.status || false,
                 validator: YAHOO.lang.isBoolean
             });
 
             /**
-            * @attribute autoRatio
-            * @description Using the shift key during a resize will toggle the ratio config.
-            * @type Boolean
-            */
+             * @attribute autoRatio
+             * @description Using the shift key during a resize will toggle the ratio config.
+             * @type Boolean
+             */
             this.setAttributeConfig('autoRatio', {
                 value: attr.autoRatio || false,
                 validator: YAHOO.lang.isBoolean
@@ -1666,10 +1696,10 @@ var D = YAHOO.util.Dom,
 
         },
         /**
-        * @method destroy
-        * @description Destroys the resize object and all of it's elements & listeners.
-        */        
-        destroy: function() {
+         * @method destroy
+         * @description Destroys the resize object and all of it's elements & listeners.
+         */
+        destroy: function () {
             YAHOO.log('Destroying Resize', 'info', 'Resize');
             for (var h in this._handles) {
                 if (Lang.hasOwnProperty(this._handles, h)) {
@@ -1690,7 +1720,7 @@ var D = YAHOO.util.Dom,
             if (this._wrap != this.get('element')) {
                 this.setStyle('position', (this._positioned ? 'absolute' : 'relative'));
                 this.setStyle('top', D.getStyle(this._wrap, 'top'));
-                this.setStyle('left',D.getStyle(this._wrap, 'left'));
+                this.setStyle('left', D.getStyle(this._wrap, 'left'));
                 this._wrap.parentNode.replaceChild(this.get('element'), this._wrap);
             }
             this.removeClass(this.CSS_RESIZE);
@@ -1705,11 +1735,11 @@ var D = YAHOO.util.Dom,
             }
         },
         /**
-        * @method toString
-        * @description Returns a string representing the Resize Object.
-        * @return {String}
-        */        
-        toString: function() {
+         * @method toString
+         * @description Returns a string representing the Resize Object.
+         * @return {String}
+         */
+        toString: function () {
             if (this.get) {
                 return 'Resize (#' + this.get('id') + ')';
             }
@@ -1718,37 +1748,37 @@ var D = YAHOO.util.Dom,
     });
 
     YAHOO.util.Resize = Resize;
- 
-/**
-* @event dragEvent
-* @description Fires when the <a href="YAHOO.util.DragDrop.html">YAHOO.util.DragDrop</a> dragEvent is fired for the config option draggable.
-* @type YAHOO.util.CustomEvent
-*/
-/**
-* @event startResize
-* @description Fires when a resize action is started.
-* @type YAHOO.util.CustomEvent
-*/
-/**
-* @event endResize
-* @description Fires when the mouseUp event from the Drag Instance fires.
-* @type YAHOO.util.CustomEvent
-*/
-/**
-* @event resize
-* @description Fires on every element resize (only fires once when used with proxy config setting).
-* @type YAHOO.util.CustomEvent
-*/
-/**
-* @event beforeResize
-* @description Fires before every element resize after the size calculations, returning false will stop the resize.
-* @type YAHOO.util.CustomEvent
-*/
-/**
-* @event proxyResize
-* @description Fires on every proxy resize (only fires when used with proxy config setting).
-* @type YAHOO.util.CustomEvent
-*/
+
+    /**
+     * @event dragEvent
+     * @description Fires when the <a href="YAHOO.util.DragDrop.html">YAHOO.util.DragDrop</a> dragEvent is fired for the config option draggable.
+     * @type YAHOO.util.CustomEvent
+     */
+    /**
+     * @event startResize
+     * @description Fires when a resize action is started.
+     * @type YAHOO.util.CustomEvent
+     */
+    /**
+     * @event endResize
+     * @description Fires when the mouseUp event from the Drag Instance fires.
+     * @type YAHOO.util.CustomEvent
+     */
+    /**
+     * @event resize
+     * @description Fires on every element resize (only fires once when used with proxy config setting).
+     * @type YAHOO.util.CustomEvent
+     */
+    /**
+     * @event beforeResize
+     * @description Fires before every element resize after the size calculations, returning false will stop the resize.
+     * @type YAHOO.util.CustomEvent
+     */
+    /**
+     * @event proxyResize
+     * @description Fires on every proxy resize (only fires when used with proxy config setting).
+     * @type YAHOO.util.CustomEvent
+     */
 
 })();
 

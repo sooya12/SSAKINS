@@ -27,23 +27,24 @@
      * has an opacity of .2
      */
     0% {
-      opacity: .2;
+        opacity: .2;
     }
     /**
      * At 20% the dot is fully visible and
      * then fades out slowly
      */
     20% {
-      opacity: 1;
+        opacity: 1;
     }
     /**
      * Until it reaches an opacity of .2 and
      * the animation can start again
      */
     100% {
-      opacity: .2;
+        opacity: .2;
     }
 }
+
 .loading span {
     /**
      * Use the blink animation, which is defined above

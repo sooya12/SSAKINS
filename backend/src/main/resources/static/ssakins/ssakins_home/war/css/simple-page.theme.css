@@ -28,31 +28,31 @@
 @import "./simple-page-variables.css";
 
 html {
-  color: #4a4a4a;
-  color: var(--text-color);
+    color: #4a4a4a;
+    color: var(--text-color);
 }
 
 .simple-page .logo {
-  background-image: url('../images/jenkins.svg');
-  background-repeat: no-repeat;
-  background-position: 50% 0;
-  height: 130px;
+    background-image: url('../images/jenkins.svg');
+    background-repeat: no-repeat;
+    background-position: 50% 0;
+    height: 130px;
 }
 
 .simple-page form .submit input:hover {
-  background-color: #3fb3f7;
-  background-color: var(--focus);
-  border: solid 1px;
-  border-color: #3fb3f7;
-  border-color: var(--focus);
+    background-color: #3fb3f7;
+    background-color: var(--focus);
+    border: solid 1px;
+    border-color: #3fb3f7;
+    border-color: var(--focus);
 }
 
 .simple-page form .submit input {
-  background-color: #0b6aa2;
-  background-color: var(--btn-primary-bg);
-  border: solid 1px;
-  border-color: #0b6aa2;
-  border-color: var(--btn-primary-bg);
+    background-color: #0b6aa2;
+    background-color: var(--btn-primary-bg);
+    border: solid 1px;
+    border-color: #0b6aa2;
+    border-color: var(--btn-primary-bg);
 }
 
 .simple-page form .submit input:focus,
@@ -63,15 +63,15 @@ html {
     outline: 0;
 }
 
- .simple-page .danger {
-  border: 1px solid;
-  border-color: #c4000a;
-  border-color: var(--danger-color);
-  box-shadow: 0 0 1px #c4000a;
-  box-shadow: 0 0 1px var(--danger-color);
+.simple-page .danger {
+    border: 1px solid;
+    border-color: #c4000a;
+    border-color: var(--danger-color);
+    box-shadow: 0 0 1px #c4000a;
+    box-shadow: 0 0 1px var(--danger-color);
 }
 
 .simple-page .alert {
-  color: #c4000a;
-  color: var(--danger-color);
+    color: #c4000a;
+    color: var(--danger-color);
 }

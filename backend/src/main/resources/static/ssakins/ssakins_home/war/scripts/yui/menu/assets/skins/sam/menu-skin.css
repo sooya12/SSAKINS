@@ -8,8 +8,8 @@ version: 2.9.0
 
 .yui-skin-sam .yuimenubar {
 
-    font-size: 93%;  /* 12px */
-    line-height: 2;  /* ~24px */
+    font-size: 93%; /* 12px */
+    line-height: 2; /* ~24px */
     *line-height: 1.9; /* For IE */
     border: solid 1px #808080;
     background: url(../../../../assets/skins/sam/sprite.png) repeat-x 0 0;
@@ -41,7 +41,7 @@ version: 2.9.0
 
 .yui-skin-sam .yuimenubaritemlabel:visited {
 
-	color: #000;
+    color: #000;
 
 }
 
@@ -66,7 +66,6 @@ version: 2.9.0
 }
 
 
-
 /* MenuBarItem states */
 
 /* Selected MenuBarItem */
@@ -87,7 +86,7 @@ version: 2.9.0
 
     border-left-width: 1px;
     margin-left: -1px;
-    *left: -1px;    /* For IE */
+    *left: -1px; /* For IE */
 
 }
 
@@ -109,13 +108,12 @@ version: 2.9.0
 }
 
 
-
 /* Menu style rules */
 
 .yui-skin-sam .yuimenu {
 
-    font-size: 93%;  /* 12px */
-    line-height: 1.5;  /* 18px */
+    font-size: 93%; /* 12px */
+    line-height: 1.5; /* 18px */
     *line-height: 1.45; /* For IE */
 
 }
@@ -129,21 +127,21 @@ version: 2.9.0
 
 .yui-skin-sam .yuimenu .bd {
 
-	/*
-		The following application of zoom:1 prevents first tier submenus of a MenuBar from hiding 
-		when the mouse is moving from an item in a MenuBar to a submenu in IE 7.
-	*/
+    /*
+        The following application of zoom:1 prevents first tier submenus of a MenuBar from hiding
+        when the mouse is moving from an item in a MenuBar to a submenu in IE 7.
+    */
 
-	*zoom: 1;
-	_zoom: normal;	/* Remove this rule for IE 6. */
+    *zoom: 1;
+    _zoom: normal; /* Remove this rule for IE 6. */
     border: solid 1px #808080;
     background-color: #fff;
-    
+
 }
 
 .yui-skin-sam .yuimenu .yuimenu .bd {
 
-	*zoom: normal;
+    *zoom: normal;
 
 }
 
@@ -165,13 +163,13 @@ version: 2.9.0
 
 /* Group titles */
 
-.yui-skin-sam .yuimenu h6 { 
+.yui-skin-sam .yuimenu h6 {
 
     font-weight: bold;
     border-style: solid;
     border-color: #ccc;
     border-width: 1px 0 0 0;
-    color: #a4a4a4;    
+    color: #a4a4a4;
     padding: 3px 10px 0 10px;
 
 }
@@ -256,14 +254,14 @@ version: 2.9.0
 .yui-skin-sam .yuimenuitemlabel:visited {
 
     color: #000;
-	
+
 }
 
 .yui-skin-sam .yuimenuitemlabel .helptext {
 
     margin-top: -1.5em;
-    *margin-top: -1.45em;  /* For IE*/
-    
+    *margin-top: -1.45em; /* For IE*/
+
 }
 
 .yui-skin-sam .yuimenuitem-hassubmenu {
@@ -298,10 +296,9 @@ version: 2.9.0
     */
 
     opacity: .12;
-    filter: alpha(opacity=12);  /* For IE */
+    filter: alpha(opacity=12); /* For IE */
 
 }
-
 
 
 /* MenuItem states */

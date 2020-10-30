@@ -7,9 +7,9 @@
  *
  * Licensed under the MIT License.
  */
-(function($) {
+(function ($) {
 
-    var BECAME_VISIBLE_MESSAGE   = 'becameVisible';
+    var BECAME_VISIBLE_MESSAGE = 'becameVisible';
     var BECAME_UNVISIBLE_MESSAGE = 'becameUnvisible';
 
     var unvisibleSet = [];
@@ -40,7 +40,7 @@
     }
 
     function initUnvisibleSet(element) {
-        element.childNodes.forEach(function(child) {
+        element.childNodes.forEach(function (child) {
             if (!isVisible(child)) {
                 sendMessage(child, BECAME_UNVISIBLE_MESSAGE);
 
@@ -60,7 +60,7 @@
     function sendTreeMessage(element, msg) {
         sendMessage(element, msg);
 
-        element.childNodes.forEach(function(child) {
+        element.childNodes.forEach(function (child) {
             sendTreeMessage(child, msg);
         });
     }
@@ -89,10 +89,10 @@
         var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
 
         // Create an observer instance.
-        var observer = new MutationObserver(function(mutations) {
-            mutations.map(function(mutation) {
+        var observer = new MutationObserver(function (mutations) {
+            mutations.map(function (mutation) {
                 return mutation.target;
-            }).forEach(function(element) {
+            }).forEach(function (element) {
                 if (inUnvisibleSet(element)) {
                     if (isVisible(element)) {
                         becameVisible(element);
@@ -107,20 +107,20 @@
 
         // Configuration of the observer.
         var config = {
-            childList:              false,
-            attributes:             true,
-            characterData:          false,
-            subtree:                true,
-            attributeOldValue:      false,
-            characterDataOldValue:  false,
-            attributeFilter:        ['class', 'style']
+            childList: false,
+            attributes: true,
+            characterData: false,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: false,
+            attributeFilter: ['class', 'style']
         };
 
         // Pass in the target element, as well as the observer options.
         observer.observe(target, config);
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         initUnvisibleSet(document.getElementsByTagName('body')[0]);
 
         bindVisibleUnvisible();
