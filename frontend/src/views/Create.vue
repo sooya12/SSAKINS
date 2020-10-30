@@ -18,17 +18,11 @@
             <td class="text-left font15">설정 내용</td>
             <td>
               <div id="content" class="font15">
-              컴포넌트들이 들어갈 자리입니다.
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
+                <v-checkbox v-model="checkSpring" label="Spring" hide-details=""></v-checkbox>
+                <spring v-if="checkSpring"></spring>
+                
+                <v-checkbox v-model="checkVuejs" label="Vue.js" hide-details=""></v-checkbox>
+                <vuejs v-if="checkVuejs"></vuejs>
               </div>
             </td>
           </tr>
@@ -42,13 +36,21 @@
 </template>
 
 <script>
+import Spring from '@/components/Spring.vue'
+import Vuejs from '@/components/Vuejs.vue'
+
 export default {
   name: 'Create',
   data() {
     return {
       name: 'SSAKINS 1차 CI/CD 설정',
-    
+      checkSpring: false,
+      checkVuejs: false
     }
+  },
+  components: {
+    Spring,
+    Vuejs
   }
 }
 </script>
