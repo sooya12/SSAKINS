@@ -2,6 +2,7 @@ package com.ssafy.ssakins.controller;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternUtils;
@@ -17,9 +18,10 @@ import java.util.zip.ZipOutputStream;
 
 @RestController(value = "/download")
 public class DownloadController {
+
     private ResourceLoader resourceLoader;
-    @Autowired
-    public DownloadController(ResourceLoader resourceLoader){
+
+    public DownloadController(@Qualifier("webApplicationContext") ResourceLoader resourceLoader){
         this.resourceLoader=resourceLoader;
     }
 
