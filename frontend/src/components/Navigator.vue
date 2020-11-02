@@ -1,6 +1,6 @@
 <template>
-     <v-card>
-            <!-- <v-list-item>
+  <v-card>
+    <!-- <v-list-item>
                 <v-list-item-content>
                     <v-list-item-title class="title">
                         Application
@@ -13,53 +13,62 @@
 
             <v-divider></v-divider> -->
 
-            <v-list dense="dense" nav="nav">
-                <v-list-item v-for="item in items" :key="item.title" link="link">
-                    <v-list-item-icon>
-                        <v-icon>{{ item.icon }}</v-icon>
-                    </v-list-item-icon>
+    <v-list dense="dense" nav="nav">
+      <v-list-item v-for="item in items" :key="item.title" link="link">
+        <v-list-item-icon>
+          <v-icon>{{ item.icon }}</v-icon>
+        </v-list-item-icon>
 
-                    <v-list-item-content>
-                        <v-list-item-title @click="goInfo">{{ item.title }} </v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-            </v-list>
-    </v-card>
+        <v-list-item-content>
+          <v-list-item-title @click="go(item.value)"
+            >{{ item.title }}
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
+  </v-card>
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                items: [
-                    {
-                        title: 'SSAKINS 안내',
-                        icon: 'mdi-view-dashboard'
-                    }, {
-                        title: 'SSAKINS 사용법',
-                        icon: 'mdi-image'
-                    }, {
-                        title: 'SSAKINS 문의',
-                        icon: 'mdi-help-box'
-                    }, {
-                        title: 'SSAKINS 이용약관',
-                        icon: 'mdi-help-box'
-                    }, {
-                        title: '개발자를 위한 쉼터',
-                        icon: 'mdi-help-box'
-                    }
-                ],
-                right: null
-            }
+export default {
+  data() {
+    return {
+      items: [
+        {
+          title: "SSAKINS 안내",
+          icon: "mdi-information-outline",
+          value: "notice",
         },
-        methods : {
-          goInfo() {
-            this.$router.push('/notice')
-          }
-        }
-    }
+        {
+          title: "SSAKINS 사용법",
+          icon: "mdi-image",
+          value: "info",
+        },
+        {
+          title: "SSAKINS 문의",
+          icon: "mdi-help-box",
+          value: "info",
+        },
+        {
+          title: "SSAKINS 이용약관",
+          icon: "mdi-help-box",
+          value: "info",
+        },
+        {
+          title: "개발자를 위한 쉼터",
+          icon: "mdi-gamepad-variant",
+          value: "game",
+        },
+      ],
+      right: null,
+    };
+  },
+  methods: {
+    go(value) {
+      this.$router.push(value);
+    },
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
