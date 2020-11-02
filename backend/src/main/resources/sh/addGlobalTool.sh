@@ -1,4 +1,4 @@
-touch hudson.tasks.Maven.xml
+touch /var/jenkins_home/hudson.tasks.Maven.xml
 echo "<?xml version='1.1' encoding='UTF-8'?>
       <hudson.tasks.Maven_-DescriptorImpl>
           <installations>
@@ -15,9 +15,9 @@ echo "<?xml version='1.1' encoding='UTF-8'?>
                   </properties>
               </hudson.tasks.Maven_-MavenInstallation>
           </installations>
-      </hudson.tasks.Maven_-DescriptorImpl>" > hudson.tasks.Maven.xml
+      </hudson.tasks.Maven_-DescriptorImpl>" > /var/jenkins_home/hudson.tasks.Maven.xml
 
-touch jenkins.plugins.nodejs.tools.NodeJSInstallation.xml
+touch /var/jenkins_home/jenkins.plugins.nodejs.tools.NodeJSInstallation.xml
 echo "  <?xml version='1.1' encoding='UTF-8'?>
         <jenkins.plugins.nodejs.tools.NodeJSInstallation_-DescriptorImpl plugin="nodejs@1.3.9">
             <installations class="jenkins.plugins.nodejs.tools.NodeJSInstallation-array">
@@ -40,4 +40,4 @@ echo "  <?xml version='1.1' encoding='UTF-8'?>
                     </properties>
                 </jenkins.plugins.nodejs.tools.NodeJSInstallation>
             </installations>
-        </jenkins.plugins.nodejs.tools.NodeJSInstallation_-DescriptorImpl>" > jenkins.plugins.nodejs.tools.NodeJSInstallation.xml
+        </jenkins.plugins.nodejs.tools.NodeJSInstallation_-DescriptorImpl>" > /var/jenkins_home/jenkins.plugins.nodejs.tools.NodeJSInstallation.xml
