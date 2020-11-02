@@ -15,14 +15,103 @@
             </td>
           </tr>
           <tr>
-            <td class="text-left font15">설정 내용</td>
-            <td>
-              <div id="content" class="font15">
+            <td class="text-left font15" style="vertical-align: top"><br>설정 내용</td>
+            <td class="text-left font15">
+              <div id="content" class="font15" >
+                <div style="margin: 1vw">
+                  <h3>Credential</h3>
+                  <div style="margin: 2vw;" v-for="(credential, index) in credentials" :key="index">
+                    <div v-show="credential.kind=='Username_with_password'">
+                      Kind<v-text-field
+                      v-model="credential.kind"
+                      disabled
+                      ></v-text-field>
+                      ID<v-text-field
+                      v-model="credential.id"
+                      :rules="[rules.required]"
+                      ></v-text-field>
+                      Username<v-text-field
+                      v-model="credential.username"
+                      :rules="[rules.required]"
+                      ></v-text-field>
+                      Password<v-text-field
+                      v-model="credential.password"
+                      :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" 
+                      :rules="[rules.required, rules.min]" 
+                      :type="show1 ? 'text' : 'password'"
+                      @click:append="show1 = !show1"
+                      ></v-text-field>
+                    </div>
+                    <div v-show="credential.kind=='GitHup_App'">
+                      Kind<v-text-field
+                      v-model="credential.kind"
+                      disabled
+                      ></v-text-field>
+                      ID<v-text-field
+                      v-model="credential.id"
+                      :rules="[rules.required]"
+                      ></v-text-field>
+                      App ID<v-text-field
+                      v-model="credential.appID"
+                      :rules="[rules.required]"
+                      ></v-text-field>
+                      Key<v-textarea
+                      v-model="credential.key" 
+                      :rules="[rules.required]"
+                      background-color="blue-grey lighten-4"
+                      ></v-textarea>
+                    </div>
+                    <div v-show="credential.kind=='GitLap_API_token'">
+                      Kind<v-text-field
+                      v-model="credential.kind"
+                      disabled
+                      ></v-text-field>
+                      ID<v-text-field
+                      v-model="credential.id"
+                      :rules="[rules.required]"
+                      ></v-text-field>
+                      API token<v-text-field
+                      v-model="credential.apiKey"
+                      :rules="[rules.required]"
+                      ></v-text-field>
+                    </div>
+                    <div v-show="credential.kind=='SSH_Username_with_private_key'">
+                      Kind<v-text-field
+                      v-model="credential.kind"
+                      disabled
+                      ></v-text-field>
+                      ID<v-text-field
+                      v-model="credential.id"
+                      :rules="[rules.required]"
+                      ></v-text-field>
+                      Username<v-text-field
+                      v-model="credential.username"
+                      :rules="[rules.required]"
+                      ></v-text-field>
+                      Key<v-textarea
+                      v-model="credential.key"
+                      :rules="[rules.required]"
+                      background-color="blue-grey lighten-4"
+                      ></v-textarea>
+                      Passphrase<v-text-field
+                      v-model="credential.key"
+                      :rules="[rules.required]"
+                      ></v-text-field>
+                    </div>
+                    <v-btn @click="removeCredential(index)">X</v-btn>
+                  </div>
+                  <div v-for="item in credentialForms" :key="item">
+                    <credential-form v-on:update="save"></credential-form>
+                  </div>
+                  <v-btn v-if="credentialForms.length==0" @click="toggleCredentialForm">+</v-btn>
+                  <v-btn v-if="credentialForms.length==1" @click="toggleCredentialForm">-</v-btn>
+                </div>
+
                 <v-checkbox v-model="checkSpring" label="Spring" hide-details=""></v-checkbox>
-                <spring v-if="checkSpring"></spring>
+                <spring v-show="checkSpring"></spring>
                 
                 <v-checkbox v-model="checkVuejs" label="Vue.js" hide-details=""></v-checkbox>
-                <vuejs v-if="checkVuejs"></vuejs>
+                <vuejs v-show="checkVuejs"></vuejs>
               </div>
             </td>
           </tr>
@@ -38,6 +127,7 @@
 <script>
 import Spring from '@/components/Spring.vue'
 import Vuejs from '@/components/Vuejs.vue'
+import CredentialForm from '@/components/CredentialForm.vue'
 
 export default {
   name: 'Create',
@@ -45,12 +135,37 @@ export default {
     return {
       name: 'SSAKINS 1차 CI/CD 설정',
       checkSpring: false,
-      checkVuejs: false
+      checkVuejs: false,
+      credentials: [],
+      credentialForms: [],
+
+      show1: false,
+      rules: {
+        required: value => !!value || 'Required.',
+        min: v => v.length >= 8 || 'Min 8 characters',
+      },
+
     }
   },
   components: {
     Spring,
-    Vuejs
+    Vuejs,
+    CredentialForm
+  },
+  methods: {
+    toggleCredentialForm: function() {
+      if(this.credentialForms.length==0)
+        this.credentialForms.push('CredentialForm')
+      else
+        this.credentialForms.pop()
+    },
+    removeCredential: function(index) {
+      this.credentials.splice(index, 1)
+    },
+    save: function(credential) {
+      this.credentialForms.pop()
+      this.credentials.push(credential)
+    } 
   }
 }
 </script>
