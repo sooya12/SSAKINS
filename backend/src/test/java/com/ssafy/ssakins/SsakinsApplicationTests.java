@@ -23,19 +23,19 @@ class SsakinsApplicationTests {
             System.out.println(account.get().toString());
         }
 
-        Assert.isNull(accountRepository.findByEmail("a@b.com").get(),"null이 아니다");
+        Assert.notNull(accountRepository.findByEmail("a@b.com"),"null이 아니다");
     }
 
-    @Test
-    void findByEmail2(){
-        Optional<Account> account = accountRepository.findByEmail("a@a.com");
-
-        if(account.isPresent()){
-            System.out.println(account.get().toString());
-        }
-
-        Assert.notNull(accountRepository.findByEmail("a@a.com").get(),"있다");
-    }
+//    @Test
+//    void findByEmail2(){
+//        Optional<Account> account = accountRepository.findByEmail("a@a.com");
+//
+//        if(account.isPresent()){
+//            System.out.println(account.get().toString());
+//        }
+//
+//        Assert.notNull(accountRepository.findByEmail("a@a.com").get(),"있다");
+//    }
 
 //    @Test
 //    void saveTest() {
