@@ -16,8 +16,7 @@ public class Credential {
     private String name;
     private String id;
     private String password;
-    private String appKey;
-    private String APIKey;
+    private String apiKey;
     private String appID;
     private String key;
     private String username;
