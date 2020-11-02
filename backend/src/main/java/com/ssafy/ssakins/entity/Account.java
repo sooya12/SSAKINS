@@ -1,40 +1,42 @@
 package com.ssafy.ssakins.entity;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
-@Document(collation = "account")
+@Builder
 @Getter
-@Setter
+@Document(collection = "account")
 public class Account {
-    @Id
-    private int id;
+
 
     private String email;
 
     private String name;
 
-    private Date regdate;
+    private List<Project> projects;
 
-    public Account() {}
 
-    public Account(int id, String email, String name) {
-        this.id = id;
-        this.email = email;
-        this.name = name;
+    public void addProject(Project project){
+        getProjectsInternal().add(project);
+    }
+
+    private List<Project> getProjectsInternal(){
+        if(this.projects==null){
+            this.projects=new ArrayList<>();
+        }
+        return this.projects;
     }
 
     @Override
     public String toString() {
         return "Account{" +
-                "id='" + id + '\'' +
-                ", email='" + email + '\'' +
+                "email='" + email + '\'' +
                 ", name='" + name + '\'' +
-                ", regdate=" + regdate +
+                ", projects=" + projects +
                 '}';
     }
 }
