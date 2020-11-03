@@ -1,0 +1,201 @@
+<!--mkdir [item 명]-->
+
+<!--item 안에
+builds/legacyIds 파일 생성-->
+
+<!--config.xml-->
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+  <keepDependencies>false</keepDependencies>
+  <properties/> <!-- 1 -->
+  <scm class="hudson.scm.NullSCM"/> <!-- 2 -->
+  <canRoam>false</canRoam> <!-- 3 -->
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/> <!-- 4 -->
+  <concurrentBuild>false</concurrentBuild>
+  <builders/> <!-- 5 -->
+  <publishers/> <!-- 6 -->
+  <buildWrappers/> <!-- 7 -->
+</project>
+
+<!-- 1. General - Github project-->
+<properties>
+    <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.31.0">
+        <!--<projectUrl>https://github.com/phm0127/CICD-Test/</projectUrl>-->
+        <projectUrl>[깃허브 주소]/레파지토리/</projectUrl>
+        <displayName></displayName>
+    </com.coravy.hudson.plugins.github.GithubProjectProperty>
+    <com.dabsquared.gitlabjenkins.connection.GitLabConnectionProperty plugin="gitlab-plugin@1.5.13">
+        <gitLabConnection></gitLabConnection>
+    </com.dabsquared.gitlabjenkins.connection.GitLabConnectionProperty>
+</properties>
+
+<!-- 2. 소스 코드 관리 - Git-->
+<scm class="hudson.plugins.git.GitSCM" plugin="git@4.4.4">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+        <hudson.plugins.git.UserRemoteConfig>
+            <!-- <url>https://github.com/phm0127/CICD-Test.git</url>
+            <credentialsId>github</credentialsId> -->
+            <url>[깃허브 주소]/레파지토리.git</url>
+            <credentialsId>[크레덴셜 아이디]</credentialsId>
+        </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+        <hudson.plugins.git.BranchSpec>
+            <name>*/master</name>
+        </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="list"/>
+    <extensions/>
+</scm>
+
+<!-- 3. 뭔지 모르겠다 -->
+<canRoam>true</canRoam>
+
+<!-- 4. Trigger인데 뭔지 모르겠다 -->
+<triggers>
+<com.dabsquared.gitlabjenkins.GitLabPushTrigger plugin="gitlab-plugin@1.5.13">
+    <spec></spec>
+    <triggerOnPush>true</triggerOnPush>
+    <triggerOnMergeRequest>true</triggerOnMergeRequest>
+    <triggerOnPipelineEvent>false</triggerOnPipelineEvent>
+    <triggerOnAcceptedMergeRequest>false</triggerOnAcceptedMergeRequest>
+    <triggerOnClosedMergeRequest>false</triggerOnClosedMergeRequest>
+    <triggerOnApprovedMergeRequest>true</triggerOnApprovedMergeRequest>
+    <triggerOpenMergeRequestOnPush>never</triggerOpenMergeRequestOnPush>
+    <triggerOnNoteRequest>true</triggerOnNoteRequest>
+    <noteRegex>Jenkins please retry a build</noteRegex>
+    <ciSkip>true</ciSkip>
+    <skipWorkInProgressMergeRequest>true</skipWorkInProgressMergeRequest>
+    <setBuildDescription>true</setBuildDescription>
+    <branchFilterType>All</branchFilterType>
+    <includeBranchesSpec></includeBranchesSpec>
+    <excludeBranchesSpec></excludeBranchesSpec>
+    <sourceBranchRegex></sourceBranchRegex>
+    <targetBranchRegex></targetBranchRegex>
+    <!--<secretToken>{AQAAABAAAAAQdzNzAhZcWSuhTGYUsFsUo7+f/gLZiu2VvghaQ1yyE2k=}</secretToken>-->
+    <secretToken>[시크릿토큰인데 뭔지 모르겠다]</secretToken>
+    <pendingBuildName></pendingBuildName>
+    <cancelPendingBuildsOnUpdate>false</cancelPendingBuildsOnUpdate>
+</com.dabsquared.gitlabjenkins.GitLabPushTrigger>
+<com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.31.0">
+    <spec></spec>
+</com.cloudbees.jenkins.GitHubPushTrigger>
+</triggers>
+
+<!-- 5. Build -->
+<builders>
+<hudson.tasks.Maven>
+    <targets>package</targets>
+    <mavenName>maven</mavenName>
+    <!--<pom>backend/pom.xml</pom>-->
+    <pom>[pom.xml 경로]</pom>
+    <usePrivateRepository>false</usePrivateRepository>
+    <settings class="jenkins.mvn.DefaultSettingsProvider"/>
+    <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
+    <injectBuildVariables>false</injectBuildVariables>
+</hudson.tasks.Maven>
+<hudson.tasks.Shell>
+    <!--<command>cd frontend
+        npm install
+        npm run build</command>-->
+    <command>[커맨드]</command>
+    <configuredLocalRules/>
+</hudson.tasks.Shell>
+<hudson.tasks.Shell>
+    <!--<command>echo &quot;spring.datasource.driverClassName=com.mysql.cj.jdbc.Driver
+        spring.datasource.url=jdbc:mysql://34.192.35.57:3306/blockchallen?allowPublicKeyRetrieval=true&amp;useSSL=false
+        spring.datasource.username=root
+        spring.datasource.password=ssafy
+        spring.jpa.hibernate.ddl-auto=update&quot; &gt; backend/src/main/resources/application.properties
+    </command>-->
+    <command>
+        [application.properties 내용을 어디 집어넣는다]
+    </command>
+    <configuredLocalRules/>
+</hudson.tasks.Shell>
+</builders>
+
+<!-- 6. 빌드 후 조치 -->
+<publishers>
+<jenkins.plugins.publish__over__ssh.BapSshPublisherPlugin plugin="publish-over-ssh@1.20.1">
+    <consolePrefix>SSH: </consolePrefix>
+    <delegate plugin="publish-over@0.22">
+        <publishers>
+            <jenkins.plugins.publish__over__ssh.BapSshPublisher plugin="publish-over-ssh@1.20.1">
+                <configName>NaverCloud</configName>
+                <verbose>false</verbose>
+                <transfers>
+                    <!--<jenkins.plugins.publish__over__ssh.BapSshTransfer>
+                        <remoteDirectory>deploy</remoteDirectory>
+                        <sourceFiles>frontend/dist/</sourceFiles>
+                        <excludes></excludes>
+                        <removePrefix>frontend/</removePrefix>
+                        <remoteDirectorySDF>false</remoteDirectorySDF>
+                        <flatten>false</flatten>
+                        <cleanRemote>false</cleanRemote>
+                        <noDefaultExcludes>false</noDefaultExcludes>
+                        <makeEmptyDirs>false</makeEmptyDirs>
+                        <patternSeparator>[, ]+</patternSeparator>
+                        <execCommand>sh ~/deploy/front.sh</execCommand>
+                        <execTimeout>120000</execTimeout>
+                        <usePty>false</usePty>
+                        <useAgentForwarding>false</useAgentForwarding>
+                    </jenkins.plugins.publish__over__ssh.BapSshTransfer>
+                    <jenkins.plugins.publish__over__ssh.BapSshTransfer>
+                        <remoteDirectory>deploy</remoteDirectory>
+                        <sourceFiles>backend/target/*.jar</sourceFiles>
+                        <excludes></excludes>
+                        <removePrefix>backend/target</removePrefix>
+                        <remoteDirectorySDF>false</remoteDirectorySDF>
+                        <flatten>false</flatten>
+                        <cleanRemote>false</cleanRemote>
+                        <noDefaultExcludes>false</noDefaultExcludes>
+                        <makeEmptyDirs>false</makeEmptyDirs>
+                        <patternSeparator>[, ]+</patternSeparator>
+                        <execCommand>touch backgood</execCommand>
+                        <execTimeout>120000</execTimeout>
+                        <usePty>false</usePty>
+                        <useAgentForwarding>false</useAgentForwarding>
+                    </jenkins.plugins.publish__over__ssh.BapSshTransfer>-->
+                    <jenkins.plugins.publish__over__ssh.BapSshTransfer>
+                        <remoteDirectory>[빌드 파일 올릴 docker 경로]</remoteDirectory>
+                        <sourceFiles>[.jar, target/ 경로]</sourceFiles>
+                        <excludes></excludes>
+                        <removePrefix>[프리픽스 제거]</removePrefix>
+                        <remoteDirectorySDF>false</remoteDirectorySDF>
+                        <flatten>false</flatten>
+                        <cleanRemote>false</cleanRemote>
+                        <noDefaultExcludes>false</noDefaultExcludes>
+                        <makeEmptyDirs>false</makeEmptyDirs>
+                        <patternSeparator>[, ]+</patternSeparator>
+                        <execCommand>[커맨드 성공 시 해주는 커맨드]</execCommand>
+                        <execTimeout>120000</execTimeout>
+                        <usePty>false</usePty>
+                        <useAgentForwarding>false</useAgentForwarding>
+                    </jenkins.plugins.publish__over__ssh.BapSshTransfer>
+                </transfers>
+                <useWorkspaceInPromotion>false</useWorkspaceInPromotion>
+                <usePromotionTimestamp>false</usePromotionTimestamp>
+            </jenkins.plugins.publish__over__ssh.BapSshPublisher>
+        </publishers>
+        <continueOnError>false</continueOnError>
+        <failOnError>false</failOnError>
+        <alwaysPublishFromMaster>false</alwaysPublishFromMaster>
+        <hostConfigurationAccess class="jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin" reference="../.."/>
+    </delegate>
+</jenkins.plugins.publish__over__ssh.BapSshPublisherPlugin>
+</publishers>
+
+<!-- 7. 빌드 환경 - Provide Node & npm bin/ folder to PATH -->
+<buildWrappers>
+<jenkins.plugins.nodejs.NodeJSBuildWrapper plugin="nodejs@1.3.9">
+    <!--<nodeJSInstallationName>nodejs 14</nodeJSInstallationName>-->
+    <nodeJSInstallationName>[GlobalTool에 저장된 NodeJS 명]</nodeJSInstallationName>
+    <cacheLocationStrategy class="jenkins.plugins.nodejs.cache.DefaultCacheLocationLocator"/>
+</jenkins.plugins.nodejs.NodeJSBuildWrapper>
+</buildWrappers>

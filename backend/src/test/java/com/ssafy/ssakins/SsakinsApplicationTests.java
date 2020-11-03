@@ -37,15 +37,15 @@ class SsakinsApplicationTests {
 //        Assert.notNull(accountRepository.findByEmail("a@a.com").get(),"있다");
 //    }
 
-//    @Test
-//    void saveTest() {
-//        Account account = Account.builder()
-//                .email("a@a.com")
-//                .name("AAA")
-//                .build();
-//
-//        Assert.notNull(accountRepository.save(account));
-//    }
+    @Test
+    void saveTest() {
+        Account account = Account.builder()
+                .email("a@b.com")
+                .name("AAA")
+                .build();
+
+        Assert.notNull(accountRepository.save(account));
+    }
 //
 //    @Test
 //    void findAll(){

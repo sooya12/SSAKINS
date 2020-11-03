@@ -151,7 +151,7 @@
       </template>
     </v-simple-table>
     <div id="btn-area">
-      <v-btn class="font15" elevation="2" color="grey darken-3" style="color: white">저장하기</v-btn>
+      <v-btn class="font15" elevation="2" color="grey darken-3" style="color: white" @click="save">저장하기</v-btn>
     </div>
   </v-container>
 </template>
@@ -219,12 +219,22 @@ export default {
       this.servers.push(server)
     },
     save: function() {
-      axios.post(this.$store.state.server + '/', {
-        name: this.name,
-        giturl: this.giturl,
-        credentials: this.credentials,
-        servers: this.servers
+      axios.post(this.$store.state.server + 'project/save', {
+        project :{
+          name: this.name,
+          giturl: this.giturl,
+          credentials: this.credentials,
+          servers: this.servers
+        }
+      }).then(res=>{
+        console.log(this.credentials)
+        console.log(this.servers)
+        console.log(res)
+      }).catch(err=>{
+        console.log(err)
       })
+
+
     }
   }
 }

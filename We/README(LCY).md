@@ -963,3 +963,136 @@ function getCurrentDate(){
 }
 ```
 
+
+
+:star: **몽고디비**
+
+> root/ssakins
+
+
+
+# 2020년 10월 30일
+
+* 몽고디비 특징
+
+
+
+
+
+# 2020년 11월 2일
+
+* sed 명령어
+
+**<jdks/> 를 <jdks></jdks>로 치환하기 실패~**
+
+```shell
+// jdk가 속한 한 줄 출력
+sed -n '/jdk/p' config.xml
+
+// jdk가 속한 줄 삭제
+sed -i '/jdk/d' config.xml
+
+// <viewsTabBar> 위에 삽입
+sed -i'' -r -e '/viewsTabBar/i\<jdks/>' config.xml
+
+```
+
+
+
+**기존에 있는 것 기준으로 넣고 -> 기존 것 삭제**
+
+```shell
+// 기존에 들어있는 것
+<jdks/> 
+
+// <jdks/> 있는 곳 위에 <jdks><jdk><name></name></jdk></jdks> 삽입
+sed -i'' -r -e '/jdks/i\<jdks><jdk><name>java</name><home>/usr/lib/jvm/java-11-openjdk-amd64</home></jdk></jdks>' config.xml
+
+// 기존에 있던 <jdks/> 얘만 삭제
+sed -i '/jdks\//d' config.xml
+```
+
+
+
+* 내 서버 위에 도커사용하기
+
+```shell
+// 도커 컨테이너 확인하기
+docker ps -a
+
+// 도커 이미지 다 삭제하기
+docker rm $(docker ps -a -q)
+
+// 언집 가능하게 설치
+sudo apt install unzip
+
+// 집 파일 설치하고 풀기
+wget http://49.50.161.106:8080/zip -O ssakins.zip && unzip -d chaengRepository ssakins.zip && rm ssakins.zip
+
+
+// sh install.sh 파일 수정하기 포트번호 && 컨테이너 이름
+
+
+// 집파일로 받은 install.sh 실행 (ssakins 도커이미지 다운)
+sh install.sh
+
+// config.xml 같은 파일 위치
+cd /home/ubuntu/repo/ssakins/ssakins_home
+
+// 도커 다시시작
+docker restart ssakins
+
+// root 에 접근
+sudo docker exec -u root -it ssakins1 /bin/bash 
+```
+
+```shell
+// install.sh
+echo "["`date`"] start to install SSAKINS."
+sleep 1
+
+echo "["`date`"] pull SSAKINS image from docker-hub... "
+sudo docker pull phm0127/ssakins
+sleep 1
+
+echo -n "["`date`"] Set environments for SSAKINS ... "
+
+sp='/-\|'
+printf ' '
+for n in `seq 0 10` ; do
+    printf '\b%.1s' "$sp"
+    sleep 0.5
+    sp=${sp#?}${sp%???}
+done
+echo ""
+SSAKINS_HOME=`pwd`
+sudo chown 1000 $SSAKINS_HOME/ssakins_home
+echo "["`date`"] set SSAKINS_HOME directory owned by root."
+sleep 1
+
+sudo docker run --name "ssakins1" -u 'root' -v $SSAKINS_HOME/ssakins_home/:/var/jenkins_home/ -p 8181:8080 -d phm0127/ssakins
+echo -n "["`date`"] run SSAKINS on docker... "
+
+printf ' '
+for n in `seq 0 10` ; do
+    printf '\b%.1s' "$sp"
+    sleep 0.5
+    sp=${sp#?}${sp%???}
+done
+echo ""
+
+
+echo "  #####    #####     ###    ##  ##    ####    ##   ##   #####
+ ##   ##  ##   ##   ## ##   ##  ##     ##     ###  ##  ##   ##
+ ##       ##       ##   ##  ## ##      ##     #### ##  ##
+  #####    #####   #######  ####       ##     ## ####   #####
+      ##       ##  ##   ##  ## ##      ##     ##  ###       ##
+ ##   ##  ##   ##  ##   ##  ##  ###    ##     ##   ##  ##   ##
+  #####    #####   ##   ##  ##   ##   ####    ##   ##   ##### "
+sleep 1
+echo "["`date`"] success install SSAKINS"
+
+```
+
+
+
