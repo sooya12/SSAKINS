@@ -20,8 +20,11 @@
               <div id="content" class="font15">
                 <br>
                 <div style="margin: 0 2vw">
-                  <h3>Git</h3> <br>
-                  <v-radio-group v-model="gitKind"></v-radio-group>
+                  <h3>Git</h3>
+                  <v-radio-group v-model="gitKind" row :rules="rules.required">
+                    <v-radio label="GitLab" value="gitlab"></v-radio>
+                    <v-radio label="GitHub" value="github"></v-radio>
+                  </v-radio-group>
                   Git URL<v-text-field
                   v-model="giturl"
                   :rules="[rules.required]"
@@ -51,7 +54,7 @@
                       @click:append="show1 = !show1"
                       ></v-text-field>
                     </div>
-                    <div v-show="credential.kind=='GitHup_App'">
+                    <div v-show="credential.kind=='GitHub_App'">
                       Kind<v-text-field
                       v-model="credential.kind"
                       disabled
@@ -120,7 +123,7 @@
                   <h3>Server</h3>
                   <div style="margin: 2vw;" v-for="(server, index) in servers" :key="index">
                     <div v-show="server.kind=='Spring'" style="font-weight:bold;">
-                       Kind<br>
+                      Kind<br>
                       <p style="font-size:1.3rem;">Spring</p>
                       
                       
@@ -171,6 +174,7 @@ export default {
       name: 'SSAKINS 1차 CI/CD 설정',
       checkSpring: false,
       checkVuejs: false,
+      gitKind: null,
       giturl: null,
       credentials: [],
       credentialForms: [],

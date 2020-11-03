@@ -20,7 +20,7 @@
       @click:append="show1 = !show1"
       ></v-text-field>
     </div>
-    <div v-show="credentialSelected=='GitHup_App'">
+    <div v-show="credentialSelected=='GitHub_App'">
       ID<v-text-field
       v-model="id"
       :rules="[rules.required]"
@@ -87,7 +87,7 @@ export default {
     return {
       credentialKind: [
         'Username_with_password',
-        'GitHup_App',
+        'GitHub_App',
         'GitLap_API_token',
         'SSH_Username_with_private_key',
         'Secret_file (준비중)',
