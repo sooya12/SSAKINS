@@ -16,8 +16,14 @@ public class Server {
 
     public void setType() {
     	switch (this.kind) {
-		case "Spring":
-			this.type=ServerKind.Spring;
+    	case "Spring":
+    		this.type=ServerKind.Spring_maven;
+    		break;
+		case "Spring_maven":
+			this.type=ServerKind.Spring_maven;
+			break;
+		case "Spring_gradle":
+			this.type=ServerKind.Spring_gradle;
 			break;
 		case "Django":
 			this.type=ServerKind.Django;
@@ -40,14 +46,11 @@ public class Server {
 			break;
 		}
     }
+
+	@Override
+	public String toString() {
+		return "Server [type=" + type + ", kind=" + kind + ", name=" + name + ", info=" + info + ", port=" + port + "]";
+	}
     
-    @Override
-    public String toString() {
-        return "Server{" +
-                "kind=" + kind +
-                ", name='" + name + '\'' +
-                ", info='" + info + '\'' +
-                ", port=" + port +
-                '}';
-    }
+    
 }

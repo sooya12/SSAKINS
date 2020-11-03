@@ -52,18 +52,12 @@ public class Credential {
 		}
     }
 
-    @Override
-    public String toString() {
-        return "Credential{" +
-                "kind=" + kind +
-                ", name='" + name + '\'' +
-                ", id='" + id + '\'' +
-                ", password='" + password + '\'' +
-                ", apiKey='" + apiKey + '\'' +
-                ", appID='" + appID + '\'' +
-                ", key='" + key + '\'' +
-                ", username='" + username + '\'' +
-                ", passphrase='" + passphrase + '\'' +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "Credential [type=" + type + ", kind=" + kind + ", name=" + name + ", id=" + id + ", password="
+				+ password + ", apiKey=" + apiKey + ", appID=" + appID + ", key=" + key + ", username=" + username
+				+ ", passphrase=" + passphrase + "]";
+	}
+
+    
 }

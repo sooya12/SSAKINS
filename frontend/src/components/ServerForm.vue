@@ -63,7 +63,7 @@ export default {
         // }
       }
       this.$emit('update',{
-        kind: 'ServerKind'+this.serverSelected,
+        kind: this.serverSelected,
       })
     }
   }

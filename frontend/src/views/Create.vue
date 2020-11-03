@@ -119,13 +119,13 @@
                 <div style="margin: 2vw">
                   <h3>Server</h3>
                   <div style="margin: 2vw;" v-for="(server, index) in servers" :key="index">
-                    <div v-show="server.kind=='ServerKind.Spring'" style="font-weight:bold;">
+                    <div v-show="server.kind=='Spring'" style="font-weight:bold;">
                        Kind<br>
                       <p style="font-size:1.3rem;">Spring</p>
                       
                       
                     </div>
-                    <div v-show="server.kind=='ServerKind.Vue'" style="font-weight:bold;">
+                    <div v-show="server.kind=='Vue'" style="font-weight:bold;">
                       Kind<br>
                       <p style="font-size:1.3rem;">Vue</p>
                       
