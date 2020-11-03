@@ -21,6 +21,7 @@
                 <br>
                 <div style="margin: 0 2vw">
                   <h3>Git</h3> <br>
+                  <v-radio-group v-model="gitKind"></v-radio-group>
                   Git URL<v-text-field
                   v-model="giturl"
                   :rules="[rules.required]"
@@ -118,17 +119,17 @@
                 <div style="margin: 2vw">
                   <h3>Server</h3>
                   <div style="margin: 2vw;" v-for="(server, index) in servers" :key="index">
-                    <div v-show="server.kind=='Spring'">
-                       Kind<v-text-field
-                      v-model="server.kind"
-                      disabled
-                      ></v-text-field>
+                    <div v-show="server.kind=='ServerKind.Spring'" style="font-weight:bold;">
+                       Kind<br>
+                      <p style="font-size:1.3rem;">Spring</p>
+                      
+                      
                     </div>
-                    <div v-show="server.kind=='Vue'">
-                       Kind<v-text-field
-                      v-model="server.kind"
-                      disabled
-                      ></v-text-field>
+                    <div v-show="server.kind=='ServerKind.Vue'" style="font-weight:bold;">
+                      Kind<br>
+                      <p style="font-size:1.3rem;">Vue</p>
+                      
+                      
                     </div>
                     <v-btn @click="removeServer(index)">X</v-btn>
                   </div>

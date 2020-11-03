@@ -12,7 +12,8 @@ public class Credential {
         All scope is a global.
      */
 
-    private CredentialKind kind;
+    private CredentialKind type;
+    private String kind;
     private String name;
     private String id;
     private String password;
@@ -22,6 +23,34 @@ public class Credential {
     private String username;
     private String passphrase;
 
+    public void setType() {
+    	switch (this.kind) {
+		case "Username_with_password":
+			this.type=CredentialKind.Username_with_password;
+			break;
+		case "GitHup_App":
+			this.type=CredentialKind.GitHup_App;
+			break;
+		case "GitLap_API_token":
+			this.type=CredentialKind.GitLap_API_token;
+			break;
+		case "SSH_Username_with_private_key":
+			this.type=CredentialKind.SSH_Username_with_private_key;
+			break;
+		case "Secret_file":
+			this.type=CredentialKind.Secret_file;
+			break;
+		case "Secret_text":
+			this.type=CredentialKind.Secret_text;
+			break;
+		case "Certificate":
+			this.type=CredentialKind.Certificate;
+			break;
+		default:
+			this.type=null;
+			break;
+		}
+    }
 
     @Override
     public String toString() {

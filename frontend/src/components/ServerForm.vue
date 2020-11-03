@@ -55,9 +55,15 @@ export default {
     }
   },
   methods: {
+    
     saveServer() {
+      if(this.serverSelected=='Spring'){
+        // if(rai){
+        //   this.serverSelected=this.serverSelected+'_maven'
+        // }
+      }
       this.$emit('update',{
-        kind: this.serverSelected,
+        kind: 'ServerKind'+this.serverSelected,
       })
     }
   }
