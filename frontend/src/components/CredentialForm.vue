@@ -1,6 +1,6 @@
 <template>
   <div id="Credential">
-  <v-form ref="form" v-model="valid" lazy-validation>
+  <!-- <v-form ref="form" v-model="valid" lazy-validation> -->
     Kind
     <v-select :items="computedItems" v-model="credentialSelected" placeholder="Credential Kind"></v-select><br>
     <div v-show="credentialSelected=='Username_with_password'">
@@ -74,8 +74,8 @@
     <div v-show="credentialSelected=='Certificate'">  
       서비스 준비중...
     </div> -->
-    <v-btn :disabled="!valid" @click="saveCredential">v</v-btn>
-  </v-form>
+    <v-btn @click="saveCredential">v</v-btn>
+  <!-- </v-form> -->
   </div>
 </template>
 
@@ -113,7 +113,6 @@ export default {
         required: value => !!value || 'Required.',
         min: v => v.length >= 8 || 'Min 8 characters',
       },
-      valid: false
       
     }
   },
@@ -129,7 +128,8 @@ export default {
   },
   methods: {
     saveCredential() {
-      this.$refs.form .validate()
+      // this.$refs.form .validate()
+      // this.$refs.form.resetValidation()
       this.$emit('update',{
         kind: this.credentialSelected,
         id: this.id,
@@ -140,7 +140,6 @@ export default {
         username: this.username,
         passphrase: this.passphrase
       })
-      this.id
       // ??.push({
       //   id: this.id,
       //   password: this.password,
