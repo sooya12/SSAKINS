@@ -620,7 +620,7 @@ config.xml에서 true를 false로 해서 잠금 해제
 #### :black_nib: jenkins-cli.jar 없을 때 설치
 
 ```shell
-// /root/binㅊㅇ  경로에 jenkins.cli.jar 설치됨
+// /root/bin 경로에 jenkins.cli.jar 설치됨
 $ wget -P ~/bin [Jenkins 경로]/jnlpJars/jenkins-cli.jar
 
 // jenkins-cli.jar 명령어 확인
