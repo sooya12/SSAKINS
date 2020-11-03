@@ -1,7 +1,8 @@
 package com.ssafy.ssakins.entity;
 
 public enum ServerKind {
-    Spring,
+    Spring_maven,
+    Spring_gradle,
     Django,
     Flask,
     Express,

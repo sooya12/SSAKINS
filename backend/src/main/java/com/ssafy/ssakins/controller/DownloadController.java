@@ -7,7 +7,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.*;
@@ -16,7 +18,9 @@ import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-@RestController(value = "/download")
+@RestController
+@CrossOrigin(origins = "*")
+@RequestMapping("/download")
 public class DownloadController {
 
     private ResourceLoader resourceLoader;
@@ -25,7 +29,7 @@ public class DownloadController {
         this.resourceLoader=resourceLoader;
     }
 
-    @RequestMapping(value = "/zip", produces="application/zip")
+    @RequestMapping(value = "/zip", produces="application/zip", method = RequestMethod.GET)
     public ResponseEntity<byte[]> jenkins() throws IOException {
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

@@ -7,6 +7,7 @@ import com.ssafy.ssakins.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,9 @@ import java.net.URL;
 import java.net.http.HttpClient;
 import java.util.Optional;
 
-@RestController(value = "/account")
+@RestController
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/account")
 public class AccountController {
 
     private final AccountRepository accountRepository;
