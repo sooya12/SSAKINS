@@ -13,4 +13,12 @@ public class Command {
     private String pom;
 
 
+    @Override
+    public String toString() {
+        return "Command{" +
+                "type=" + type +
+                ", command='" + command + '\'' +
+                ", pom='" + pom + '\'' +
+                '}';
+    }
 }
