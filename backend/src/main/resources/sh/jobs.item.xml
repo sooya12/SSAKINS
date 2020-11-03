@@ -87,7 +87,7 @@ builds/legacyIds 파일 생성-->
 </com.cloudbees.jenkins.GitHubPushTrigger>
 </triggers>
 
-<!-- 5. -->
+<!-- 5. Build -->
 <builders>
 <hudson.tasks.Maven>
     <targets>package</targets>
