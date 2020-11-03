@@ -220,7 +220,10 @@ export default {
     },
     save: function() {
       axios.post(this.$store.state.server + '/', {
-        
+        name: this.name,
+        giturl: this.giturl,
+        credentials: this.credentials,
+        servers: this.servers
       })
     }
   }
