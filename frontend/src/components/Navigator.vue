@@ -40,9 +40,9 @@ export default {
           value: "notice",
         },
         {
-          title: "SSAKINS 사용법",
-          icon: "mdi-image",
-          value: "info",
+          title: "프로젝트 목록",
+          icon: "mdi-format-list-bulleted",
+          value: "main",
         },
         {
           title: "SSAKINS 문의",

@@ -16,9 +16,9 @@
           <div>
             <div class="block" @click="holdBlock()">
               <div
-                v-for="ns in nextBlockStyle(holdB)"
+                v-for="(ns, i) in nextBlockStyle(holdB)"
                 :style="ns"
-                v-bind:key="ns"
+                :key="i"
               ></div>
             </div>
             <div class="title"></div>
@@ -85,15 +85,11 @@
         </div>
         <div class="next-block" @click="move('right')">
           <div class="bg-dark">
-            <div
-              class="block block-bdr ma-1"
-              v-for="nb in nextB"
-              v-bind:key="nb"
-            >
+            <div class="block block-bdr ma-1" v-for="(nb, i) in nextB" :key="i">
               <div
-                v-for="ns in nextBlockStyle(nb)"
+                v-for="(ns, i) in nextBlockStyle(nb)"
                 :style="ns"
-                v-bind:key="ns"
+                :key="i"
               ></div>
             </div>
           </div>
@@ -420,8 +416,8 @@ export default {
         "#4285F4",
       ],
       dashboard: {
-        time: "02:00",
-        resTime: 2 * 60 * 1000,
+        time: "05:00",
+        resTime: 5 * 60 * 1000,
         score: 0,
         combo: false,
         acc_combo: 0,
@@ -692,8 +688,8 @@ export default {
       // eslint-disable-next-line no-unused-vars
       this.coord = new Array(20).fill(0).map((x) => new Array(10).fill(0));
       this.dashboard = {
-        time: "02:00",
-        resTime: 2 * 60 * 1000,
+        time: "05:00",
+        resTime: 5 * 60 * 1000,
         score: 0,
         combo: false,
         acc_combo: 0,
@@ -762,7 +758,6 @@ export default {
 }
 
 .d-grid {
-  margin-top: 16px;
   width: 74%;
   height: 600px;
   min-width: 200px;
