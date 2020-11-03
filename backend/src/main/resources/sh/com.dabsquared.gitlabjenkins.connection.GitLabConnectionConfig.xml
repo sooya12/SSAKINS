@@ -3,9 +3,9 @@
     <useAuthenticatedEndpoint>true</useAuthenticatedEndpoint>
     <connections>
         <com.dabsquared.gitlabjenkins.connection.GitLabConnection>
-            <name>gitlab</name>
+            <name>[gitlab 이름]</name>
             <url>https://lab.ssafy.com/</url>
-            <apiTokenId>gitlab-api-token</apiTokenId>
+            <apiTokenId>[gitlab 크레덴셜]</apiTokenId>
             <clientBuilder class="com.dabsquared.gitlabjenkins.gitlab.api.impl.AutodetectGitLabClientBuilder">
                 <id>autodetect</id>
                 <ordinal>0</ordinal>
