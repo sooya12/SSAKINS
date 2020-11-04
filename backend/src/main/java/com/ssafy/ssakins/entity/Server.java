@@ -11,6 +11,7 @@ public class Server {
     private ServerKind type;
     private String kind;
     private String name;
+    /* Spring: pom.xml 위치, Vue: packag.json 위치 */
     private String info;
     private int port;
     private String[] options;
