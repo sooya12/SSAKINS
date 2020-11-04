@@ -2,7 +2,7 @@
   <div id="Server">
   <v-form ref="form" v-model="valid">
     Kind
-    <v-select :items="computedItems" v-model="serverSelected" :rules="[rules.required]" placeholder="Server Kind"></v-select><br>
+    <v-select :items="computedItems" @change="resetForm" v-model="serverSelected" :rules="[rules.required]" placeholder="Server Kind"></v-select><br>
     <div v-if="serverSelected=='Spring'">
       port<v-text-field
       v-model="port"
@@ -54,14 +54,10 @@ export default {
       ],
       serverSelected: null,
       
-      springInfo: null,
-      springPort: null,
+      info: null,
+      port: null,
       tool: null,
 
-      vueInfo: null,
-      vueport: null,
-
-      show1: false,
       rules: {
         required: value => !!value || 'Required.',
         number: value => /^[0-9]+$/.test(value) || 'Only number.'
@@ -90,6 +86,11 @@ export default {
         port: this.port
       })
     },
+    resetForm() {
+      let current = this.serverSelected
+      this.$refs.form.reset()
+      this.serverSelected = current
+    }
   }
 }
 </script>

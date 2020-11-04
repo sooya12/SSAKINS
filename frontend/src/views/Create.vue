@@ -212,10 +212,11 @@ export default {
   },
   methods: {
     toggleCredentialForm: function() {
-      if(this.credentialForms.length==0)
+      if(this.credentialForms.length==0) {
         this.credentialForms.push('CredentialForm')
-      else
+      } else {
         this.credentialForms.pop()
+      }
     },
     removeCredential: function(index) {
       this.credentials.splice(index, 1)
@@ -225,10 +226,11 @@ export default {
       this.credentials.push(credential)
     },
     toggleServerForm: function() {
-      if(this.serverForms.length==0)
+      if(this.serverForms.length==0) {
         this.serverForms.push('CredentialForm')
-      else
+      } else {
         this.serverForms.pop()
+      }
     },
     removeServer: function(index) {
       this.servers.splice(index, 1)
