@@ -13,6 +13,7 @@ public class Server {
     private String name;
     private String info;
     private int port;
+    private String[] options;
 
     public void setType() {
     	switch (this.kind) {
