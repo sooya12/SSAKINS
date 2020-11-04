@@ -98,8 +98,8 @@ export default {
 <style scoped>
 #Server {
   position: relative;
-  width: 80%;
-  margin: 2vw;
+  /* width: 85%; */
+  margin: 2vw auto;
   font-weight: bold;
 }
 </style>
