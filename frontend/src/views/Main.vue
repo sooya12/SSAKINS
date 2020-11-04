@@ -36,8 +36,27 @@
         >
           삭제하기
         </v-btn>
-        <v-dialog v-model="dialog" max-width="310">
-          <v-card>
+        <v-dialog v-model="dialog" max-width="400">
+          <v-card v-if="selected.length == 0">
+            <v-card-title class="headline">
+              프로젝트를 선택해주세요!
+            </v-card-title>
+
+            <v-card-text>
+              삭제할 프로젝트가 선택되지 않았습니다.
+            </v-card-text>
+
+            <v-divider></v-divider>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" text @click="dialog = false">
+                확인
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+
+          <v-card v-if="selected.length > 0">
             <v-card-title class="headline">
               정말 삭제하시겠습니까?
             </v-card-title>
@@ -49,10 +68,32 @@
             <v-card-actions>
               <v-spacer></v-spacer>
 
-              <v-btn color="blue darken-1" text @click="deleted()">
+              <v-btn
+                class="white--text"
+                color="blue darken-1"
+                text
+                @click="deleted()"
+              >
                 예
               </v-btn>
-
+              <v-dialog
+                v-if="flag && selected.length > 0"
+                v-model="dialog2"
+                hide-overlay
+                persistent
+                width="300"
+              >
+                <v-card color="primary" dark>
+                  <v-card-text>
+                    프로젝트를 삭제중입니다.
+                    <v-progress-linear
+                      indeterminate
+                      color="white"
+                      class="mb-0"
+                    ></v-progress-linear>
+                  </v-card-text>
+                </v-card>
+              </v-dialog>
               <v-btn color="red darken-1" text @click="dialog = false">
                 아니오
               </v-btn>
@@ -76,7 +117,9 @@ export default {
   data() {
     return {
       dialog: false,
+      dialog2: false,
       selected: [],
+      flag: false,
       headers: [
         {
           text: "No.",
@@ -188,6 +231,13 @@ export default {
       ],
     };
   },
+  watch: {
+    dialog2(val) {
+      if (!val) return;
+
+      setTimeout(() => (this.dialog2 = false), 4000);
+    },
+  },
   methods: {
     create() {
       this.$router.push("/create");
@@ -195,6 +245,11 @@ export default {
     deleted() {
       console.log(this.selected);
       this.dialog = false;
+      this.dialog2 = true;
+      this.flag = true;
+    },
+    warning() {
+      alert("선택을 해주세요!");
     },
   },
 };

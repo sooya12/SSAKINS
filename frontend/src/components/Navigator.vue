@@ -58,7 +58,6 @@ export default {
   },
   methods: {
     go(item) {
-      alert(item.value);
       this.$router.push(item.value);
     },
   },
