@@ -1,9 +1,9 @@
 <template>
   <div id="Credential">
-  <!-- <v-form ref="form" v-model="valid" lazy-validation> -->
+  <v-form ref="form" v-model="valid">
     Kind
-    <v-select :items="computedItems" v-model="credentialSelected" placeholder="Credential Kind"></v-select><br>
-    <div v-show="credentialSelected=='Username_with_password'">
+    <v-select :items="computedItems" v-model="credentialSelected" :rules="[rules.required]" placeholder="Credential Kind"></v-select><br>
+    <div v-if="credentialSelected=='Username_with_password'">
       ID<v-text-field
       v-model="id"
       :rules="[rules.required]"
@@ -15,12 +15,12 @@
       Password<v-text-field
       v-model="password"
       :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" 
-      :rules="[rules.required, rules.min]" 
+      :rules="[rules.required]" 
       :type="show1 ? 'text' : 'password'"
       @click:append="show1 = !show1"
       ></v-text-field>
     </div>
-    <div v-show="credentialSelected=='GitHub_App'">
+    <div v-if="credentialSelected=='GitHub_App'">
       ID<v-text-field
       v-model="id"
       :rules="[rules.required]"
@@ -35,7 +35,7 @@
       background-color="blue-grey lighten-4"
       ></v-textarea>
     </div>
-    <div v-show="credentialSelected=='GitLap_API_token'">
+    <div v-if="credentialSelected=='GitLap_API_token'">
       ID<v-text-field
       v-model="id"
       :rules="[rules.required]"
@@ -45,7 +45,7 @@
       :rules="[rules.required]"
       ></v-text-field>
     </div>
-    <div v-show="credentialSelected=='SSH_Username_with_private_key'">
+    <div v-if="credentialSelected=='SSH_Username_with_private_key'">
       ID<v-text-field
       v-model="id"
       :rules="[rules.required]"
@@ -64,18 +64,19 @@
       :rules="[rules.required]"
       ></v-text-field>
     </div>
-    <!-- <div v-show="credentialSelected=='Secret_file'">  
+    <!-- <div v-if="credentialSelected=='Secret_file'">  
       File
       ID<v-text-field></v-text-field>
     </div>
-    <div v-show="credentialSelected=='Secret_text'">  
+    <div v-if="credentialSelected=='Secret_text'">  
         ID<v-text-field></v-text-field>
     </div>
-    <div v-show="credentialSelected=='Certificate'">  
+    <div v-if="credentialSelected=='Certificate'">  
       서비스 준비중...
     </div> -->
-    <v-btn @click="saveCredential">v</v-btn>
-  <!-- </v-form> -->
+
+    <v-btn :disabled="!valid" @click="saveCredential">v</v-btn>
+  </v-form>
   </div>
 </template>
 
@@ -99,21 +100,20 @@ export default {
         'Secret_text (준비중)',
         'Certificate (준비중)'
       ],
-      credentialSelected: '',
-      id: '',
-      password: '',
-      apiKey: '',
-      appID: '',
-      key: '',
-      username: '',
-      passphrase: '',
+      credentialSelected: null,
+      id: null,
+      password: null,
+      apiKey: null,
+      appID: null,
+      key: null,
+      username: null,
+      passphrase: null,
 
       show1: false,
       rules: {
         required: value => !!value || 'Required.',
-        min: v => v.length >= 8 || 'Min 8 characters',
       },
-      
+      valid: false
     }
   },
   computed: {
@@ -128,8 +128,6 @@ export default {
   },
   methods: {
     saveCredential() {
-      // this.$refs.form .validate()
-      // this.$refs.form.resetValidation()
       this.$emit('update',{
         kind: this.credentialSelected,
         id: this.id,
@@ -159,5 +157,6 @@ export default {
   position: relative;
   width: 80%;
   margin: 2vw;
+  font-weight: bold;
 }
 </style>

@@ -1,16 +1,34 @@
 <template>
   <div id="Server">
-  <!-- <v-form ref="form" v-model="valid" lazy-validation> -->
+  <v-form ref="form" v-model="valid">
     Kind
-    <v-select :items="computedItems" v-model="serverSelected" placeholder="Server Kind"></v-select><br>
-    <div v-show="serverSelected=='Spring'">
-      Spring임
+    <v-select :items="computedItems" v-model="serverSelected" :rules="[rules.required]" placeholder="Server Kind"></v-select><br>
+    <div v-if="serverSelected=='Spring'">
+      port<v-text-field
+      v-model="port"
+      :rules="[rules.required, rules.number]"
+      ></v-text-field>
+      pom.xml<v-text-field
+      v-model="info"
+      :rules="[rules.required]"
+      ></v-text-field>
+      <v-radio-group v-model="tool" row :rules="[rules.required]">
+        <v-radio label="Maven" value="Spring_maven"></v-radio>
+        <v-radio label="Gradle" value="Spring_gradle"></v-radio>
+      </v-radio-group>
     </div>
-    <div v-show="serverSelected=='Vue'">
-      Vue임
+    <div v-if="serverSelected=='Vue'">
+      port<v-text-field
+      v-model="port"
+      :rules="[rules.required, rules.number]"
+      ></v-text-field>
+      package.json<v-text-field
+      v-model="info"
+      :rules="[rules.required]"
+      ></v-text-field>
     </div>
-    <v-btn @click="saveServer">v</v-btn>
-  <!-- </v-form> -->
+    <v-btn :disabled="!valid" @click="saveServer">v</v-btn>
+  </v-form>
   </div>
 </template>
 
@@ -34,14 +52,21 @@ export default {
         'Express(준비중)',
         'React(준비중)',
       ],
-      serverSelected: '',
+      serverSelected: null,
+      
+      springInfo: null,
+      springPort: null,
+      tool: null,
+
+      vueInfo: null,
+      vueport: null,
 
       show1: false,
       rules: {
         required: value => !!value || 'Required.',
-        min: v => v.length >= 8 || 'Min 8 characters',
+        number: value => /^[0-9]+$/.test(value) || 'Only number.'
       },
-      
+      valid: false
     }
   },
   computed: {
@@ -54,18 +79,17 @@ export default {
       })
     }
   },
-  methods: {
-    
+  methods: {    
     saveServer() {
-      if(this.serverSelected=='Spring'){
-        // if(rai){
-        //   this.serverSelected=this.serverSelected+'_maven'
-        // }
+      if(this.serverSelected=='Spring') {
+        this.serverSelected=this.tool
       }
       this.$emit('update',{
         kind: this.serverSelected,
+        info: this.info,
+        port: this.port
       })
-    }
+    },
   }
 }
 </script>
@@ -75,5 +99,6 @@ export default {
   position: relative;
   width: 80%;
   margin: 2vw;
+  font-weight: bold;
 }
 </style>
