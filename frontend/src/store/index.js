@@ -11,6 +11,5 @@ export default new Vuex.Store({
     state:{
         // server: 'http://localhost:8080/ssakins',
         server: 'https://k3a201.p.ssafy.io/ssakins',
-        count : 1,
     },
 })

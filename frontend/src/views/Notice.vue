@@ -19,6 +19,7 @@ import Navigator from "../components/Navigator";
 import Header from "../components/Header";
 
 export default {
+  name: "notice",
   components: {
     navigator: Navigator,
     headers: Header,

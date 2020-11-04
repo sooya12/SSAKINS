@@ -20,36 +20,36 @@
 export default {
   data() {
     return {
-      selectedItem: this.$store.state.count,
+      selectedItem: 1,
       items: [
         {
           title: "SSAKINS 안내",
           icon: "mdi-information-outline",
-          value: "notice",
+          value: "/notice",
           no: 0,
         },
         {
           title: "프로젝트 목록",
           icon: "mdi-format-list-bulleted",
-          value: "main",
+          value: "/main",
           no: 1,
         },
         {
           title: "SSAKINS 문의",
           icon: "mdi-help-box",
-          value: "info",
+          value: "/info",
           no: 2,
         },
         {
           title: "SSAKINS 이용약관",
           icon: "mdi-help-box",
-          value: "info",
+          value: "/info",
           no: 3,
         },
         {
           title: "개발자를 위한 쉼터",
           icon: "mdi-gamepad-variant",
-          value: "game",
+          value: "/game",
           no: 4,
         },
       ],
@@ -60,16 +60,15 @@ export default {
     go(item) {
       alert(item.value);
       this.$router.push(item.value);
-      console.log("안바뀐놈 : " + this.selectedItem);
-      this.selectedItem = item.no;
-      this.$store.state.count = item.no;
-      console.log("바뀐놈 : " + this.$store.state.count);
     },
   },
-  // mounted() {
-  //   console.log("마운트 : " + this.$store.state.count);
-  //   this.selectedItem = this.$store.state.count;
-  // },
+  mounted() {
+    for (let index = 0; index < this.items.length; index++) {
+      if (this.items[index].value == window.location.pathname) {
+        this.selectedItem = this.items[index].no;
+      }
+    }
+  },
 };
 </script>
 
