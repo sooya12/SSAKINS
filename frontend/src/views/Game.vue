@@ -3,10 +3,10 @@
     <div>
       <headers></headers>
     </div>
-    <div style="float:center">
+    <div style="float:center; margin-top:16px;">
       <div
         id="navigator"
-        style="float:left; margin-top:16px; margin-right:20px; margin-left:20px;"
+        style="float:left; margin-right:20px; margin-left:20px;"
       >
         <navigator></navigator>
       </div>
