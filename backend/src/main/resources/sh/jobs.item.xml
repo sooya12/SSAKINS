@@ -20,6 +20,8 @@ builds/legacyIds 파일 생성-->
   <buildWrappers/> <!-- 7 -->
 </project>
 
+
+
 <!-- 1. General - Github project-->
 <properties>
     <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.31.0">
@@ -31,6 +33,10 @@ builds/legacyIds 파일 생성-->
         <gitLabConnection></gitLabConnection>
     </com.dabsquared.gitlabjenkins.connection.GitLabConnectionProperty>
 </properties>
+
+
+
+
 
 <!-- 2. 소스 코드 관리 - Git-->
 <scm class="hudson.plugins.git.GitSCM" plugin="git@4.4.4">
@@ -52,6 +58,8 @@ builds/legacyIds 파일 생성-->
     <submoduleCfg class="list"/>
     <extensions/>
 </scm>
+
+
 
 <!-- 3. 뭔지 모르겠다 -->
 <canRoam>true</canRoam>
@@ -87,6 +95,9 @@ builds/legacyIds 파일 생성-->
 </com.cloudbees.jenkins.GitHubPushTrigger>
 </triggers>
 
+
+
+
 <!-- 5. Build -->
 <builders>
 <hudson.tasks.Maven>
@@ -119,6 +130,8 @@ builds/legacyIds 파일 생성-->
     <configuredLocalRules/>
 </hudson.tasks.Shell>
 </builders>
+
+
 
 <!-- 6. 빌드 후 조치 -->
 <publishers>
@@ -191,6 +204,8 @@ builds/legacyIds 파일 생성-->
 </jenkins.plugins.publish__over__ssh.BapSshPublisherPlugin>
 </publishers>
 
+
+
 <!-- 7. 빌드 환경 - Provide Node & npm bin/ folder to PATH -->
 <buildWrappers>
 <jenkins.plugins.nodejs.NodeJSBuildWrapper plugin="nodejs@1.3.9">
@@ -199,3 +214,6 @@ builds/legacyIds 파일 생성-->
     <cacheLocationStrategy class="jenkins.plugins.nodejs.cache.DefaultCacheLocationLocator"/>
 </jenkins.plugins.nodejs.NodeJSBuildWrapper>
 </buildWrappers>
+
+
+
