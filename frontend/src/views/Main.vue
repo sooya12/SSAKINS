@@ -31,10 +31,34 @@
         <v-btn
           color="error"
           style="float:center; margin-top:20px;"
-          @click="deleted"
+          dark
+          @click.stop="dialog = true"
         >
           삭제하기
         </v-btn>
+        <v-dialog v-model="dialog" max-width="310">
+          <v-card>
+            <v-card-title class="headline">
+              정말 삭제하시겠습니까?
+            </v-card-title>
+
+            <v-card-text>
+              모든 프로젝트 설정 내용이 삭제됩니다.
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+
+              <v-btn color="blue darken-1" text @click="deleted()">
+                예
+              </v-btn>
+
+              <v-btn color="red darken-1" text @click="dialog = false">
+                아니오
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </div>
     </div>
   </v-container>
@@ -51,6 +75,7 @@ export default {
   },
   data() {
     return {
+      dialog: false,
       selected: [],
       headers: [
         {
@@ -169,11 +194,7 @@ export default {
     },
     deleted() {
       console.log(this.selected);
-      if (this.selected.length > 0) {
-        alert("선택한 항목을 삭제하시겠습니까?");
-      } else {
-        alert("선택을 하세요...............");
-      }
+      this.dialog = false;
     },
   },
 };
