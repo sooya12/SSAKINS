@@ -20,7 +20,7 @@
 export default {
   data() {
     return {
-      selectedItem: 1,
+      selectedItem: this.$store.state.count,
       items: [
         {
           title: "SSAKINS 안내",
@@ -62,9 +62,14 @@ export default {
       this.$router.push(item.value);
       console.log("안바뀐놈 : " + this.selectedItem);
       this.selectedItem = item.no;
-      console.log("바뀐놈 : " + this.selectedItem);
+      this.$store.state.count = item.no;
+      console.log("바뀐놈 : " + this.$store.state.count);
     },
   },
+  // mounted() {
+  //   console.log("마운트 : " + this.$store.state.count);
+  //   this.selectedItem = this.$store.state.count;
+  // },
 };
 </script>
 
