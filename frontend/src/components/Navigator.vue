@@ -1,30 +1,17 @@
 <template>
   <v-card>
-    <!-- <v-list-item>
-                <v-list-item-content>
-                    <v-list-item-title class="title">
-                        Application
-                    </v-list-item-title>
-                    <v-list-item-subtitle>
-                        subtext
-                    </v-list-item-subtitle>
-                </v-list-item-content>
-            </v-list-item>
-
-            <v-divider></v-divider> -->
-
     <v-list dense="dense" nav="nav">
-      <v-list-item v-for="item in items" :key="item.title" link="link">
-        <v-list-item-icon>
-          <v-icon>{{ item.icon }}</v-icon>
-        </v-list-item-icon>
+      <v-list-item-group v-model="selectedItem" color="primary">
+        <v-list-item v-for="item in items" :key="item.title" @click="go(item)">
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
 
-        <v-list-item-content>
-          <v-list-item-title @click="go(item.value)"
-            >{{ item.title }}
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }} </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-item-group>
     </v-list>
   </v-card>
 </template>
@@ -33,39 +20,49 @@
 export default {
   data() {
     return {
+      selectedItem: 1,
       items: [
         {
           title: "SSAKINS 안내",
           icon: "mdi-information-outline",
           value: "notice",
+          no: 0,
         },
         {
           title: "프로젝트 목록",
           icon: "mdi-format-list-bulleted",
           value: "main",
+          no: 1,
         },
         {
           title: "SSAKINS 문의",
           icon: "mdi-help-box",
           value: "info",
+          no: 2,
         },
         {
           title: "SSAKINS 이용약관",
           icon: "mdi-help-box",
           value: "info",
+          no: 3,
         },
         {
           title: "개발자를 위한 쉼터",
           icon: "mdi-gamepad-variant",
           value: "game",
+          no: 4,
         },
       ],
       right: null,
     };
   },
   methods: {
-    go(value) {
-      this.$router.push(value);
+    go(item) {
+      alert(item.value);
+      this.$router.push(item.value);
+      console.log("안바뀐놈 : " + this.selectedItem);
+      this.selectedItem = item.no;
+      console.log("바뀐놈 : " + this.selectedItem);
     },
   },
 };
