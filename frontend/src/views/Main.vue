@@ -76,6 +76,7 @@
               >
                 예
               </v-btn>
+
               <v-dialog
                 v-if="flag && selected.length > 0"
                 v-model="dialog2"
@@ -83,7 +84,7 @@
                 persistent
                 width="300"
               >
-                <v-card color="primary" dark>
+                <v-card color="blue-grey" dark>
                   <v-card-text>
                     프로젝트를 삭제중입니다.
                     <v-progress-linear
@@ -94,6 +95,7 @@
                   </v-card-text>
                 </v-card>
               </v-dialog>
+
               <v-btn color="red darken-1" text @click="dialog = false">
                 아니오
               </v-btn>
@@ -235,7 +237,10 @@ export default {
     dialog2(val) {
       if (!val) return;
 
-      setTimeout(() => (this.dialog2 = false), 4000);
+      setTimeout(() => {
+        this.dialog2 = false;
+        this.$router.go();
+      }, 3000);
     },
   },
   methods: {
