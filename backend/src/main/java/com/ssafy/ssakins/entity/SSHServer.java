@@ -11,6 +11,7 @@ public class SSHServer {
     private String key;
     private String name;
     private String userName;
+    private String hostName;
     private String remoteDirectory ;
     private String password;
 
