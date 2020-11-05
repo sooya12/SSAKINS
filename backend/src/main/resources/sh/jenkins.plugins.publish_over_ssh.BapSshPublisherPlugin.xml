@@ -50,6 +50,7 @@
             <disableExec>false</disableExec>
             <keyInfo>
                 <!--<secretPassphrase>{AQAAABAAAAAQ2vY3FGDMvtfsIJPUOeNy8gGkdAvJWI1XzNL8Q1Arjxc=}</secretPassphrase> 이게 ssafy 다! -->
+               	<!-- 서버에 비번 걸려있으면 넣고 없으면 공백 -->
                 <secretPassphrase>[암호화된 비밀번호]</secretPassphrase>
                 <key></key>
                 <keyPath></keyPath>
