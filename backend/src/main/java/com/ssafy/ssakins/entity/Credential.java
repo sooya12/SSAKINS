@@ -14,6 +14,7 @@ public class Credential {
 
     private CredentialKind type;
     private String kind;
+    private boolean isHub;
     private String name;
     private String id;
     private String password;
