@@ -14,8 +14,10 @@ public class ProjectController {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ResponseEntity save(@RequestBody AccountAndProject accountAndProject){
-        System.out.println("I'm in!");
-
+    	accountAndProject.getProject().getServers().forEach((s)->s.setType());
+    	accountAndProject.getProject().getCredentials().forEach(c->c.setType());
+    	
+    	
         System.out.println(accountAndProject);
         System.out.println(accountAndProject.getProject());
 

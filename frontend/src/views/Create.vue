@@ -1,157 +1,180 @@
 <template>
   <v-container id="create">
-    <div id="title">
-      <h2>CI/CD 설정 생성</h2>
-    </div>
-    <v-simple-table dense>
-      <template v-slot:default>
-        <tbody>
-          <tr>
-            <td class="text-left font15" style="width: 8vw">
-              설정 CI/CD 명
-            </td>
-            <td class="text-left font15" style="width: 62vw">
-              <v-text-field v-model="name" class="font15" placeholder="내용을 입력해주세요" hide-details="auto" dense filled shaped></v-text-field>
-            </td>
-          </tr>
-          <tr>
-            <td class="text-left font15" style="vertical-align: top"><br>설정 내용</td>
-            <td class="text-left font15">
-              <div id="content" class="font15">
-                <br>
-                <div style="margin: 0 2vw">
-                  <h3>Git</h3> <br>
-                  Git URL<v-text-field
-                  v-model="giturl"
-                  :rules="[rules.required]"
-                  ></v-text-field>
-                </div> 
-                <div style="margin: 2vw">
-                  <h3>Credential</h3>
-                  <div style="margin: 2vw;" v-for="(credential, index) in credentials" :key="index">
-                    <div v-show="credential.kind=='Username_with_password'">
-                      Kind<v-text-field
-                      v-model="credential.kind"
-                      disabled
-                      ></v-text-field>
-                      ID<v-text-field
-                      v-model="credential.id"
+    <v-form v-model="valid">
+      <div id="title">
+        <h2>CI/CD 설정 생성</h2>
+      </div>
+      <v-simple-table dense>
+        <template v-slot:default>
+          <tbody>
+            <tr>
+              <td class="text-left font15" style="width: 8vw">
+                설정 CI/CD 명
+              </td>
+              <td class="text-left font15" style="width: 62vw">
+                <v-text-field v-model="name" :rules="[rules.required]" class="font15" placeholder="설정의 이름을 입력해주세요" hide-details="auto" dense filled shaped></v-text-field>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-left font15" style="vertical-align: top"><br>설정 내용</td>
+              <td class="text-left font15">
+                <div id="content" class="font15">
+                  <br>
+                  <div style="margin: 0 2vw">
+                    <h3>Jenkins</h3><br>
+                    <div style="margin: auto; width: 85%">
+                      URL<v-text-field
+                      v-model="url"
                       :rules="[rules.required]"
                       ></v-text-field>
-                      Username<v-text-field
-                      v-model="credential.username"
-                      :rules="[rules.required]"
+                      Port<v-text-field
+                      v-model="port" 
+                      :rules="[rules.required, rules.number]"
                       ></v-text-field>
-                      Password<v-text-field
-                      v-model="credential.password"
-                      :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" 
-                      :rules="[rules.required, rules.min]" 
-                      :type="show1 ? 'text' : 'password'"
-                      @click:append="show1 = !show1"
-                      ></v-text-field>
+                      <br>
                     </div>
-                    <div v-show="credential.kind=='GitHup_App'">
-                      Kind<v-text-field
-                      v-model="credential.kind"
-                      disabled
-                      ></v-text-field>
-                      ID<v-text-field
-                      v-model="credential.id"
-                      :rules="[rules.required]"
-                      ></v-text-field>
-                      App ID<v-text-field
-                      v-model="credential.appID"
-                      :rules="[rules.required]"
-                      ></v-text-field>
-                      Key<v-textarea
-                      v-model="credential.key" 
-                      :rules="[rules.required]"
-                      background-color="blue-grey lighten-4"
-                      ></v-textarea>
-                    </div>
-                    <div v-show="credential.kind=='GitLap_API_token'">
-                      Kind<v-text-field
-                      v-model="credential.kind"
-                      disabled
-                      ></v-text-field>
-                      ID<v-text-field
-                      v-model="credential.id"
-                      :rules="[rules.required]"
-                      ></v-text-field>
-                      API token<v-text-field
-                      v-model="credential.apiKey"
-                      :rules="[rules.required]"
-                      ></v-text-field>
-                    </div>
-                    <div v-show="credential.kind=='SSH_Username_with_private_key'">
-                      Kind<v-text-field
-                      v-model="credential.kind"
-                      disabled
-                      ></v-text-field>
-                      ID<v-text-field
-                      v-model="credential.id"
-                      :rules="[rules.required]"
-                      ></v-text-field>
-                      Username<v-text-field
-                      v-model="credential.username"
-                      :rules="[rules.required]"
-                      ></v-text-field>
-                      Key<v-textarea
-                      v-model="credential.key"
-                      :rules="[rules.required]"
-                      background-color="blue-grey lighten-4"
-                      ></v-textarea>
-                      Passphrase<v-text-field
-                      v-model="credential.key"
-                      :rules="[rules.required]"
-                      ></v-text-field>
-                    </div>
-                    <v-btn @click="removeCredential(index)">X</v-btn>
                   </div>
-                  <div v-for="item in credentialForms" :key="item">
-                    <credential-form v-on:update="saveCredential"></credential-form>
+                  <div style="margin: 0 2vw">
+                    <h3>Git</h3>
+                    <div style="margin: auto; width: 85%">
+                      <v-radio-group v-model="gitKind" row :rules="[rules.required]">
+                        <v-radio label="GitLab" value="gitlab"></v-radio>
+                        <v-radio label="GitHub" value="github"></v-radio>
+                      </v-radio-group>
+                      Git URL<v-text-field
+                      v-model="giturl"
+                      :rules="[rules.required]"
+                      ></v-text-field>
+                    </div>
+                  </div> 
+                  <div style="margin: 2vw">
+                    <h3>Credential</h3>
+                    <div style="margin: 0 auto; width: 85%">
+                      <div style="margin: 2vw;" v-for="(credential, index) in credentials" :key="index">
+                        <div v-if="credential.kind=='Username_with_password'" style="font-weight:bold">
+                          <p style="font-size:1.3rem">Username_with_password</p>
+                          ID<v-text-field
+                          v-model="credential.id"
+                          :rules="[rules.required]"
+                          ></v-text-field>
+                          Username<v-text-field
+                          v-model="credential.username"
+                          :rules="[rules.required]"
+                          ></v-text-field>
+                          Password<v-text-field
+                          v-model="credential.password"
+                          :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" 
+                          :rules="[rules.required]" 
+                          :type="show1 ? 'text' : 'password'"
+                          @click:append="show1 = !show1"
+                          ></v-text-field>
+                        </div>
+                        <div v-if="credential.kind=='GitHub_App'" style="font-weight:bold">
+                          <p style="font-size:1.3rem">GitHub_App</p>
+                          ID<v-text-field
+                          v-model="credential.id"
+                          :rules="[rules.required]"
+                          ></v-text-field>
+                          App ID<v-text-field
+                          v-model="credential.appID"
+                          :rules="[rules.required]"
+                          ></v-text-field>
+                          Key<v-textarea
+                          v-model="credential.key" 
+                          :rules="[rules.required]"
+                          background-color="blue-grey lighten-4"
+                          ></v-textarea>
+                        </div>
+                        <div v-if="credential.kind=='GitLap_API_token'" style="font-weight:bold">
+                          <p style="font-size:1.3rem">GitLap_API_token</p>
+                          ID<v-text-field
+                          v-model="credential.id"
+                          :rules="[rules.required]"
+                          ></v-text-field>
+                          API token<v-text-field
+                          v-model="credential.apiKey"
+                          :rules="[rules.required]"
+                          ></v-text-field>
+                        </div>
+                        <div v-if="credential.kind=='SSH_Username_with_private_key'" style="font-weight:bold">
+                          <p style="font-size:1.3rem">SSH_Username_with_private_key</p>
+                          ID<v-text-field
+                          v-model="credential.id"
+                          :rules="[rules.required]"
+                          ></v-text-field>
+                          Username<v-text-field
+                          v-model="credential.username"
+                          :rules="[rules.required]"
+                          ></v-text-field>
+                          Key<v-textarea
+                          v-model="credential.key"
+                          :rules="[rules.required]"
+                          background-color="blue-grey lighten-4"
+                          ></v-textarea>
+                          Passphrase<v-text-field
+                          v-model="credential.key"
+                          :rules="[rules.required]"
+                          ></v-text-field>
+                        </div>
+                        <v-btn @click="removeCredential(index)">X</v-btn>
+                      </div>
+                      <div v-for="item in credentialForms" :key="item">
+                        <credential-form v-on:update="saveCredential"></credential-form>
+                      </div>
+                    </div>
+                    <v-btn v-if="credentialForms.length==0" @click="toggleCredentialForm">+</v-btn>
+                    <v-btn v-if="credentialForms.length==1" @click="toggleCredentialForm">-</v-btn>
                   </div>
-                  <v-btn v-if="credentialForms.length==0" @click="toggleCredentialForm">+</v-btn>
-                  <v-btn v-if="credentialForms.length==1" @click="toggleCredentialForm">-</v-btn>
-                </div>
 
-                <div style="margin: 2vw">
-                  <h3>Server</h3>
-                  <div style="margin: 2vw;" v-for="(server, index) in servers" :key="index">
-                    <div v-show="server.kind=='Spring'">
-                       Kind<v-text-field
-                      v-model="server.kind"
-                      disabled
-                      ></v-text-field>
+                  <div style="margin: 2vw">
+                    <h3>Server</h3>
+                    <div style="margin: 0 auto; width: 85%">
+                      <div style="margin: 2vw;" v-for="(server, index) in servers" :key="index">
+                        <div v-if="server.kind=='Spring_maven' || server.kind=='Spring_gradle'" style="font-weight:bold">
+                          <p style="font-size:1.3rem;">Spring</p>
+                          port<v-text-field
+                          v-model="server.port"
+                          :rules="[rules.required]"
+                          ></v-text-field>
+                          pom.xml<v-text-field
+                          v-model="server.info"
+                          :rules="[rules.required]"
+                          ></v-text-field>
+                          <v-radio-group v-model="server.kind" row :rules="[rules.required]">
+                            <v-radio label="Maven" value="Spring_maven"></v-radio>
+                            <v-radio label="Gradle" value="Spring_gradle"></v-radio>
+                          </v-radio-group>
+                        </div>
+                        <div v-if="server.kind=='Vue'" style="font-weight:bold">
+                          <p style="font-size:1.3rem;">Vue</p>
+                          port<v-text-field
+                          v-model="server.port"
+                          :rules="[rules.required]"
+                          ></v-text-field>
+                          package.json<v-text-field
+                          v-model="server.info"
+                          :rules="[rules.required]"
+                          ></v-text-field>
+                        </div>
+                        <v-btn @click="removeServer(index)">X</v-btn>
+                      </div>
+                      <div v-for="item in serverForms" :key="item">
+                        <server-form v-on:update="saveServer"></server-form>
+                      </div>
                     </div>
-                    <div v-show="server.kind=='Vue'">
-                       Kind<v-text-field
-                      v-model="server.kind"
-                      disabled
-                      ></v-text-field>
-                    </div>
-                    <v-btn @click="removeServer(index)">X</v-btn>
+                    <v-btn v-if="serverForms.length==0" @click="toggleServerForm">+</v-btn>
+                    <v-btn v-if="serverForms.length==1" @click="toggleServerForm">-</v-btn>
                   </div>
-                  <div v-for="item in serverForms" :key="item">
-                    <server-form v-on:update="saveServer"></server-form>
-                  </div>
-                  <v-btn v-if="serverForms.length==0" @click="toggleServerForm">+</v-btn>
-                  <v-btn v-if="serverForms.length==1" @click="toggleServerForm">-</v-btn>
+                  <br>
                 </div>
-                <br>
-                <!-- <v-checkbox v-model="checkSpring" label="Spring" hide-details=""></v-checkbox>
-                <spring v-show="checkSpring"></spring>
-                
-                <v-checkbox v-model="checkVuejs" label="Vue.js" hide-details=""></v-checkbox>
-                <vuejs v-show="checkVuejs"></vuejs> -->
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </template>
-    </v-simple-table>
+              </td>
+            </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
+    </v-form>
     <div id="btn-area">
-      <v-btn class="font15" elevation="2" color="grey darken-3" style="color: white" @click="save">저장하기</v-btn>
+      <v-btn class="font15" :disabled="!valid" elevation="2" color="grey darken-3" style="color: white" @click="save">저장하기</v-btn>
     </div>
   </v-container>
 </template>
@@ -170,6 +193,9 @@ export default {
       name: 'SSAKINS 1차 CI/CD 설정',
       checkSpring: false,
       checkVuejs: false,
+      url: null,
+      port: null,
+      gitKind: null,
       giturl: null,
       credentials: [],
       credentialForms: [],
@@ -180,9 +206,10 @@ export default {
       show1: false,
       rules: {
         required: value => !!value || 'Required.',
-        min: v => v.length >= 8 || 'Min 8 characters',
+        number: value => /^[0-9]+$/.test(value) || 'Only number.'
       },
 
+      valid: false
     }
   },
   components: {
@@ -193,10 +220,11 @@ export default {
   },
   methods: {
     toggleCredentialForm: function() {
-      if(this.credentialForms.length==0)
+      if(this.credentialForms.length==0) {
         this.credentialForms.push('CredentialForm')
-      else
+      } else {
         this.credentialForms.pop()
+      }
     },
     removeCredential: function(index) {
       this.credentials.splice(index, 1)
@@ -206,10 +234,11 @@ export default {
       this.credentials.push(credential)
     },
     toggleServerForm: function() {
-      if(this.serverForms.length==0)
+      if(this.serverForms.length==0) {
         this.serverForms.push('CredentialForm')
-      else
+      } else {
         this.serverForms.pop()
+      }
     },
     removeServer: function(index) {
       this.servers.splice(index, 1)

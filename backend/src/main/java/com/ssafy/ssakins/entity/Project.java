@@ -12,6 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 public class Project {
     private String name;
+    private String url;
+    private int port;
     private String giturl;
     private List<Plugin> plugins;
     private List<Credential> credentials;
@@ -26,6 +28,14 @@ public class Project {
 
     public void changeGiturl(String giturl){
         this.giturl=giturl;
+    }
+    
+    public void changeUrl(String url) {
+    	this.url=url;
+    }
+    
+    public void changePort(int port) {
+    	this.port=port;
     }
 
     public void addPlugin(Plugin plugin){
