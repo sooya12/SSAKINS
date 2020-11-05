@@ -22,7 +22,7 @@ echo "  <?xml version='1.1' encoding='UTF-8'?>
         <jenkins.plugins.nodejs.tools.NodeJSInstallation_-DescriptorImpl plugin="nodejs@1.3.9">
             <installations class="jenkins.plugins.nodejs.tools.NodeJSInstallation-array">
                 <jenkins.plugins.nodejs.tools.NodeJSInstallation>
-                    <name>nodejs 14</name>
+                    <name>nodejs</name>
                     <properties>
                         <hudson.tools.InstallSourceProperty>
                             <installers>
