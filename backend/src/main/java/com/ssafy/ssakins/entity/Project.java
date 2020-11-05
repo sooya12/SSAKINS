@@ -15,6 +15,7 @@ public class Project {
     private String url;
     private int port;
     private String giturl;
+    private SSHServer sshServer;
     private List<Plugin> plugins;
     private List<Credential> credentials;
     private List<Server> servers;
