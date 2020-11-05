@@ -1179,11 +1179,53 @@ println(secret.getEncryptedValue())
 
 
 
-### 내일 할일
-
-back에서 사용할 변수들을 넣어서 저장.
-
-sed 사용해서 .xml 수정하기 < sh 파일 만들기
 
 
+# 2020년 11월 06일
 
+* ssh.sh
+
+```shell
+IPADDRESS=$(sed -n 1p ./Data)
+echo $IPADDRESS
+
+SERVERNAME=$(sed -n 2p ./Data)
+echo $SERVERNAME
+
+SSH=$(sed -n 3p ./Data)
+echo $SSH
+
+
+sed -i'' -r -e '/hostname\//i\<hostname>'"$IPADDRESS"'</hostname>' ./ssakins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+
+sed -i '/hostname\//d' ./ssakins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+
+
+
+sed -i'' -r -e '/username\//i\<username>'"$SERVERNAME"'</username>' ./ssakins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+
+sed -i '/username\//d' ./ssakins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+
+
+
+sed -i'' -r -e '/name\//i\<name>'"$SSH"'</name>' ./ssakins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+
+sed -i '/name\//d' ./ssakins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+
+```
+
+
+
+* 임시 Data
+
+```shell
+ip
+server
+this is ssh
+```
+
+
+
+### 다음주에 할일
+
+key : value 상태로 받아서 처리하기
