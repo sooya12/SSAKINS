@@ -58,7 +58,11 @@ export default {
   },
   methods: {
     go(item) {
-      this.$router.push(item.value);
+      if (this.$route.path !== item.value) {
+        this.$router.push(item.value);
+      } else {
+        this.$router.go();
+      }
     },
   },
   mounted() {
