@@ -1,65 +1,69 @@
 <template>
   <div id="Credential">
   <v-form ref="form" v-model="valid">
-    Kind
+    <h4>Kind</h4>
     <v-select :items="computedItems" @change="resetForm" v-model="credentialSelected" :rules="[rules.required]" placeholder="Credential Kind"></v-select><br>
       <div v-if="credentialSelected=='Username_with_password'">
-        ID<v-text-field
+        <h4>ID</h4><v-text-field
         v-model="id"
         :rules="[rules.required]"
         ></v-text-field>
-        Username<v-text-field
+        <h4>Username</h4><v-text-field
         v-model="username"
         :rules="[rules.required]"
         ></v-text-field>
-        Password<v-text-field
+        <h4>Password</h4><v-text-field
         v-model="password"
         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" 
         :rules="[rules.required]" 
         :type="show1 ? 'text' : 'password'"
         @click:append="show1 = !show1"
         ></v-text-field>
+        <v-radio-group v-model="isHub" row :rules="[rules.required]">
+          <v-radio label="GitLab" value="false"></v-radio>
+          <v-radio label="GitHub" value="true"></v-radio>
+        </v-radio-group>
       </div>
       <div v-if="credentialSelected=='GitHub_App'">
-        ID<v-text-field
+        <h4>ID</h4><v-text-field
         v-model="id"
         :rules="[rules.required]"
         ></v-text-field>
-        App ID<v-text-field
+        <h4>App ID</h4><v-text-field
         v-model="appID"
         :rules="[rules.required]"
         ></v-text-field>
-        Key<v-textarea
+        <h4>Key</h4><v-textarea
         v-model="key" 
         :rules="[rules.required]"
         background-color="blue-grey lighten-4"
         ></v-textarea>
       </div>
       <div v-if="credentialSelected=='GitLap_API_token'">
-        ID<v-text-field
+        <h4>ID</h4><v-text-field
         v-model="id"
         :rules="[rules.required]"
         ></v-text-field>
-        API token<v-text-field
+        <h4>API token</h4><v-text-field
         v-model="apiKey"
         :rules="[rules.required]"
         ></v-text-field>
       </div>
       <div v-if="credentialSelected=='SSH_Username_with_private_key'">
-        ID<v-text-field
+        <h4>ID</h4><v-text-field
         v-model="id"
         :rules="[rules.required]"
         ></v-text-field>
-        Username<v-text-field
+        <h4>Username</h4><v-text-field
         v-model="username"
         :rules="[rules.required]"
         ></v-text-field>
-        Key<v-textarea
+        <h4>Key</h4><v-textarea
         v-model="key"
         :rules="[rules.required]"
         background-color="blue-grey lighten-4"
         ></v-textarea>
-        Passphrase<v-text-field
+        <h4>Passphrase</h4><v-text-field
         v-model="passphrase"
         :rules="[rules.required]"
         ></v-text-field>
@@ -103,6 +107,7 @@ export default {
       id: null,
       username: null,
       password: null,
+      isHub: null,
       apiKey: null,
       appID: null,
       key: null,
@@ -127,10 +132,19 @@ export default {
   },
   methods: {
     saveCredential() {
+      // if(this.credentialSelected=='Username_with_password') {
+      //   if(this.isHub=="true") {
+      //     this.isHub=true
+      //   } else if(this.isHub=="false") {
+      //     this.isHub=false
+      //   }
+      // }
+
       this.$emit('update',{
         kind: this.credentialSelected,
         id: this.id,
         password: this.password,
+        isHub: this.isHub,
         apiKey: this.apiKey,
         appID: this.appID,
         key: this.key,
@@ -147,6 +161,9 @@ export default {
       //   passphrase: this.passphrase
       // })
     },
+    addJVMOption() {
+      
+    },
     resetForm() {
       let current = this.credentialSelected
       this.$refs.form.reset()
@@ -161,6 +178,5 @@ export default {
   position: relative;
   /* width: 85%; */
   margin: 2vw auto;
-  font-weight: bold;
 }
 </style>

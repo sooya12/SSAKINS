@@ -23,11 +23,11 @@
                   <div style="margin: 0 2vw">
                     <h3>Jenkins</h3><br>
                     <div style="margin: auto; width: 85%">
-                      URL<v-text-field
+                      <h4>URL</h4><v-text-field
                       v-model="url"
                       :rules="[rules.required]"
                       ></v-text-field>
-                      Port<v-text-field
+                      <h4>Port</h4><v-text-field
                       v-model="port" 
                       :rules="[rules.required, rules.number]"
                       ></v-text-field>
@@ -35,83 +35,113 @@
                     </div>
                   </div>
                   <div style="margin: 0 2vw">
-                    <h3>Git</h3>
+                    <h3>Git</h3><br>
                     <div style="margin: auto; width: 85%">
+                      <h4>Git URL</h4><v-text-field
+                      v-model="giturl"
+                      :rules="[rules.required]"
+                      ></v-text-field>
                       <v-radio-group v-model="gitKind" row :rules="[rules.required]">
                         <v-radio label="GitLab" value="gitlab"></v-radio>
                         <v-radio label="GitHub" value="github"></v-radio>
                       </v-radio-group>
-                      Git URL<v-text-field
-                      v-model="giturl"
+                      <br>
+                    </div>
+                  </div>
+                  <div style="margin: 0 2vw">
+                    <h3>Publish over SSH</h3><br>
+                    <div style="margin: auto; width: 85%">
+                      <h4>Server Hostname</h4><v-text-field
+                      v-model="SSHServer.userName"
                       :rules="[rules.required]"
                       ></v-text-field>
+                      <h4>Server Username</h4><v-text-field
+                      v-model="SSHServer.userName"
+                      :rules="[rules.required]"
+                      ></v-text-field>
+                      <h4>Server Remote Directory</h4><v-text-field
+                      v-model="SSHServer.remoteDirectory"
+                      :rules="[rules.required]"
+                      ></v-text-field>
+                      <h4>Server Password</h4><v-text-field
+                      v-model="SSHServer.password"
+                      ></v-text-field>
+                      <h4>Key</h4><v-textarea
+                      v-model="SSHServer.key"
+                      :rules="[rules.required]"
+                      background-color="blue-grey lighten-4"
+                      ></v-textarea>
                     </div>
-                  </div> 
+                  </div>
                   <div style="margin: 2vw">
                     <h3>Credential</h3>
                     <div style="margin: 0 auto; width: 85%">
-                      <div style="margin: 2vw;" v-for="(credential, index) in credentials" :key="index">
-                        <div v-if="credential.kind=='Username_with_password'" style="font-weight:bold">
+                      <div style="margin-top: 1vw; margin-bottom: 1vw" v-for="(credential, index) in credentials" :key="index">
+                        <div v-if="credential.kind=='Username_with_password'">
                           <p style="font-size:1.3rem">Username_with_password</p>
-                          ID<v-text-field
+                          <h4>ID</h4><v-text-field
                           v-model="credential.id"
                           :rules="[rules.required]"
                           ></v-text-field>
-                          Username<v-text-field
+                          <h4>Username</h4><v-text-field
                           v-model="credential.username"
                           :rules="[rules.required]"
                           ></v-text-field>
-                          Password<v-text-field
+                          <h4>Password</h4><v-text-field
                           v-model="credential.password"
                           :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" 
                           :rules="[rules.required]" 
                           :type="show1 ? 'text' : 'password'"
                           @click:append="show1 = !show1"
                           ></v-text-field>
+                          <v-radio-group v-model="credential.isHub" row :rules="[rules.required]">
+                            <v-radio label="GitLab" value="false"></v-radio>
+                            <v-radio label="GitHub" value="true"></v-radio>
+                          </v-radio-group>
                         </div>
-                        <div v-if="credential.kind=='GitHub_App'" style="font-weight:bold">
+                        <div v-if="credential.kind=='GitHub_App'">
                           <p style="font-size:1.3rem">GitHub_App</p>
-                          ID<v-text-field
+                          <h4>ID</h4><v-text-field
                           v-model="credential.id"
                           :rules="[rules.required]"
                           ></v-text-field>
-                          App ID<v-text-field
+                          <h4>App ID</h4><v-text-field
                           v-model="credential.appID"
                           :rules="[rules.required]"
                           ></v-text-field>
-                          Key<v-textarea
+                          <h4>Key</h4><v-textarea
                           v-model="credential.key" 
                           :rules="[rules.required]"
                           background-color="blue-grey lighten-4"
                           ></v-textarea>
                         </div>
-                        <div v-if="credential.kind=='GitLap_API_token'" style="font-weight:bold">
+                        <div v-if="credential.kind=='GitLap_API_token'">
                           <p style="font-size:1.3rem">GitLap_API_token</p>
-                          ID<v-text-field
+                          <h4>ID</h4><v-text-field
                           v-model="credential.id"
                           :rules="[rules.required]"
                           ></v-text-field>
-                          API token<v-text-field
+                          <h4>API token</h4><v-text-field
                           v-model="credential.apiKey"
                           :rules="[rules.required]"
                           ></v-text-field>
                         </div>
-                        <div v-if="credential.kind=='SSH_Username_with_private_key'" style="font-weight:bold">
+                        <div v-if="credential.kind=='SSH_Username_with_private_key'">
                           <p style="font-size:1.3rem">SSH_Username_with_private_key</p>
-                          ID<v-text-field
+                          <h4>ID</h4><v-text-field
                           v-model="credential.id"
                           :rules="[rules.required]"
                           ></v-text-field>
-                          Username<v-text-field
+                          <h4>Username</h4><v-text-field
                           v-model="credential.username"
                           :rules="[rules.required]"
                           ></v-text-field>
-                          Key<v-textarea
+                          <h4>Key</h4><v-textarea
                           v-model="credential.key"
                           :rules="[rules.required]"
                           background-color="blue-grey lighten-4"
                           ></v-textarea>
-                          Passphrase<v-text-field
+                          <h4>Passphrase</h4><v-text-field
                           v-model="credential.key"
                           :rules="[rules.required]"
                           ></v-text-field>
@@ -129,14 +159,14 @@
                   <div style="margin: 2vw">
                     <h3>Server</h3>
                     <div style="margin: 0 auto; width: 85%">
-                      <div style="margin: 2vw;" v-for="(server, index) in servers" :key="index">
-                        <div v-if="server.kind=='Spring_maven' || server.kind=='Spring_gradle'" style="font-weight:bold">
+                      <div style="margin-top: 1vw; margin-bottom: 1vw" v-for="(server, index) in servers" :key="index">
+                        <div v-if="server.kind=='Spring_maven' || server.kind=='Spring_gradle'">
                           <p style="font-size:1.3rem;">Spring</p>
-                          port<v-text-field
+                          <h4>port</h4><v-text-field
                           v-model="server.port"
                           :rules="[rules.required]"
                           ></v-text-field>
-                          pom.xml<v-text-field
+                          <h4>pom.xml</h4><v-text-field
                           v-model="server.info"
                           :rules="[rules.required]"
                           ></v-text-field>
@@ -144,14 +174,21 @@
                             <v-radio label="Maven" value="Spring_maven"></v-radio>
                             <v-radio label="Gradle" value="Spring_gradle"></v-radio>
                           </v-radio-group>
+                          <h4 v-if="server.options.length!=0">JVM Options</h4><br>
+                          <div v-for="(option,idx) in server.options" :key="idx">
+                            <h5 style="clear: both">Option</h5>
+                            <v-text-field v-model="server.options[idx]" :rules="[rules.required]" style="width: 90%; float: left"></v-text-field>
+                            <v-btn style="float: right; margin-right 1vw" @click="delOption(index, idx)">삭제</v-btn>
+                          </div>
+                          <v-btn style="float: right" @click="addOption(index)">+ JVM Option</v-btn>
                         </div>
-                        <div v-if="server.kind=='Vue'" style="font-weight:bold">
+                        <div v-if="server.kind=='Vue'">
                           <p style="font-size:1.3rem;">Vue</p>
-                          port<v-text-field
+                          <h4>port</h4><v-text-field
                           v-model="server.port"
                           :rules="[rules.required]"
                           ></v-text-field>
-                          package.json<v-text-field
+                          <h4>package.json</h4><v-text-field
                           v-model="server.info"
                           :rules="[rules.required]"
                           ></v-text-field>
@@ -180,8 +217,6 @@
 </template>
 
 <script>
-// import Spring from '@/components/Spring.vue'
-// import Vuejs from '@/components/Vuejs.vue'
 import CredentialForm from '@/components/CredentialForm.vue'
 import ServerForm from '@/components/ServerForm.vue'
 import axios from 'axios'
@@ -199,7 +234,13 @@ export default {
       giturl: null,
       credentials: [],
       credentialForms: [],
-
+      SSHServer: {
+        key: null,
+        hostName: null,
+        userName: null,
+        remoteDirectory: null,
+        password: null
+      },
       servers: [],
       serverForms: [],
 
@@ -247,6 +288,12 @@ export default {
       this.serverForms.pop()
       this.servers.push(server)
     },
+    addOption(index) {
+      this.servers[index].options.push("")
+    },
+    delOption(index, idx) {
+      this.servers[index].options.splice(idx, 1)
+    },
     save: function() {
       axios.post(this.$store.state.server + 'project/save', {
         project :{
@@ -262,8 +309,6 @@ export default {
       }).catch(err=>{
         console.log(err)
       })
-
-
     }
   }
 }
