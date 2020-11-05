@@ -79,10 +79,16 @@
             <h2 style="text-align:center; color:white;">
               개발에 좋지 않습니다
             </h2>
-            <h1 class="btn btn-primary" @click="start()">START</h1>
-            <h1 class="btn btn-info" @click="hint = true">HINT</h1>
+            <h1 class="btn btn-primary" @click="start()">시작</h1>
+            <h1 class="btn btn-info" @click="hint = true">조작법</h1>
           </div>
         </div>
+        <audio
+          v-if="flag"
+          :src="require('@/assets/tetris.mp3')"
+          autoplay
+          loop
+        ></audio>
         <div class="next-block" @click="move('right')">
           <div class="bg-dark">
             <div class="block block-bdr ma-1" v-for="(nb, i) in nextB" :key="i">
@@ -97,14 +103,16 @@
         <div class="down-area" @click="spaceDown()"></div>
         <transition name="slide-up">
           <div class="hint" v-if="hint">
-            <h3>Tap on Screen or Press on Key</h3>
-            <h5>1. Move Left(click left-hand side or arrow key)</h5>
-            <h5>2. Move Right(click right-hand side or arrow key)</h5>
-            <h5>3. Move Down(arrow key)</h5>
-            <h5>4. Spin Clockwise(click center screen, up arrow or X key)</h5>
-            <h5>5. Spin Anti-Clockwise(press Z key)</h5>
-            <h5>6. Drop to Bottom(click blank side below or SPACE key)</h5>
-            <h5>7. Hold Block(click left top gird or SHIFT key)</h5>
+            <h3>화면을 탭하거나 방향키를 누르세요</h3>
+            <br />
+            <h5>1. 왼쪽 이동(왼쪽 화면 또는 왼쪽 방향키)</h5>
+            <h5>2. 오른쪽 이동(오른쪽 화면 또는 방향키)</h5>
+            <h5>
+              3. 시계 방향으로 회전 (중앙 화면 클릭, 위쪽 화살표 또는 X 키)
+            </h5>
+            <h5>4. 시계 반대 방향으로 회전 (Z 키)</h5>
+            <h5>5. 아래로 내리기(SPACE 키)</h5>
+            <h5>6. 블록 홀드(왼쪽 상단 클릭 또는 SHIFT 키)</h5>
             <div class="btn-dark" @click="hint = false">OK</div>
           </div>
         </transition>
@@ -398,6 +406,7 @@ export default {
   },
   data() {
     return {
+      flag: false,
       dropB: null, // {arr:[[0,4],[1,4],[0,5],[1,5]],idx:6,type:0}
       nextB: [],
       holdB: null,
@@ -416,8 +425,8 @@ export default {
         "#4285F4",
       ],
       dashboard: {
-        time: "05:00",
-        resTime: 5 * 60 * 1000,
+        time: "01:00",
+        resTime: 1 * 60 * 1000,
         score: 0,
         combo: false,
         acc_combo: 0,
@@ -521,7 +530,6 @@ export default {
       }
     },
     countDown() {
-      // 計時板
       if (this.dashboard.resTime > 0) {
         this.dashboard.resTime -= 1000;
         var sec = "0" + (Math.floor(this.dashboard.resTime / 1000) % 60);
@@ -531,6 +539,7 @@ export default {
       } else {
         clearTimeout(this.timeout);
         this.menu = true;
+        this.flag = false;
       }
     },
     main() {
@@ -538,7 +547,6 @@ export default {
         this.nextBlock();
         this.dashboard.combo = false;
         this.spawnNewBlock = false;
-        //是否KO
         if (!this.dropB.arr.every((x) => this.coord[x[0]][x[1]] == 0)) {
           // eslint-disable-next-line no-unused-vars
           this.coord = new Array(20).fill(0).map((x) => new Array(10).fill(0));
@@ -554,7 +562,6 @@ export default {
           this.main();
         }
       } else {
-        //檢查方塊是否在最底部
         this.hideBlock();
         if (
           this.dropB.arr.every(
@@ -571,7 +578,6 @@ export default {
       }
     },
     clearLine() {
-      //消除滿行方塊
       for (let i = 0; i < 20; i++) {
         if (this.coord[i].indexOf(0) === -1) {
           this.coord.splice(i, 1);
@@ -685,11 +691,12 @@ export default {
       }
     },
     start() {
-      // eslint-disable-next-line no-unused-vars
-      this.coord = new Array(20).fill(0).map((x) => new Array(10).fill(0));
+      (this.flag = true),
+        // eslint-disable-next-line no-unused-vars
+        (this.coord = new Array(20).fill(0).map((x) => new Array(10).fill(0)));
       this.dashboard = {
-        time: "05:00",
-        resTime: 5 * 60 * 1000,
+        time: "01:00",
+        resTime: 1 * 60 * 1000,
         score: 0,
         combo: false,
         acc_combo: 0,
