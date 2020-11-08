@@ -882,3 +882,158 @@ echo "  <?xml version='1.1' encoding='UTF-8'?>
 ```나의 경로는 sooyaRepository```
 
 ```나의 도커는 ssakins0```
+
+
+
+## :calendar: 20.11.07
+
+#### :black_nib: /jenkins_home/config.xml파일 JAVA_HOME 수정하기
+
+sh 파일에서 JAVA_HOME 검색
+
+config.xml 파일 만들어서 JAVA_HOME 변수 값 집어 넣기
+
+```shell
+JAVAHOME=$JAVA_HOME
+echo $JAVAHOME
+
+touch configTest.xml
+echo "
+<?xml version='1.1' encoding='UTF-8'?>
+<hudson>
+        <disabledAdministrativeMonitors/>
+        <version>2.249.2</version>
+        <installStateName>RUNNING</installStateName>
+        <numExecutors>2</numExecutors>
+        <mode>NORMAL</mode>
+        <useSecurity>true</useSecurity>
+        <authorizationStrategy class="hudson.security.AuthorizationStrategy$Unsecured"/>
+        <securityRealm class="hudson.security.SecurityRealm$None"/>
+        <disableRememberMe>false</disableRememberMe>
+        <projectNamingStrategy class="jenkins.model.ProjectNamingStrategy$DefaultProjectNamingStrategy"/>
+        <workspaceDir>${JENKINS_HOME}/workspace/${ITEM_FULL_NAME}</workspaceDir>
+        <buildsDir>${ITEM_ROOTDIR}/builds</buildsDir>
+        <jdks>
+                <jdk>
+                        <name>java</name>
+                        <home>$JAVAHOME</home>
+                        <properties/>
+                </jdk>
+        </jdks>
+        <viewsTabBar class="hudson.views.DefaultViewsTabBar"/>
+        <myViewsTabBar class="hudson.views.DefaultMyViewsTabBar"/>
+        <clouds/>
+        <scmCheckoutRetryCount>0</scmCheckoutRetryCount>
+        <views>
+                <hudson.model.AllView>
+                        <owner class="hudson" reference="../../.."/>
+                        <name>all</name>
+                        <filterExecutors>false</filterExecutors>
+                        <filterQueue>false</filterQueue>
+                        <properties class="hudson.model.View$PropertyList"/>
+                </hudson.model.AllView>
+        </views>
+        <primaryView>all</primaryView>
+        <slaveAgentPort>50000</slaveAgentPort>
+        <label></label>
+        <crumbIssuer class="hudson.security.csrf.DefaultCrumbIssuer">
+                <excludeClientIPFromCrumb>false</excludeClientIPFromCrumb>
+        </crumbIssuer>
+        <nodeProperties/>
+        <globalNodeProperties/>
+</hudson>" > ./configTest.xml
+```
+
+생성된 파일로 기존 config.xml 덮어쓰기..?
+
+
+
+sed 사용해서 <jdks/> 위에 내용 삽입하고 <jdks/> 삭제하기
+
+```shell
+$ sed -i'' -r -e '/jdks/i\<jdks>\n<jdk>\n<name>java</name>\n<home>/usr/lib/jvm/java-11-openjdk-amd64</home>\n</jdk>\n</jdks>' config.xml
+
+$ sed -i '/jdks\//d' config.xml
+```
+
+
+
+예쁘게 삽입하기
+
+```shell
+// sedConfig.sh
+
+JAVAHOME=$JAVA_HOME
+echo $JAVAHOME
+
+sed -i'' -r -e '/jdks/i\\t<jdks>\n\t\t<jdk>\n\t\t\t<name>java</name>\n\t\t\t<home>'$JAVAHOME'</home>\n\t\t</jdk>\n\t</jdks>' configOrigin.xml
+
+sed -i '/jdks\//d' configOrigin.xml
+```
+
+
+
+#### :black_nib: github-plugin-configuration.xml 파일 GITHUB Credential 변경하기
+
+github-plugin-configuration.xml
+
+```xml
+<?xml version='1.1' encoding='UTF-8'?>
+<github-plugin-configuration plugin="github@1.31.0">
+    <configs>
+        <github-server-config>
+            <name>GITHUBNAME</name>
+            <apiUrl>GITHUBURL</apiUrl>
+            <manageHooks>false</manageHooks>
+            <credentialsId>GITHUBCREDENTIAL</credentialsId>
+            <clientCacheSize>20</clientCacheSize>
+        </github-server-config>
+    </configs>
+</github-plugin-configuration>
+```
+
+
+
+github-variable.sh
+
+```shell
+GITHUBNAME=sooya12
+GITHUBURL='http://github.com/sooya12'
+GITHUBCREDENTIAL=github
+
+echo $GITHUBNAME $GITHUBURL $GITHUBCREDENTIAL
+
+sed -i 's|GITHUBNAME|'$GITHUBNAME'|g' github-plugin-configuration.xml
+
+sed -i 's|GITHUBURL|'$GITHUBURL'|g' github-plugin-configuration.xml
+
+sed -i 's|GITHUBCREDENTIAL|'$GITHUBCREDENTIAL'|g' github-plugin-configuration.xml
+```
+
+
+
+sed 사용 시, 하단의 에러 발생한다면 
+
+- '/'가 빠졌거나
+- '/'를 '|'로 바꿔주거나 
+- 넣어주는 값에 '/'가 섞여있기 때문에 따옴표로 넣어주는 값을 묶어주거나
+
+```shell
+$ sed: -e expression #1, char 26: unterminated `s' command
+```
+
+
+
+#### :black_nib: credential.xml 초기 코드 수정
+
+```shell
+// modifyCredential.sh
+
+echo 'change credential'
+VALUE='<java.util.concurrent.CopyOnWriteArrayList></java.util.concurrent.CopyOnWriteArrayList>'
+
+sed -i -r -e '/CopyOnWriteArrayList/c\\t\t\t'$VALUE credential.xml
+```
+
+
+
