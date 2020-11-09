@@ -61,6 +61,9 @@ export default {
       tool: null,
       options: [],
 
+      sKind: this.serverKind,
+      dKind: this.disabledKind,
+
       rules: {
         required: value => !!value || 'Required.',
         number: value => /^[0-9]+$/.test(value) || 'Only number.'
@@ -74,10 +77,10 @@ export default {
   },
   computed: {
     computedItems() {
-      return this.serverKind.map(item => {
+      return this.sKind.map(item => {
         return {
           text: item,
-          disabled: this.disabledKind.includes(item)
+          disabled: this.dKind.includes(item)
         }
       })
     }
@@ -86,9 +89,9 @@ export default {
     saveServer() {
       if(this.serverSelected=='Spring') {
         this.serverSelected=this.tool
-        this.disabledKind.push('Spring')
+        this.dKind.push('Spring')
       } else if(this.serverSelected=='Vue') {
-        this.disabledKind.push('Vue')
+        this.dKind.push('Vue')
       }
       
       this.$emit('update',{
