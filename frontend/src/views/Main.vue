@@ -236,15 +236,9 @@ export default {
   },
   created() {
     axios
-      .get(this.$store.state.server + "/main" + "/list")
+      .get(this.$store.state.server + "/mongo" + "/selectAll")
       .then((res) => {
         console.log(res.data);
-        console.log("되냐?");
-      })
-      .catch((res) => {
-        console.log("에러");
-        console.log(res.data);
-        console.log(res);
       });
   },
   watch: {

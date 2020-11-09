@@ -14,11 +14,11 @@ public class Project {
     private String name;
     private String url;
     private int port;
-    private String giturl;
+    private Git git;
     private SSHServer sshServer;
     private List<Plugin> plugins;
     private List<Credential> credentials;
-    private List<Server> servers;
+    private Server servers;
     private List<GlobalTool> globalTools;
     private List<Command> commands;
 
@@ -27,9 +27,7 @@ public class Project {
         this.name=name;
     }
 
-    public void changeGiturl(String giturl){
-        this.giturl=giturl;
-    }
+    public void changeGit(Git git){ this.git=git; }
     
     public void changeUrl(String url) {
     	this.url=url;
@@ -47,9 +45,7 @@ public class Project {
         getCredentialsInternal().add(credential);
     }
 
-    public void addServer(Server server){
-        getServersInternal().add(server);
-    }
+    public void addServer(Server servers){ this.servers=servers; }
 
     public void addGlobalTool(GlobalTool globalTool){
         getGlobalToolsInternal().add(globalTool);
@@ -73,12 +69,12 @@ public class Project {
         }
         return this.credentials;
     }
-    private List<Server> getServersInternal(){
-        if(this.servers==null){
-            this.servers=new ArrayList<>();
-        }
-        return this.servers;
-    }
+//    private List<Server> getServersInternal(){
+//        if(this.servers==null){
+//            this.servers=new ArrayList<>();
+//        }
+//        return this.servers;
+//    }
     private List<GlobalTool> getGlobalToolsInternal(){
         if(this.globalTools==null){
             this.globalTools=new ArrayList<>();
@@ -97,7 +93,7 @@ public class Project {
     public String toString() {
         return "Project{" +
                 "name='" + name + '\'' +
-                ", giturl='" + giturl + '\'' +
+                ", git='" + git + '\'' +
                 ", plugins=" + plugins +
                 ", credentials=" + credentials +
                 ", servers=" + servers +
