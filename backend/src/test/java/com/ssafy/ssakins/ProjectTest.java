@@ -16,21 +16,22 @@ class ProjectTest {
 //    @Test
 //    void makeAccount(){
 //        Account account = Account.builder()
-//                .name("이최")
-//                .email("lc@lc.com")
+//                .name("챙")
+//                .email("goguma@ssafy.com")
 //                .build();
 //        Assert.notNull(accountRepository.save(account),"저장 안됨.");
 //    }
 
     @Test
     void getAccount(){
-        System.out.println(accountRepository.findByEmail("lc@lc.com").get());
+//        System.out.println(accountRepository.findAll());
+        System.out.println(accountRepository.findByEmail("sooya@ssakins.com").get());
 
-        Assert.notNull(accountRepository.findByEmail("lc@lc.com").get(),"null임");
+//        Assert.notNull(accountRepository.findByEmail("lc@lc.com").get(),"null임");
     }
 
-    @Test
-    void addProject(){
-
-    }
+//    @Test
+//    void addProject(){
+//
+//    }
 }

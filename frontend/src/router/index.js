@@ -7,45 +7,53 @@ import Create from '@/views/Create.vue'
 import Game from '@/views/Game.vue'
 import Edit from '@/views/Edit.vue'
 import Detail from '@/views/Detail.vue'
+import Login from '@/components/LoginComponent'
 
 Vue.use(VueRouter)
 
 const routes =[
-    {
-        path: '/',
-        name: 'Home',
-        component: Home
-    },
-    {
-        path : '/main',
-        name : 'Main',
-        component : Main
-    },
-    {
-        path : '/notice',
-        name : 'Notice',
-        component : Notice
-    },
-    {
-        path : '/create',
-        name : 'Create',
-        component : Create
-    },
-    {
-        path: '/edit',
-        name: 'Edit',
-        component: Edit 
-    },
-    {
-        path: '/detail',
-        name: 'Detail',
-        component: Detail
-    },
-    {
-        path : '/game',
-        name : 'Game',
-        component : Game
-    },
+  {
+    path: '/',
+    name: 'Home',
+    component: Home
+  },
+  {
+    path : '/main',
+    name : 'Main',
+    component : Main
+  },
+  {
+    path : '/notice',
+    name : 'Notice',
+    component : Notice
+  },
+  {
+    path : '/create',
+    name : 'Create',
+    component : Create
+  },
+  {
+    path: '/edit',
+    name: 'Edit',
+    component: Edit 
+  },
+  {
+    path: '/detail',
+    name: 'Detail',
+    component: Detail
+  },
+  {
+    path : '/game',
+    name : 'Game',
+    component : Game
+  },
+  {
+    path: '/login/:email',
+    name: 'Login',
+    component: Login,
+    props: true
+  },
+
 ]
 
 const router = new VueRouter({

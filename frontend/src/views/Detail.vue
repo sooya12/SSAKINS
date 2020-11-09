@@ -27,17 +27,7 @@
             <td class="text-left font15" style="vertical-align: top"><br>설정 내용</td>
             <td>
               <div id="content" class="font15">
-              컴포넌트들이 들어갈 자리입니다.
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
+              
               </div>
             </td>
           </tr>
@@ -60,24 +50,37 @@
 <script>
 import Navigator from "../components/Navigator";
 import Header from "../components/Header";
+import axios from 'axios'
 
 export default {
   name: 'Detail',
   data() {
     return {
-      name: 'SSAKINS 1차 CI/CD 설정',
-      createDay: '2020.10.12',
-      editDay: '2020.10.13',
+      userEmail: 'sooya@ssakins.com',
+      name: 'test4',
+      project: null,
     }
   },
   methods: {
     goEdit() {
       this.$router.push("/edit")
+    },
+    getDetail() {
+      axios.get(this.$store.state.server, {
+
+      }).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
     }
   },
   components: {
     navigator: Navigator,
     headers: Header
+  },
+  mounted: {
+
   }
   
 }

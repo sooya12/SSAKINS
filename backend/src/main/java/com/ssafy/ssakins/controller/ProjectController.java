@@ -1,6 +1,7 @@
 package com.ssafy.ssakins.controller;
 
 import com.ssafy.ssakins.dto.AccountAndProject;
+import com.ssafy.ssakins.entity.ServerKind;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

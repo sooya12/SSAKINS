@@ -3,9 +3,9 @@
     <useAuthenticatedEndpoint>true</useAuthenticatedEndpoint>
     <connections>
         <com.dabsquared.gitlabjenkins.connection.GitLabConnection>
-            <name>[gitlab 이름]</name>
-            <url>https://lab.ssafy.com/</url>
-            <apiTokenId>[gitlab 크레덴셜]</apiTokenId> <!-- docker에서 jenkins-cli.jar groovy 사용 -->
+            <name>GITLABNAME</name>
+            <url>GITLABURL</url>
+            <apiTokenId>GITLABCREDENTIAL</apiTokenId> <!-- docker에서 jenkins-cli.jar groovy 사용 -->
             <clientBuilder class="com.dabsquared.gitlabjenkins.gitlab.api.impl.AutodetectGitLabClientBuilder">
                 <id>autodetect</id>
                 <ordinal>0</ordinal>

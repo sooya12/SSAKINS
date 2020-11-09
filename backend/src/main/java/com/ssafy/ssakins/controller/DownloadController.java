@@ -1,11 +1,10 @@
 package com.ssafy.ssakins.controller;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.*;
 import java.net.URI;
-import java.util.*;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -28,6 +28,36 @@ public class DownloadController {
     public DownloadController(@Qualifier("webApplicationContext") ResourceLoader resourceLoader){
         this.resourceLoader=resourceLoader;
     }
+    
+    @RequestMapping(value="/{email}/{projectName}", method=RequestMethod.GET)
+    ResponseEntity download() {
+    	return null;
+    }
+    
+    @RequestMapping(value="/test", method=RequestMethod.GET)
+    ResponseEntity test() throws FileNotFoundException {
+    	InputStreamResource isr = new InputStreamResource(new FileInputStream(getDataFile()));
+    	return ResponseEntity.ok().header("Content-Disposition", "attachment; filename=\"data\"").body(isr);
+    }
+    
+    public File getDataFile() {
+    	File file = new File("Data");
+    	String str = "진행해"; 
+    	OutputStream out = null;
+    	try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+			bw.write(str);
+			bw.close();
+			FileInputStream fileInputStream = new FileInputStream(file);
+			IOUtils.copy(fileInputStream, out);
+			out.flush();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+    	
+    	return file;
+    }
+    
 
     @RequestMapping(value = "/zip", produces="application/zip", method = RequestMethod.GET)
     public ResponseEntity<byte[]> jenkins() throws IOException {

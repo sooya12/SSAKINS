@@ -22,7 +22,7 @@ echo "  <?xml version='1.1' encoding='UTF-8'?>
         <jenkins.plugins.nodejs.tools.NodeJSInstallation_-DescriptorImpl plugin="nodejs@1.3.9">
             <installations class="jenkins.plugins.nodejs.tools.NodeJSInstallation-array">
                 <jenkins.plugins.nodejs.tools.NodeJSInstallation>
-                    <name>nodejs 14</name>
+                    <name>nodejs</name>
                     <properties>
                         <hudson.tools.InstallSourceProperty>
                             <installers>
@@ -40,4 +40,25 @@ echo "  <?xml version='1.1' encoding='UTF-8'?>
                     </properties>
                 </jenkins.plugins.nodejs.tools.NodeJSInstallation>
             </installations>
-        </jenkins.plugins.nodejs.tools.NodeJSInstallation_-DescriptorImpl>" > /var/jenkins_home/jenkins.plugins.nodejs.tools.NodeJSInstallation.xml
+        </jenkins.plugins.nodejs.tools.NodeJSInstallation_-DescriptorImpl>" > /var/jenkins_home/jenkins.plugins.nodejs.tool/s.NodeJSInstallation.xml
+
+touch /var/jenkins_home/hudson.plugins.gradle.Gradle.xml
+echo "  <?xml version='1.1' encoding='UTF-8'?>
+        <hudson.plugins.gradle.Gradle_-DescriptorImpl plugin="gradle@1.36">
+            <installations>
+                <hudson.plugins.gradle.GradleInstallation>
+                    <name>gradle</name>
+                    <home></home>
+                    <properties>
+                        <hudson.tools.InstallSourceProperty>
+                            <installers>
+                                <hudson.plugins.gradle.GradleInstaller>
+                                    <id>6.8-milestone-2</id>
+                                </hudson.plugins.gradle.GradleInstaller>
+                            </installers>
+                        </hudson.tools.InstallSourceProperty>
+                    </properties>
+                    <gradleHome></gradleHome>
+                </hudson.plugins.gradle.GradleInstallation>
+            </installations>
+        </hudson.plugins.gradle.Gradle_-DescriptorImpl>" > /var/jenkins_home/hudson.plugins.gradle.Gradle.xml

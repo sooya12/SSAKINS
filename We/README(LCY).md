@@ -1040,11 +1040,24 @@ sh install.sh
 cd /home/ubuntu/repo/ssakins/ssakins_home
 
 // 도커 다시시작
-docker restart ssakins
+docker restart ssakins1
 
 // root 에 접근
-sudo docker exec -u root -it ssakins1 /bin/bash 
+sudo docker exec -u root -it ssakins2 /bin/bash 
+
+// 도커 확인
+sudo docker ps -a
+
+// 도커 죽이기
+sudo docker kill [도커 이미지 이름]
+sudo docker rm [도커 이미지 이름]
+
+
 ```
+
+
+
+
 
 ```shell
 // install.sh
@@ -1096,3 +1109,123 @@ echo "["`date`"] success install SSAKINS"
 
 
 
+# 2020년 11월 03일
+
+* git 설정
+
+root@9fbe0e0dbea3:/var/jenkins_home# cat hudson.plugins.git.GitTool.xml
+<?xml version='1.1' encoding='UTF-8'?>
+<hudson.plugins.git.GitTool_-DescriptorImpl plugin="git-client@3.5.1">
+  <installations class="hudson.plugins.git.GitTool-array">
+    <hudson.plugins.git.GitTool>
+      <name>git</name>
+      <home>/usr/bin/git</home>
+      <properties/>
+    </hudson.plugins.git.GitTool>
+  </installations>
+
+
+
+![image-20201103113617301](C:\Users\multicampus\AppData\Roaming\Typora\typora-user-images\image-20201103113617301.png)
+
+
+
+
+
+# 2020년 11월 04일
+
+:white_check_mark: **ssakins_home -> docker**
+
+ssakins 2 <- Repository2
+
+ssakins_home 폴더에 maven 추가, config.xml 수정
+
+install.sh 실행해서 jenkins_home 에 반영되는지 확인
+
+-----------------
+
+:white_check_mark: **jobs 관련 내용 생성되는지 확인**
+
+item 생성
+
+* item/builds 
+* item/config.xml : 기본이 아니어도 반영됨
+* item/builds/legacyIds : 빈파일
+* item/builds/permalinks 
+
+permalinks 내용
+
+lastFailedBuild -1
+lastSuccessfulBuild -1
+
+<< nodejs, pubilsh ssh 플러그인 설치 
+
+--------------------------------
+
+:white_check_mark: **비밀번호 암호 관련**
+
+현수가 groovy로 해결함
+
+java -jar /bin/jenkins-cli.jar -s http://k3a201.p.ssafy.io:8888/ groovy = < /test.groovy
+
+```groovy
+// test.groovy
+
+import hudson.util.Secret
+
+def secret = Secret.fromString("your password")
+println(secret.getEncryptedValue())
+```
+
+
+
+
+
+# 2020년 11월 06일
+
+* ssh.sh
+
+```shell
+IPADDRESS=$(sed -n 1p ./Data)
+echo $IPADDRESS
+
+SERVERNAME=$(sed -n 2p ./Data)
+echo $SERVERNAME
+
+SSH=$(sed -n 3p ./Data)
+echo $SSH
+
+
+sed -i'' -r -e '/hostname\//i\<hostname>'"$IPADDRESS"'</hostname>' ./ssakins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+
+sed -i '/hostname\//d' ./ssakins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+
+
+
+sed -i'' -r -e '/username\//i\<username>'"$SERVERNAME"'</username>' ./ssakins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+
+sed -i '/username\//d' ./ssakins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+
+
+
+sed -i'' -r -e '/name\//i\<name>'"$SSH"'</name>' ./ssakins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+
+sed -i '/name\//d' ./ssakins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+
+```
+
+
+
+* 임시 Data
+
+```shell
+ip
+server
+this is ssh
+```
+
+
+
+### 다음주에 할일
+
+key : value 상태로 받아서 처리하기
