@@ -67,7 +67,7 @@
                     <h3>Publish over SSH</h3><br>
                     <div style="margin: auto; width: 85%">
                       <h4>Server Hostname</h4><v-text-field
-                      v-model="SSHServer.userName"
+                      v-model="SSHServer.hostName"
                       :rules="[rules.required]"
                       ></v-text-field>
                       <h4>Server Username</h4><v-text-field
