@@ -5,7 +5,7 @@
         <div id="logo" style="float:left">
           <img :src="require('@/assets/ssakins.jpg')" style="" />
         </div>
-        <div id="ssakins" style="float:left; font-family:Recipekorea">
+        <div id="ssakins" style="float:left; font-family:S-CoreDream-8Heavy">
           <p>SSAKINS</p>
         </div>
       </div>
@@ -72,6 +72,7 @@ export default {
   width: 100%;
   min-width: 200px;
   height: 100px;
+  font-family: S-CoreDream-3Light;
 }
 
 img {

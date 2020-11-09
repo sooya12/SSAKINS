@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-list dense="dense" nav="nav">
+    <v-list dense="dense" nav="nav" style="font-family: S-CoreDream-3Light;">
       <v-list-item-group v-model="selectedItem" color="primary">
         <v-list-item v-for="item in items" :key="item.title" @click="go(item)">
           <v-list-item-icon>

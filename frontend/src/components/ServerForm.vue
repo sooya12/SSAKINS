@@ -72,12 +72,16 @@ export default {
       valid: false
     }
   },
+  props: {
+    serverKind: Array,
+    disabledKind: Array,
+  },
   computed: {
     computedItems() {
-      return this.$store.state.serverKind.map(item => {
+      return this.serverKind.map(item => {
         return {
           text: item,
-          disabled: this.$store.state.disabledKind.includes(item)
+          disabled: this.disabledKind.includes(item)
         }
       })
     }
@@ -86,9 +90,9 @@ export default {
     saveServer() {
       if(this.serverSelected=='Spring') {
         this.serverSelected=this.tool
-        this.$store.state.disabledKind.push('Spring')
+        this.disabledKind.push('Spring')
       } else if(this.serverSelected=='Vue') {
-        this.$store.state.disabledKind.push('Vue')
+        this.disabledKind.push('Vue')
       }
       
       this.$emit('update',{
