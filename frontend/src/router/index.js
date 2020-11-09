@@ -5,6 +5,7 @@ import Main from '@/views/Main.vue'
 import Create from '@/views/Create.vue'
 import Edit from '@/views/Edit.vue'
 import Detail from '@/views/Detail.vue'
+import Login from '@/components/LoginComponent'
 
 Vue.use(VueRouter)
 
@@ -33,7 +34,14 @@ const routes = [
     path: '/detail',
     name: 'Detail',
     component: Detail
-  }
+  },
+  {
+    path: '/login/:email',
+    name: 'Login',
+    component: Login,
+    props: true
+  },
+
 ]
 
 const router = new VueRouter({

@@ -17,7 +17,7 @@ export default {
   name: 'Home',
   methods: {
     kakaoLogin() {
-      window.location.href = 'https://kauth.kakao.com/oauth/authorize?client_id=3c19efe27e2021f8a6476f487212d326&redirect_uri=' + this.$store.state.server + '/login&response_type=code'
+      window.location.href = 'https://kauth.kakao.com/oauth/authorize?client_id=5087dfcc2c61ed08e9cf4a4282fbbf2c&redirect_uri=' + this.$store.state.server + 'account/login&response_type=code'
     }
   } 
 }

@@ -29,6 +29,8 @@ public class AccountController {
 
     public AccountController(AccountRepository accountRepository){
         this.accountRepository=accountRepository;
+        this.kakaoRedirectBackURI = BACK_SERVER_URI + "/account/login";
+        this.kakaoRedirectFrontURI = FRONT_SERVER_URI + "/main";
     }
 
     @Value("${front.url}")
@@ -36,13 +38,14 @@ public class AccountController {
     @Value("${backend.url}")
     private String BACK_SERVER_URI;
 
-    private final String kakaoRedirectBackURI = BACK_SERVER_URI + "/login/";
-    private final String kakaoRedirectFrontURI = FRONT_SERVER_URI + "/login/";
+    @Value("${backend.url}/account/login")
+    private final String kakaoRedirectBackURI;
+    @Value("${front.url}/login/")
+    private final String kakaoRedirectFrontURI;
 
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ResponseEntity login(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        System.out.println(FRONT_SERVER_URI);
         String code = request.getParameter("code"); // authorize_code
         String access_token = getKakaoAccessToken(code); // 토큰 얻어오기
 
@@ -55,7 +58,7 @@ public class AccountController {
 
         if(accountOp.isPresent()){ // 이미 정보가 있는 회원
 
-            response.sendRedirect(kakaoRedirectFrontURI + accountOp.get());
+            response.sendRedirect(kakaoRedirectFrontURI + accountOp.get().getEmail());
             return ResponseEntity.ok().body("기존 회원");
         } else {
             Account account;
@@ -63,7 +66,7 @@ public class AccountController {
                     .email(userEmail)
                     .build();
             accountRepository.save(account);
-            response.sendRedirect(kakaoRedirectFrontURI + account);
+            response.sendRedirect(kakaoRedirectFrontURI + account.getEmail());
             return ResponseEntity.ok().body("새로운 회원 생성");
 
 
@@ -78,28 +81,31 @@ public class AccountController {
         try {
             URL url = new URL(reqURL);
             HttpURLConnection con = (HttpURLConnection)url.openConnection();
-
+            //con.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
             // POST 요청을 위한 설정
             con.setRequestMethod("POST");
             con.setDoOutput(true); // 쓰는 기능 on
-
+            System.out.println(authorize_code);
             // POST 요청에 필요한 파라미터를 스트림을 통해 전송
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(con.getOutputStream()));
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
-            sb.append("&client_id=3c19efe27e2021f8a6476f487212d326");
+            sb.append("&client_id=5087dfcc2c61ed08e9cf4a4282fbbf2c");
             sb.append("&redirect_uri=" + kakaoRedirectBackURI); // 로그인 함수로 리다이렉트 하게 해 줌
+//            sb.append("&redirect_uri=" + "http://localhost:8080/account/login"); // 로그인 함수로 리다이렉트 하게 해 줌
             sb.append("&code=" + authorize_code);
-            //sb.append("&client_secret=~~");
+            sb.append("&client_secret=uJMkJL2dlOuueP3xHbnj00XDgccRH4q9");
 
             bw.write(sb.toString());
             bw.flush();
 
             int responseCode = con.getResponseCode(); // 성공 : 200
-
+            System.out.println(BACK_SERVER_URI);
+            System.out.println(kakaoRedirectBackURI);
+            System.out.println(responseCode);
             // 요청을 통해 얻은 json 형식 response 읽기
             BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String line = "";
+            String line;
             String result = "";
 
             while((line=br.readLine()) != null) {
@@ -148,7 +154,7 @@ public class AccountController {
 
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
-
+            System.out.println(element);
             userEmail = element.getAsJsonObject().get("kakao_account").getAsJsonObject().getAsJsonObject().get("email").getAsString();
 
         } catch(IOException e) {
