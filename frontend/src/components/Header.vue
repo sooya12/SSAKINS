@@ -95,6 +95,6 @@ h5 {
 }
 
 #left {
-  cursor: url("../assets/cursor.png"), pointer;
+  cursor: pointer;
 }
 </style>
