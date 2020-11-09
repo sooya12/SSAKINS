@@ -1,5 +1,7 @@
 # SSAKINS
 
+<img src="https://lab.ssafy.com/s03-final/s03p31a201/uploads/a5d0820a506c084cc15f343876fe76c5/ssakins.jpg" width="300px">
+
 
 
 
@@ -47,10 +49,6 @@
 + Method Chaining
   + 체이닝 한 메소드 당 줄 바꾸기
 
-
-
-
-
 #### Comment
 
 + 기본적으로 한글로 달기
@@ -60,15 +58,12 @@
 
 
 
-
-
 ### Javascript
 
 #### Naming
 
 + var 변수보다 let 변수 사용 지향하기
 
-  
 
 #### Statement
 
@@ -108,7 +103,6 @@ feature/기능명 으로 develop에서 분기해서 사용하고, 기능 개발 
 
 ## Stack
 
-
 ![batge](https://img.shields.io/badge/JDK-11.0.8-blue) ![batge](https://img.shields.io/badge/Spring%20Boot-2.3.4-blue) ![batge](https://img.shields.io/badge/JPA----blue) ![batge](https://img.shields.io/badge/mongeDB----blue)  
 ![batge](https://img.shields.io/badge/Vue.js-2.6.11-blue) ![batge](https://img.shields.io/badge/Node.js-12.18.2-blue) ![batge](https://img.shields.io/badge/Maven-3.6.3-blue)
 
@@ -143,17 +137,16 @@ gantt
 
     section 기능 구현
     설정 CRUD	:active, 2020-10-26, 7d
-    회원	:active, 2020-10-28, 3d
-    DB	:active, 2020-10-28, 3d
-    레퍼런스	:2020-11-04, 4d
+    회원	:active, 2020-10-28, 4d
+    DB	:active, 2020-10-28, 4d
+    레퍼런스	:2020-11-04, 5d
     설치형 패키지	:crit, active, 2020-10-19, 21d
 
     section TEST
-    알파 TEST	:2020-11-09, 12d
-    베타 TEST	:2020-11-17, 6d
+    TEST	:2020-11-09, 14d
    
     section 유지보수
-    유지보수	:2020-11-09, 12d 
+    유지보수	:2020-11-09, 14d 
     
     section 최종발표
     UCC	:2020-11-23, 4d

@@ -108,6 +108,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import Navigator from "../components/Navigator";
 import Header from "../components/Header";
 
@@ -233,6 +234,17 @@ export default {
       ],
     };
   },
+  created() {
+    axios
+      .get(this.$store.state.server + "/download" + "/test")
+      .then((res) => {
+        console.log(res);
+        console.log("되냐?");
+      })
+      .catch((res) => {
+        console.log(res);
+      });
+  },
   watch: {
     dialog2(val) {
       if (!val) return;
@@ -276,11 +288,3 @@ export default {
   min-width: 100px;
 }
 </style>
-{ "id":1, "name":"현수", "email":"sooya@ssakins.com",
-"projects":["project":["name":"test1", "url":"k3a201.p.ssafy.io", "port":8080",
-"git":["id":"github", "name":"sooya12", "password":"1234",
-"giturl":"lab.ssafy.com/s03-final/s03p31a201", "type":gitlab"],
-"sshserver":["key":"pemkeypemkeypemkey", "hostname":"k3a201.p.ssafy.io",
-"username":"ubuntu", "remotedirectory":"deploy", "password":"1234"],
-"servers":["kind":"Spring", "name":"backend", "info":"/backend/src/main",
-"port":"8081", "options":[]]]]}

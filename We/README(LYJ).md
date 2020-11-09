@@ -417,3 +417,15 @@ docker run -d -p 9090:8080 -v /jenkins:/var/jenkins_home --name jenkins -u root 
 - java로 Shell script 호출 실행
   - window 환경에서?
   - linux 환경에서?
+
+
+
+
+
+#### CallBack 함수 / Arrow 함수
+
+콜백 - 매개변수로 함수를 전달하거나 이벤트 처리 후 다시 호출되는 함수
+
+[Arrow](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Functions/%EC%95%A0%EB%A1%9C%EC%9A%B0_%ED%8E%91%EC%85%98) - 익명함수의 일종
+
+익명함수에서의 this는 가리키는 것이 다르다! 주의!
