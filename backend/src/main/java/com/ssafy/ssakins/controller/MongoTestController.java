@@ -6,6 +6,7 @@ import com.ssafy.ssakins.entity.Git;
 import com.ssafy.ssakins.entity.Project;
 import com.ssafy.ssakins.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -21,16 +22,22 @@ class MongoTestController {
     AccountRepository accountRepository;
 
     @RequestMapping(value = "/selectAll", method = RequestMethod.GET)
-    public void selectAll() {
+    public Object selectAll() {
         System.out.println(accountRepository.findAll());
+        return accountRepository.findAll();
     }
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     public void insert(@RequestBody AccountAndProject accountAndProject) {
-        System.out.println(accountRepository.findByEmail(accountAndProject.getUserEmail()));
         Account account = accountRepository.findByEmail(accountAndProject.getUserEmail()).get();
         account.addProject(accountAndProject.getProject());
+        accountRepository.save(account); 
+    }
+
+    @RequestMapping(value = "/insertAccount", method = RequestMethod.POST)
+    public void insertAccount(@RequestBody Account account) {
         accountRepository.save(account);
+        System.out.println(accountRepository.findAll());
     }
 
 }
