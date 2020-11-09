@@ -243,13 +243,13 @@
                     class="fad fa-plus"
                     v-if="serverForms.length==0 && servers.length<2"
                     @click="toggleServerForm"
-                    style="margin-left: 15px; font-size: 30px; color: #004D40"
+                    style="margin-left: 20px; font-size: 30px; color: #004D40"
                     ></i>
                     <i
                     class="fad fa-minus"
                     v-if="serverForms.length==1"
                     @click="toggleServerForm"
-                    style="margin-left: 15px; font-size: 30px; color: #004D40"
+                    style="margin-left: 20px; font-size: 30px; color: #004D40"
                     ></i>
                     <!-- <v-icon v-if="serverForms.length==0 && servers.length<2" @click="toggleServerForm" large>mdi-plus</v-icon> -->
                     <!-- <v-icon v-if="serverForms.length==1" @click="toggleServerForm" large>mdi-toy-brick-remove-outline</v-icon> -->
@@ -356,14 +356,14 @@ export default {
     //   this.credentialForms.pop()
     //   this.credentials.push(credential)
     // },
-    toggleServerForm: function() {
+    toggleServerForm() {
       if(this.serverForms.length==0) {
         this.serverForms.push('CredentialForm')
       } else {
         this.serverForms.pop()
       }
     },
-    removeServer: function(index, kind) {
+    removeServer(index, kind) {
       if(kind=='Vue') {
         this.disabledKind.splice(this.disabledKind.indexOf('Vue'), 1)
       } else if(kind=='Spring_maven' || kind=='Spring_gradle') {
@@ -371,7 +371,7 @@ export default {
       }
       this.servers.splice(index, 1)
     },
-    saveServer: function(server) {
+    saveServer(server) {
       this.serverForms.pop()
       this.servers.push(server)
     },
@@ -381,7 +381,7 @@ export default {
     delOption(index, idx) {
       this.servers[index].options.splice(idx, 1)
     },
-    save: function() {
+    save() {
       axios.post(this.$store.state.server + 'project/save', {
         project :{
           name: this.name,
