@@ -21,7 +21,7 @@
                 설정 CI/CD 명
               </td>
               <td class="text-left font15" style="width: 60vw">
-                <v-text-field v-model="name" :rules="[rules.required]" class="font15" placeholder="설정의 이름을 입력해주세요" hide-details="auto" dense filled shaped></v-text-field>
+                <v-text-field v-model="name" :rules="[rules.required]" class="font15" placeholder="설정의 이름을 입력해주세요" hide-details="auto" dense shaped></v-text-field>
               </td>
             </tr>
             <tr>
@@ -30,7 +30,7 @@
                 <div id="content" class="font15">
                   <br>
                   <div style="margin: 0 2vw">
-                    <h3>Jenkins</h3><br>
+                    <h3><div class="icon-div"><i class="fab fa-jenkins" style="font-size: 28px; font-weight: bold; color: #004D40"></i></div>Jenkins</h3><br>
                     <div style="margin: auto; width: 85%">
                       <h4>URL</h4><v-text-field
                       v-model="url"
@@ -44,7 +44,7 @@
                     </div>
                   </div>
                   <div style="margin: 0 2vw">
-                    <h3>Git</h3><br>
+                    <h3><div class="icon-div"><i class="fab fa-git-alt" style="font-size: 28px; color: #004D40"></i></div>Git</h3><br>
                     <div style="margin: auto; width: 85%">
                       <h4>Git URL</h4><v-text-field
                       v-model="git.giturl"
@@ -73,7 +73,7 @@
                     </div>
                   </div>
                   <div style="margin: 0 2vw">
-                    <h3>Publish over SSH</h3><br>
+                    <h3><div class="icon-div" style="background-color: #004D40"><i class="far fa-terminal" style="color: white; font-size: 15px"></i></div>Publish over SSH</h3><br>
                     <div style="margin: auto; width: 85%">
                       <h4>Server Hostname</h4><v-text-field
                       v-model="SSHServer.hostName"
@@ -97,7 +97,7 @@
                       <h4>Key</h4><v-textarea
                       v-model="SSHServer.key"
                       :rules="[rules.required]"
-                      background-color="blue-grey lighten-4"
+                      background-color="teal lighten-5"
                       ></v-textarea>
                     </div>
                   </div>
@@ -185,7 +185,7 @@
                   </div> -->
 
                   <div style="margin: 2vw">
-                    <h3>Server</h3>
+                    <h3><div class="icon-div"><i class="fad fa-server" style="font-size: 25px; color: #004D40"></i></div>Server</h3>
                     <div style="margin: 0 auto; width: 85%">
                       <div style="margin-top: 1vw; margin-bottom: 1vw" v-for="(server, index) in servers" :key="index">
                         <div v-if="server.kind=='Spring_maven' || server.kind=='Spring_gradle'">
@@ -204,11 +204,18 @@
                           </v-radio-group>
                           <h4 v-if="server.options.length!=0">JVM Options</h4><br>
                           <div v-for="(option,idx) in server.options" :key="idx">
-                            <h5 style="clear: both">Option</h5>
-                            <v-text-field v-model="server.options[idx]" :rules="[rules.required]" style="width: 90%; float: left"></v-text-field>
-                            <v-btn style="float: right; margin-right 1vw" @click="delOption(index, idx)">삭제</v-btn>
+                            <h5 style="clear: both; text-align: left">Option</h5>
+                            <v-text-field v-model="server.options[idx]" :rules="[rules.required]" style="width: 90%; float: left; padding-top: 2px"></v-text-field>
+                            <div style="float: right; margin-right: 2vw;">
+                              <i
+                              class="far fa-cut"
+                              style="font-size: 25px; color: #D32F2F"
+                              @click="delOption(index, idx)"
+                              ></i>
+                            </div>
+                            <!-- <v-icon style="float: right; margin-right: 1vw" color="red lighten-1" large @click="delOption(index, idx)">mdi-tooltip-remove-outline</v-icon> -->
                           </div>
-                          <v-btn style="float: right" @click="addOption(index)">+ JVM Option</v-btn>
+                           <v-btn style="float: right; color: white " color="teal darken-2" depressed  @click="addOption(index)">+ JVM Option</v-btn>
                         </div>
                         <div v-if="server.kind=='Vue'">
                           <p style="font-size:1.3rem;">Vue</p>
@@ -221,15 +228,32 @@
                           :rules="[rules.required]"
                           ></v-text-field>
                         </div>
-                        <v-btn @click="removeServer(index, server.kind)">X</v-btn>
+                        <i id="remove-btn" class="fad fa-trash-alt" @click="removeServer(index, server.kind)"></i>
+                        
+                        <!-- <v-btn @click="removeServer(index, server.kind)">X</v-btn> -->
+                      <br><br>
                       </div>
                       <div v-for="item in serverForms" :key="item">
                         <server-form v-on:update="saveServer"
                         v-bind="{serverKind:serverKind, disabledKind:disabledKind}"></server-form>
                       </div>
                     </div>
-                    <v-btn v-if="serverForms.length==0 && servers.length<2" @click="toggleServerForm">+</v-btn>
-                    <v-btn v-if="serverForms.length==1" @click="toggleServerForm">-</v-btn>
+                    <br>
+                    <i
+                    class="fad fa-plus"
+                    v-if="serverForms.length==0 && servers.length<2"
+                    @click="toggleServerForm"
+                    style="margin-left: 15px; font-size: 30px; color: #004D40"
+                    ></i>
+                    <i
+                    class="fad fa-minus"
+                    v-if="serverForms.length==1"
+                    @click="toggleServerForm"
+                    style="margin-left: 15px; font-size: 30px; color: #004D40"
+                    ></i>
+                    <!-- <v-icon v-if="serverForms.length==0 && servers.length<2" @click="toggleServerForm" large>mdi-plus</v-icon> -->
+                    <!-- <v-icon v-if="serverForms.length==1" @click="toggleServerForm" large>mdi-toy-brick-remove-outline</v-icon> -->
+
                   </div>
                   <br>
                 </div>
@@ -240,7 +264,7 @@
               </td>
               <td>
                 <div id="btn-area">
-                  <v-btn class="font15" :disabled="!valid" elevation="2" color="grey darken-3" style="color: white" @click="save">저장하기</v-btn>
+                  <v-btn class="font15" :disabled="!valid" elevation="2" color="#004D40" style="color: white;" @click="save">저장하기</v-btn>
                 </div>
               </td>
             </tr>
@@ -411,12 +435,29 @@ table {
   margin: 20px;
 }
 
-#content {
-  background: #eeeeee;
-}
+/* #content {
+  background: #E8F5E9;
+} */
 
 #btn-area {
   margin: 20px auto;
 }
 
+#remove-btn {
+  color: #004D40;
+  font-size: 30px;
+  clear: both;
+  margin-left: 23px;
+  background-color: transparent !important;
+}
+
+.icon-div {
+  width: 27px;
+  height: 27px;
+  border-radius:15%;
+  float: left;
+  margin-right: 10px;
+  text-align: center;
+  vertical-align:middle;
+}
 </style>

@@ -18,11 +18,16 @@
       </v-radio-group>
       <h4 v-if="options.length!=0">JVM Options</h4><br>
       <div v-for="(option,index) in options" :key="index">
-        <h5 style="clear: both">Option</h5>
-        <v-text-field v-model="options[index]" :rules="[rules.required]" style="width: 90%; float: left"></v-text-field>
-        <v-btn style="float: right; margin-right 1vw" @click="delOption(index)">삭제</v-btn>
+        <h5 style="clear: both; text-align: left">Option</h5>
+        <v-text-field v-model="options[index]" :rules="[rules.required]" style="width: 90%; float: left; padding-top: 2px"></v-text-field>
+        <i 
+        class="far fa-cut"
+        style="float: right; margin-right: 2vw; font-size: 25px; color: #D32F2F"
+        @click="delOption(index)"
+        ></i>
+        <!-- <v-icon style="float: right; margin-right: 1vw" color="red lighten-1" large @click="delOption(index)">mdi-tooltip-remove</v-icon> -->
       </div>
-      <v-btn style="float: right" @click="addOption">+ JVM Option</v-btn>
+      <v-btn style="float: right; color: white " color="teal darken-2" depressed @click="addOption">+ JVM Option</v-btn>
     </div>
     <div v-if="serverSelected=='Vue'">
       <h4>port</h4><v-text-field
@@ -34,7 +39,12 @@
       :rules="[rules.required]"
       ></v-text-field>
     </div>
-    <v-btn :disabled="!valid" style="clear: both" @click="saveServer">v</v-btn>
+    <v-btn
+    id="save-btn"
+    :disabled="!valid"
+    @click="saveServer"
+    depressed
+    ><i class="fad fa-save"></i></v-btn>
   </v-form>
   </div>
 </template>
@@ -44,20 +54,6 @@ export default {
   name: 'ServerForm',
   data() {
     return {
-      // serverKind: [
-      //   'Spring',
-      //   'Vue',
-      //   'Django(준비중)',
-      //   'Flask(준비중)',
-      //   'Express(준비중)',
-      //   'React(준비중)',
-      // ],
-      // disabledKind: [
-      //   'Django(준비중)',
-      //   'Flask(준비중)',
-      //   'Express(준비중)',
-      //   'React(준비중)',
-      // ],
       serverSelected: null,
       
       info: null,
@@ -124,4 +120,12 @@ export default {
   /* width: 85%; */
   margin: 2vw auto;
 }
+
+#save-btn {
+  color: #004D40;
+  font-size: 30px;
+  clear: both;
+  background-color: transparent !important;
+}
+
 </style>
