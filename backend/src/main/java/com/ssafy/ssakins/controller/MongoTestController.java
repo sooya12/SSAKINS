@@ -31,13 +31,18 @@ class MongoTestController {
     public void insert(@RequestBody AccountAndProject accountAndProject) {
         Account account = accountRepository.findByEmail(accountAndProject.getUserEmail()).get();
         account.addProject(accountAndProject.getProject());
-        accountRepository.save(account); 
+        accountRepository.save(account);
     }
 
     @RequestMapping(value = "/insertAccount", method = RequestMethod.POST)
     public void insertAccount(@RequestBody Account account) {
         accountRepository.save(account);
         System.out.println(accountRepository.findAll());
+    }
+
+    @RequestMapping(value = "/select/{email}", method = RequestMethod.GET)
+    public ResponseEntity select(@PathVariable("email") String email) {
+        return ResponseEntity.ok().body(accountRepository.findByEmail(email).get());
     }
 
 }
