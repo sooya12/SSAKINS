@@ -3,18 +3,20 @@ package com.ssafy.ssakins.entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class Project {
     private String name;
     private String url;
     private int port;
-    private String giturl;
+    private Git git;
     private SSHServer sshServer;
     private List<Plugin> plugins;
     private List<Credential> credentials;
@@ -27,9 +29,7 @@ public class Project {
         this.name=name;
     }
 
-    public void changeGiturl(String giturl){
-        this.giturl=giturl;
-    }
+    public void changeGit(Git git){ this.git=git; }
     
     public void changeUrl(String url) {
     	this.url=url;
@@ -47,9 +47,7 @@ public class Project {
         getCredentialsInternal().add(credential);
     }
 
-    public void addServer(Server server){
-        getServersInternal().add(server);
-    }
+    public void addServer(Server server){ getServersInternal().add(server); }
 
     public void addGlobalTool(GlobalTool globalTool){
         getGlobalToolsInternal().add(globalTool);
@@ -97,7 +95,7 @@ public class Project {
     public String toString() {
         return "Project{" +
                 "name='" + name + '\'' +
-                ", giturl='" + giturl + '\'' +
+                ", git='" + git + '\'' +
                 ", plugins=" + plugins +
                 ", credentials=" + credentials +
                 ", servers=" + servers +

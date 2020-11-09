@@ -3,10 +3,12 @@ package com.ssafy.ssakins.entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Builder
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Server {
     private ServerKind type;
     private String kind;
