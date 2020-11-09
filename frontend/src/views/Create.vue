@@ -11,24 +11,32 @@
               설정 CI/CD 명
             </td>
             <td class="text-left font15" style="width: 62vw">
-              <v-text-field v-model="name" class="font15" placeholder="내용을 입력해주세요" hide-details="auto" dense filled shaped></v-text-field>
+              <v-text-field
+                v-model="name"
+                class="font15"
+                placeholder="내용을 입력해주세요"
+                hide-details="auto"
+                dense
+                filled
+                shaped
+              ></v-text-field>
             </td>
           </tr>
           <tr>
             <td class="text-left font15">설정 내용</td>
             <td>
               <div id="content" class="font15">
-              컴포넌트들이 들어갈 자리입니다.
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
+                컴포넌트들이 들어갈 자리입니다.
+                <p>아</p>
+                <p>아</p>
+                <p>아</p>
+                <p>아</p>
+                <p>아</p>
+                <p>아</p>
+                <p>아</p>
+                <p>아</p>
+                <p>아</p>
+                <p>아</p>
               </div>
             </td>
           </tr>
@@ -36,21 +44,26 @@
       </template>
     </v-simple-table>
     <div id="btn-area">
-      <v-btn class="font15" elevation="2" color="grey darken-3" style="color: white">저장하기</v-btn>
+      <v-btn
+        class="font15"
+        elevation="2"
+        color="grey darken-3"
+        style="color: white"
+        >저장하기</v-btn
+      >
     </div>
   </v-container>
 </template>
 
 <script>
 export default {
-  name: 'Create',
+  name: "Create",
   data() {
     return {
-      name: 'SSAKINS 1차 CI/CD 설정',
-    
-    }
-  }
-}
+      name: "SSAKINS 1차 CI/CD 설정",
+    };
+  },
+};
 </script>
 
 <style scoped>
@@ -75,7 +88,7 @@ v-simple-table {
 }
 
 #content {
-  background: #EEEEEE;
+  background: #eeeeee;
 }
 
 #btn-area {
@@ -85,5 +98,4 @@ v-simple-table {
 tbody tr:hover {
   background-color: transparent !important;
 }
-
 </style>
