@@ -9,7 +9,7 @@
     >
       <navigator></navigator>
     </div>
-    <div id="create">
+    <div id="Edit">
       <div id="title">
         <h2>CI/CD 설정 수정</h2>
       </div>
