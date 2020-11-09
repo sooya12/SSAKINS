@@ -236,12 +236,14 @@ export default {
   },
   created() {
     axios
-      .get(this.$store.state.server + "/download" + "/test")
+      .get(this.$store.state.server + "/main" + "/list")
       .then((res) => {
-        console.log(res);
+        console.log(res.data);
         console.log("되냐?");
       })
       .catch((res) => {
+        console.log("에러");
+        console.log(res.data);
         console.log(res);
       });
   },
