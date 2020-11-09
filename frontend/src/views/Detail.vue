@@ -16,15 +16,15 @@
       <table dense>
         <tbody>
           <tr>
-            <td class="text-left font15" style="width: 8vw">
+            <td class="text-left font15" style="width: 10vw">
               설정 CI/CD 명
             </td>
-            <td class="text-left font15" style="width: 62vw">
+            <td class="text-left font15" style="width: 60vw">
               {{ name }}
             </td>
           </tr>
           <tr>
-            <td class="text-left font15">설정 내용</td>
+            <td class="text-left font15" style="vertical-align: top"><br>설정 내용</td>
             <td>
               <div id="content" class="font15">
               컴포넌트들이 들어갈 자리입니다.
@@ -96,9 +96,9 @@ export default {
 
 #detail {
   text-align: center;
-  width: 70vw;
+  width: 75%;
   margin: 0 auto;
-  font-family: S-CoreDream-3Light;
+  font-family: 'S-CoreDream-3Light';
 }
 
 table {
@@ -123,7 +123,4 @@ table {
   margin: 20px auto;
 }
 
-tbody tr:hover {
-  background-color: transparent !important;
-}
 </style>

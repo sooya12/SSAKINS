@@ -3,12 +3,12 @@
     <div>
       <headers></headers>
     </div>
-      <div
-        id="navigator"
-        style="float:left; margin-top:16px; margin-right:20px; margin-left:20px;"
-      >
-        <navigator></navigator>
-      </div>
+    <div
+      id="navigator"
+      style="float:left; margin-top:16px; margin-right:20px; margin-left:20px;"
+    >
+      <navigator></navigator>
+    </div>
     <div id="create">
       <v-form v-model="valid">
         <div id="title">
@@ -17,10 +17,10 @@
         <table dense>
           <tbody>
             <tr>
-              <td class="text-left font15" style="width: 8vw">
+              <td class="text-left font15" style="width: 10vw">
                 설정 CI/CD 명
               </td>
-              <td class="text-left font15" style="width: 62vw">
+              <td class="text-left font15" style="width: 60vw">
                 <v-text-field v-model="name" :rules="[rules.required]" class="font15" placeholder="설정의 이름을 입력해주세요" hide-details="auto" dense filled shaped></v-text-field>
               </td>
             </tr>
@@ -392,10 +392,9 @@ export default {
 
 #create {
   text-align: center;
-  width: 70%;
+  width: 75%;
   margin: 0 auto;
-  float: left;
-  font-family: S-CoreDream-3Light;
+  font-family: 'S-CoreDream-3Light';
 }
 
 table {
@@ -418,10 +417,6 @@ table {
 
 #btn-area {
   margin: 20px auto;
-}
-
-tbody tr:hover {
-  background-color: transparent !important;
 }
 
 </style>

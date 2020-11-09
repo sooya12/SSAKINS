@@ -72,7 +72,7 @@ export default {
   width: 100%;
   min-width: 200px;
   height: 100px;
-  font-family: S-CoreDream-3Light;
+  font-family: 'S-CoreDream-3Light';
 }
 
 img {
