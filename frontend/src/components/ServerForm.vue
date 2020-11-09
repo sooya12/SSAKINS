@@ -44,20 +44,20 @@ export default {
   name: 'ServerForm',
   data() {
     return {
-      serverKind: [
-        'Spring',
-        'Django(준비중)',
-        'Flask(준비중)',
-        'Express(준비중)',
-        'Vue',
-        'React(준비중)',
-      ],
-      disabledKind: [
-        'Django(준비중)',
-        'Flask(준비중)',
-        'Express(준비중)',
-        'React(준비중)',
-      ],
+      // serverKind: [
+      //   'Spring',
+      //   'Vue',
+      //   'Django(준비중)',
+      //   'Flask(준비중)',
+      //   'Express(준비중)',
+      //   'React(준비중)',
+      // ],
+      // disabledKind: [
+      //   'Django(준비중)',
+      //   'Flask(준비중)',
+      //   'Express(준비중)',
+      //   'React(준비중)',
+      // ],
       serverSelected: null,
       
       info: null,
@@ -72,15 +72,12 @@ export default {
       valid: false
     }
   },
-  components: {
-
-  },
   computed: {
     computedItems() {
-      return this.serverKind.map(item => {
+      return this.$store.state.serverKind.map(item => {
         return {
           text: item,
-          disabled: this.disabledKind.includes(item)
+          disabled: this.$store.state.disabledKind.includes(item)
         }
       })
     }
@@ -89,7 +86,11 @@ export default {
     saveServer() {
       if(this.serverSelected=='Spring') {
         this.serverSelected=this.tool
+        this.$store.state.disabledKind.push('Spring')
+      } else if(this.serverSelected=='Vue') {
+        this.$store.state.disabledKind.push('Vue')
       }
+      
       this.$emit('update',{
         kind: this.serverSelected,
         info: this.info,
@@ -107,7 +108,7 @@ export default {
     },
     delOption(index) {
       this.options.splice(index, 1)
-    }
+    },
   }
 }
 

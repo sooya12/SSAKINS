@@ -38,10 +38,25 @@
                     <h3>Git</h3><br>
                     <div style="margin: auto; width: 85%">
                       <h4>Git URL</h4><v-text-field
-                      v-model="giturl"
+                      v-model="git.giturl"
                       :rules="[rules.required]"
                       ></v-text-field>
-                      <v-radio-group v-model="gitKind" row :rules="[rules.required]">
+                      <h4>ID</h4><v-text-field
+                      v-model="git.id"
+                      :rules="[rules.required]"
+                      ></v-text-field>
+                      <h4>Username</h4><v-text-field
+                      v-model="git.username"
+                      :rules="[rules.required]"
+                      ></v-text-field>
+                      <h4>Password</h4><v-text-field
+                      v-model="git.password"
+                      :append-icon="gitShow ? 'mdi-eye' : 'mdi-eye-off'" 
+                      :rules="[rules.required]" 
+                      :type="gitShow ? 'text' : 'password'"
+                      @click:append="gitShow = !gitShow"
+                      ></v-text-field>
+                      <v-radio-group v-model="git.gitKind" row :rules="[rules.required]">
                         <v-radio label="GitLab" value="gitlab"></v-radio>
                         <v-radio label="GitHub" value="github"></v-radio>
                       </v-radio-group>
@@ -73,7 +88,7 @@
                       ></v-textarea>
                     </div>
                   </div>
-                  <div style="margin: 2vw">
+                  <!-- <div style="margin: 2vw">
                     <h3>Credential</h3>
                     <div style="margin: 0 auto; width: 85%">
                       <div style="margin-top: 1vw; margin-bottom: 1vw" v-for="(credential, index) in credentials" :key="index">
@@ -154,7 +169,7 @@
                     </div>
                     <v-btn v-if="credentialForms.length==0" @click="toggleCredentialForm">+</v-btn>
                     <v-btn v-if="credentialForms.length==1" @click="toggleCredentialForm">-</v-btn>
-                  </div>
+                  </div> -->
 
                   <div style="margin: 2vw">
                     <h3>Server</h3>
@@ -193,13 +208,13 @@
                           :rules="[rules.required]"
                           ></v-text-field>
                         </div>
-                        <v-btn @click="removeServer(index)">X</v-btn>
+                        <v-btn @click="removeServer(index, server.kind)">X</v-btn>
                       </div>
                       <div v-for="item in serverForms" :key="item">
                         <server-form v-on:update="saveServer"></server-form>
                       </div>
                     </div>
-                    <v-btn v-if="serverForms.length==0" @click="toggleServerForm">+</v-btn>
+                    <v-btn v-if="serverForms.length==0 && servers.length<2" @click="toggleServerForm">+</v-btn>
                     <v-btn v-if="serverForms.length==1" @click="toggleServerForm">-</v-btn>
                   </div>
                   <br>
@@ -217,7 +232,7 @@
 </template>
 
 <script>
-import CredentialForm from '@/components/CredentialForm.vue'
+// import CredentialForm from '@/components/CredentialForm.vue'
 import ServerForm from '@/components/ServerForm.vue'
 import axios from 'axios'
 
@@ -226,14 +241,17 @@ export default {
   data() {
     return {
       name: 'SSAKINS 1차 CI/CD 설정',
-      checkSpring: false,
-      checkVuejs: false,
       url: null,
       port: null,
-      gitKind: null,
-      giturl: null,
-      credentials: [],
-      credentialForms: [],
+      git: {
+        gitKind: null,
+        giturl: null,
+        id: null,
+        username: null,
+        password: null
+      },
+      // credentials: [],
+      // credentialForms: [],
       SSHServer: {
         key: null,
         hostName: null,
@@ -244,6 +262,7 @@ export default {
       servers: [],
       serverForms: [],
 
+      gitShow:false,
       show1: false,
       rules: {
         required: value => !!value || 'Required.',
@@ -254,26 +273,24 @@ export default {
     }
   },
   components: {
-    // Spring,
-    // Vuejs,
-    CredentialForm,
+    // CredentialForm,
     ServerForm
   },
   methods: {
-    toggleCredentialForm: function() {
-      if(this.credentialForms.length==0) {
-        this.credentialForms.push('CredentialForm')
-      } else {
-        this.credentialForms.pop()
-      }
-    },
-    removeCredential: function(index) {
-      this.credentials.splice(index, 1)
-    },
-    saveCredential: function(credential) {
-      this.credentialForms.pop()
-      this.credentials.push(credential)
-    },
+    // toggleCredentialForm: function() {
+    //   if(this.credentialForms.length==0) {
+    //     this.credentialForms.push('CredentialForm')
+    //   } else {
+    //     this.credentialForms.pop()
+    //   }
+    // },
+    // removeCredential: function(index) {
+    //   this.credentials.splice(index, 1)
+    // },
+    // saveCredential: function(credential) {
+    //   this.credentialForms.pop()
+    //   this.credentials.push(credential)
+    // },
     toggleServerForm: function() {
       if(this.serverForms.length==0) {
         this.serverForms.push('CredentialForm')
@@ -281,7 +298,12 @@ export default {
         this.serverForms.pop()
       }
     },
-    removeServer: function(index) {
+    removeServer: function(index, kind) {
+      if(kind=='Vue') {
+        this.$store.state.disabledKind.splice(this.$store.state.disabledKind.indexOf('Vue'), 1)
+      } else if(kind=='Spring_maven' || kind=='Spring_gradle') {
+        this.$store.state.disabledKind.splice(this.$store.state.disabledKind.indexOf('Spring'), 1)
+      }
       this.servers.splice(index, 1)
     },
     saveServer: function(server) {
@@ -298,8 +320,10 @@ export default {
       axios.post(this.$store.state.server + 'project/save', {
         project :{
           name: this.name,
-          giturl: this.giturl,
-          credentials: this.credentials,
+          url: this.url,
+          port: this.port,
+          git: this.git,
+          SSHServer: this.SSHServer,
           servers: this.servers
         }
       }).then(res=>{
