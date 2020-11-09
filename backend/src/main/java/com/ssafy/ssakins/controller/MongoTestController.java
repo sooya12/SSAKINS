@@ -39,8 +39,25 @@ class MongoTestController {
     }
 
     @RequestMapping(value = "/select/{email}", method = RequestMethod.GET)
-    public ResponseEntity select(@PathVariable("email") String email) {
+    public ResponseEntity select(@PathVariable String email) {
         return ResponseEntity.ok().body(accountRepository.findByEmail(email).get());
+    }
+
+    @RequestMapping(value = "/select/{email}/{projectName}", method = RequestMethod.GET)
+    public ResponseEntity selectProject(@PathVariable String email, @PathVariable String projectName) {
+        Account account = accountRepository.findByEmail(email).get();
+        Project project = new Project();
+
+        for (Project p : account.getProject()) {
+            if(projectName.equals(p.getName())) {
+                project = p;
+                break;
+            }
+
+            project = null;
+        }
+
+        return ResponseEntity.ok().body(project);
     }
 
     @RequestMapping(value = "/infoFile/{email}/{projectName}", method = RequestMethod.GET)
