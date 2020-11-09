@@ -9,8 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -29,6 +27,7 @@ class MongoTestController {
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     public void insert(@RequestBody AccountAndProject accountAndProject) {
         Account account = accountRepository.findByEmail(accountAndProject.getUserEmail()).get();
+        accountAndProject.getProject().getServers().forEach((s)->s.setType());
         account.addProject(accountAndProject.getProject());
         accountRepository.save(account);
     }
@@ -45,7 +44,7 @@ class MongoTestController {
     }
 
     @RequestMapping(value = "/infoFile/{email}/{projectName}", method = RequestMethod.GET)
-    ResponseEntity infoFile(@PathVariable String email, @PathVariable String projectName) throws FileNotFoundException {
+    ResponseEntity infoFile(@PathVariable String email, @PathVariable String projectName) throws IOException {
         InputStreamResource isr = new InputStreamResource(new FileInputStream(getInfoFile(email, projectName)));
         return ResponseEntity.ok().header("Content-Disposition", "attachment; filename=\"accountInfo.sh\"").body(isr);
     }
@@ -53,7 +52,6 @@ class MongoTestController {
     public File getInfoFile(String email, String projectName) {
         Account account = accountRepository.findByEmail(email).get();
 
-//        String fileName = "accountInfo.sh";
         File file = new File("accountInfo"); // 파일 객체 생성
 
         try {
@@ -92,16 +90,16 @@ class MongoTestController {
                 fw.write("PEMKEY=" + sshServer.getKey() + "\n");
                 fw.write("REMOTEDIRECTORY=" + sshServer.getRemoteDirectory() + "\n");
 
-                Server server = project.getServers();
-
-                if("Vue".equals(server.getKind())) {
-                    fw.write("FRONTNAME=" + server.getName() + "\n");
-                    fw.write("FRONTLOCATION=" + server.getInfo() + "\n");
-                    fw.write("FRONTPORT=" + server.getPort() + "\n");
-                } else if("Spring".equals(server.getKind())) {
-                    fw.write("BACKNAME=" + server.getName() + "\n");
-                    fw.write("BACKLOCATION=" + server.getInfo() + "\n");
-                    fw.write("BACKPORT=" + server.getPort() + "\n");
+                for (Server server : project.getServers()) {
+                    if("Vue".equals(server.getKind())) {
+                        fw.write("FRONTNAME=" + server.getName() + "\n");
+                        fw.write("FRONTLOCATION=" + server.getInfo() + "\n");
+                        fw.write("FRONTPORT=" + server.getPort() + "\n");
+                    } else if("Spring".equals(server.getKind())) {
+                        fw.write("BACKNAME=" + server.getName() + "\n");
+                        fw.write("BACKLOCATION=" + server.getInfo() + "\n");
+                        fw.write("BACKPORT=" + server.getPort() + "\n");
+                    }
                 }
             }
 
