@@ -175,9 +175,7 @@
             </td>
           </tr>
           <tr>
-            <td>
-            </td>
-            <td>
+            <td colspan="2">
               <div id="btn-area">
                 <v-btn class="font15" elevation="2" color="#B2DFDB" style="margin-right: 1vw; font-weight: bold"  @click="goEdit">수정하기</v-btn>
                 <v-btn class="font15" elevation="2" color="#004D40" style="color: white; margin-left: 1vw; font-weight: bold">삭제하기</v-btn>
