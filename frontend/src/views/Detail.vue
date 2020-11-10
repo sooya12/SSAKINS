@@ -28,17 +28,17 @@
             <td class="text-left font15">
               <div id="content" class="font15">
                 <br>
-                <div style="margin: 0 2vw">
+                <div style="margin: 0">
                   <h3><div class="icon-div"><i class="fab fa-jenkins" style="font-size: 28px; font-weight: bold; color: #004D40"></i></div>Jenkins</h3><br>
-                  <div style="margin: auto; width: 85%">
+                  <div style="margin: auto; width: 90%">
                     <table style="width: 100%">
                       <tbody>
                         <tr style="margin: 0">
-                          <td class="text-left" style="width: 20%"><h4>URL</h4></td>
-                          <td class="text-left" style="width: 80%">{{ project.url }}</td>
+                          <td class="text-left" style="width: 15%"><h4>URL</h4></td>
+                          <td class="text-left" style="width: 75%">{{ project.url }}</td>
                         </tr>
-                          <td class="text-left" style="width: 20%"><h4>Port</h4></td>
-                          <td class="text-left" style="width: 80%">{{ project.port }}</td>
+                          <td class="text-left" style="width: 15%"><h4>Port</h4></td>
+                          <td class="text-left" style="width: 75%">{{ project.port }}</td>
                         <tr>
                         </tr>
                       </tbody>
@@ -46,30 +46,30 @@
                     <br><br>
                   </div>
                 </div>
-                <div style="margin: 0 2vw">
+                <div style="margin: 0">
                   <h3><div class="icon-div"><i class="fab fa-git-alt" style="font-size: 28px; color: #004D40"></i></div>Git</h3><br>
-                  <div style="margin: auto; width: 85%">
+                  <div style="margin: auto; width: 90%">
                      <table style="width: 100%">
                       <tbody>
                         <tr> 
-                          <td class="text-left" style="width: 20%"><h4>Git URL</h4></td>
-                          <td class="text-left" style="width: 80%">{{ project.git.giturl }}</td>
+                          <td class="text-left" style="width: 15%"><h4>Git URL</h4></td>
+                          <td class="text-left" style="width: 75%">{{ project.git.giturl }}</td>
                         </tr>
                         <tr> 
-                          <td class="text-left" style="width: 20%"><h4>ID</h4></td>
-                          <td class="text-left" style="width: 80%">{{ project.git.id }}</td>
+                          <td class="text-left" style="width: 15%"><h4>ID</h4></td>
+                          <td class="text-left" style="width: 75%">{{ project.git.id }}</td>
                         </tr>
                         <tr> 
-                          <td class="text-left" style="width: 20%"><h4>name</h4></td>
-                          <td class="text-left" style="width: 80%">{{ project.git.name }}</td>
+                          <td class="text-left" style="width: 15%"><h4>name</h4></td>
+                          <td class="text-left" style="width: 75%">{{ project.git.name }}</td>
                         </tr>
                         <tr> 
-                          <td class="text-left" style="width: 20%"><h4>Password</h4></td>
-                          <td class="text-left" style="width: 80%">{{ gitpass }}</td>
+                          <td class="text-left" style="width: 15%"><h4>Password</h4></td>
+                          <td class="text-left" style="width: 75%">{{ gitpass }}</td>
                         </tr>
                         <tr>
-                          <td class="text-left" style="width: 20%"><h4>Kind</h4></td>
-                          <td class="text-left" style="width: 80%">
+                          <td class="text-left" style="width: 15%"><h4>Kind</h4></td>
+                          <td class="text-left" style="width: 75%">
                             <div v-if="project.git.type=='gitlab'">GitLab</div>
                             <div v-if="project.git.type=='github'">GitHub</div>
                           </td>
@@ -79,22 +79,22 @@
                     <br><br>
                   </div>
                 </div>
-                <div style="margin: 0 2vw">
+                <div style="margin: 0">
                   <h3><div class="icon-div" style="background-color: #004D40"><i class="far fa-terminal" style="color: white; font-size: 15px"></i></div>Publish over SSH</h3><br>
-                  <div style="margin: auto; width: 85%">
+                  <div style="margin: auto; width: 90%">
                     <table style="width: 100%">
                       <tbody>
                         <tr>
-                          <td class="text-left" style="width: 20%"><h4>Hostname</h4></td>
-                          <td class="text-left" style="width: 80%">{{ project.sshServer.hostName }}</td>
+                          <td class="text-left" style="width: 15%"><h4>Hostname</h4></td>
+                          <td class="text-left" style="width: 75%">{{ project.sshServer.hostName }}</td>
                         </tr>
                         <tr>
-                          <td class="text-left" style="width: 20%"><h4>Username</h4></td>
-                          <td class="text-left" style="width: 80%">{{ project.sshServer.userName }}</td>
+                          <td class="text-left" style="width: 15%"><h4>Username</h4></td>
+                          <td class="text-left" style="width: 75%">{{ project.sshServer.userName }}</td>
                         </tr>
                         <tr>
-                          <td class="text-left" style="width: 20%"><h4>Password</h4></td>
-                          <td class="text-left" style="width: 80%">{{ sshpass }}</td>
+                          <td class="text-left" style="width: 15%"><h4>Password</h4></td>
+                          <td class="text-left" style="width: 75%">{{ sshpass }}</td>
                         </tr>
                         <tr>
                           <td class="text-left" colspan="2">
@@ -118,54 +118,58 @@
                     <br><br>
                   </div>
                 </div>
-                <div style="margin: 0 2vw">
-                  <h3><div class="icon-div"><i class="fad fa-server" style="font-size: 25px; color: #004D40"></i></div>Server</h3> <br>
-                  <div style="margin: auto; width: 85%">
+                <div style="margin: 0">
+                  <h3><div class="icon-div"><i class="fad fa-server" style="font-size: 25px; color: #004D40"></i></div>Server</h3> <br><br>
+                  <div style="margin: auto; width: 90%">
                     <div v-for="(server, index) in project.servers" :key="index">
                         <!-- <div v-if="server.kind=='Spring_maven' || server.kind=='Spring_gradle'"> -->
                         <div v-if="server.kind=='Spring'">
                           <div style="font-size:17px; font-weight: bold"><div class="icon-div"><i class="fad fa-leaf" style="font-size: 22px; color: #004D40"></i></div>Spring</div>
-                          <table style="width: 100%">
-                            <tbody>
-                              <tr>
-                                <td class="text-left" style="width: 20%"><h4>port</h4></td>
-                                <td class="text-left" style="width: 80%">{{ server.port }}</td>
-                              </tr>
-                              <tr>
-                                <td class="text-left" style="width: 20%"><h4>pom.xml</h4></td>
-                                <td class="text-left" style="width: 80%">{{ server.info }}</td>
-                              </tr>
-                              <tr>
-                                <td class="text-left" style="width: 20%"><h4>build tool</h4></td>
-                                <td class="text-left" style="width: 80%">
-                                  <div v-if="server.type=='Spring_maven'">Maven</div>
-                                  <div v-if="server.type=='Spring_gradle'">Gradle</div>
-                                </td>
-                              </tr>
-                              <tr v-if="server.options.length!=0">
-                                <td class="text-left" colspan="2"><h4>JVM Options</h4></td>
-                              </tr>
-                              <tr v-for="(option,idx) in server.options" :key="idx">
-                                <td class="text-left" style="width: 20%"><h5>Option{{idx+1}}</h5></td>
-                                <td>{{ server.options[idx] }}</td>
-                              </tr>
-                            </tbody>
-                          </table>
+                          <div style="margin: 0 1.7vw">
+                            <table style="width: 100%">
+                              <tbody>
+                                <tr>
+                                  <td class="text-left" style="width: 15%"><h4>port</h4></td>
+                                  <td class="text-left" style="width: 75%">{{ server.port }}</td>
+                                </tr>
+                                <tr>
+                                  <td class="text-left" style="width: 15%"><h4>pom.xml</h4></td>
+                                  <td class="text-left" style="width: 75%">{{ server.info }}</td>
+                                </tr>
+                                <tr>
+                                  <td class="text-left" style="width: 15%"><h4>build tool</h4></td>
+                                  <td class="text-left" style="width: 75%">
+                                    <div v-if="server.type=='Spring_maven'">Maven</div>
+                                    <div v-if="server.type=='Spring_gradle'">Gradle</div>
+                                  </td>
+                                </tr>
+                                <tr v-if="server.options.length!=0">
+                                  <td class="text-left" colspan="2"><h4>JVM Options</h4></td>
+                                </tr>
+                                <tr v-for="(option,idx) in server.options" :key="idx">
+                                  <td class="text-left" style="width: 15%"><h5>Option{{idx+1}}</h5></td>
+                                  <td>{{ server.options[idx] }}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                         <div v-if="server.kind=='Vue'">
                           <div style="font-size:17px; font-weight: bold"><div class="icon-div"><i class="fab fa-vuejs" style="font-size: 22px; color: #004D40"></i></div>Vue</div>
-                          <table style="width: 100%">
-                            <tbody>
-                              <tr>
-                                <td class="text-left" style="width: 20%"><h4>port</h4></td>
-                                <td class="text-left" style="width: 80%">{{ server.port }}</td>
-                              </tr>
-                              <tr>
-                                <td class="text-left" style="width: 20%"><h4>pom.xml</h4></td>
-                                <td class="text-left" style="width: 80%">{{ server.info }}</td>
-                              </tr>
-                            </tbody>
-                          </table>
+                          <div style="margin: 0 1.8vw">
+                            <table style="width: 100%">
+                              <tbody>
+                                <tr>
+                                  <td class="text-left" style="width: 15%"><h4>port</h4></td>
+                                  <td class="text-left" style="width: 75%">{{ server.port }}</td>
+                                </tr>
+                                <tr>
+                                  <td class="text-left" style="width: 15%"><h4>pom.xml</h4></td>
+                                  <td class="text-left" style="width: 75%">{{ server.info }}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       <br><br>
                       </div>
@@ -177,8 +181,8 @@
           <tr>
             <td colspan="2">
               <div id="btn-area">
-                <v-btn class="font15" elevation="2" color="#B2DFDB" style="margin-right: 1vw; font-weight: bold"  @click="goEdit">수정하기</v-btn>
-                <v-btn class="font15" elevation="2" color="#004D40" style="color: white; margin-left: 1vw; font-weight: bold">삭제하기</v-btn>
+                <v-btn class="font15" elevation="2" color="#B2DFDB" style="margin-right: 2vw; font-weight: bold"  @click="goEdit">수정하기</v-btn>
+                <v-btn class="font15" elevation="2" color="#004D40" style="color: white; margin-right: 2vw; font-weight: bold">삭제하기</v-btn>
               </div>
             </td>
           </tr>
@@ -242,7 +246,7 @@ export default {
 }
 
 #navigator {
-  width: 20%;
+  width: 15%;
   min-width: 100px;
 }
 
