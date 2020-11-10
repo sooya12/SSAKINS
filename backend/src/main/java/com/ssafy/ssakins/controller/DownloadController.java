@@ -201,13 +201,13 @@ public class DownloadController {
                 fw.write("# GitLabConnectionConfig.xml \n");
                 fw.write("GITLABCONFIGNAME=" + git.getId() + "\n");
                 fw.write("GITLABCONFIGURL=" + configurl + "\n");
-                fw.write("# GITLABCONFIGCREDENTIAL는 Groovy 사용 \n");
+                fw.write("GITLABCONFIGCREDENTIAL=" + git.getPassword() + "\n");
                 fw.write("\n");
 
                 fw.write("# github-plugin-configuration.xml \n");
                 fw.write("GITHUBCONFIGNAME=" + git.getId() + "\n");
                 fw.write("GITHUBCONFIGURL=" + configurl + "\n");
-                fw.write("# GITHUBCONFIGCREDENTIAL는 Groovy 사용 \n");
+                fw.write("GITHUBCONFIGCREDENTIAL=" + git.getPassword() + "\n");
                 fw.write("\n");
 
                 SSHServer sshServer = project.getSshServer();
@@ -234,7 +234,7 @@ public class DownloadController {
                         fw.write("# Front Infomation \n");
                         fw.write("FRONTLOCATION=" + server.getInfo() + "\n");
                         fw.write("FRONTPORT=80 \n");
-                        fw.write("SOURCEFILE=" + server.getInfo() + "/dist \n");
+                        fw.write("FRONTSOURCEFILE=" + server.getInfo() + "/dist \n");
                         fw.write("FRONTREMOVEPREFIX=" + server.getInfo() + "/ \n");
                         fw.write("FRONTEXECCOMMAND='sh 절대경로/jenkins_home/remoteDirectory/deploy-vue.sh' \n");
                         fw.write("\n");
@@ -243,7 +243,7 @@ public class DownloadController {
                         fw.write("BACKLOCATION=" + server.getInfo() + "\n");
                         fw.write("BACKPORT=" + server.getPort() + "\n");
                         fw.write("POMXMLLOCATION=" + server.getInfo() + "/pom.xml \n");
-                        fw.write("SOURCEFILE=" + server.getInfo() + "/target/*.jar \n");
+                        fw.write("BACKSOURCEFILE=" + server.getInfo() + "/target/*.jar \n");
                         fw.write("BACKREMOVEPREFIX=" + server.getInfo() + "/target/ \n");
                         fw.write("BACKEXECCOMMAND='sh 절대경로/jenkins_home/remoteDirectory/deploy-spring.sh' \n");
                         fw.write("\n");
