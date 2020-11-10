@@ -19,14 +19,19 @@ const routes = [
     component: Home
   },
   {
-    path: '/create',
-    name: 'Create',
-    component: Create
+    path : '/main',
+    name : 'Main',
+    component : Main
   },
   {
-    path: '/main',
-    name: 'Main',
-    component: Main
+    path : '/notice',
+    name : 'Notice',
+    component : Notice
+  },
+  {
+    path : '/create',
+    name : 'Create',
+    component : Create
   },
   {
     path: '/edit',
@@ -39,6 +44,11 @@ const routes = [
     component: Detail
   },
   {
+    path : '/game',
+    name : 'Game',
+    component : Game
+  },
+  {
     path: '/login/:email',
     name: 'Login',
     component: Login,
@@ -48,16 +58,6 @@ const routes = [
     path : '/notice',
     name : 'Notice',
     component : Notice
-  },
-  {
-    path: '/home',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path : '/game',
-    name : 'Game',
-    component : Game
   },
   {
     path : '*',

@@ -1,78 +1,267 @@
 <template>
-  <v-container id="detail">
-    <div id="title">
-      <h2>CI/CD 설정 상세</h2>
+  <v-container id="contianer">
+    <div>
+      <headers></headers>
     </div>
-    <v-simple-table dense>
-      <template v-slot:default>
+    <div
+      id="navigator"
+      style="float:left; margin-top:16px; margin-right:20px; margin-left:20px;"
+    >
+      <navigator></navigator>
+    </div>
+    <div id="detail">
+      <div id="title">
+        <h2>CI/CD 설정 상세</h2>
+      </div>
+      <table>
         <tbody>
           <tr>
-            <td class="text-left font15" style="width: 8vw">
+            <td class="text-left font15" style="width: 10vw">
               설정 CI/CD 명
             </td>
-            <td class="text-left font15" style="width: 40vw">
+            <td class="text-left font15" style="width: 60vw">
               {{ name }}
             </td>
-            <td class="font15" style="width: 5vw">생성일</td>
-            <td class="font15" style="width: 6vw">{{ createDay }}</td>
-            <td class="font15" style="width: 5vw">수정일</td>
-            <td class="font15" style="width: 6vw">{{ editDay }}</td>
           </tr>
           <tr>
-            <td class="text-left font15">설정 내용</td>
-            <td colspan="5">
-              <div id="content" c class="font15">
-              컴포넌트들이 들어갈 자리입니다.
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
-              <p>아</p>
+            <td class="text-left font15" style="vertical-align: top"><br>설정 내용</td>
+            <td class="text-left font15">
+              <div id="content" class="font15">
+                <br>
+                <div style="margin: 0">
+                  <h3><div class="icon-div"><i class="fab fa-jenkins" style="font-size: 28px; font-weight: bold; color: #004D40"></i></div>Jenkins</h3><br>
+                  <div style="margin: auto; width: 60%">
+                    <table style="width: 100%">
+                      <tbody>
+                        <tr style="margin: 0">
+                          <td class="text-left" style="width: 15%"><h4>URL</h4></td>
+                          <td class="text-left" style="width: 75%">{{ project.url }}</td>
+                        </tr>
+                          <td class="text-left" style="width: 15%"><h4>Port</h4></td>
+                          <td class="text-left" style="width: 75%">{{ project.port }}</td>
+                        <tr>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <br><br>
+                  </div>
+                </div>
+                <div style="margin: 0">
+                  <h3><div class="icon-div"><i class="fab fa-git-alt" style="font-size: 28px; color: #004D40"></i></div>Git</h3><br>
+                  <div style="margin: auto; width: 90%">
+                     <table style="width: 100%">
+                      <tbody>
+                        <tr> 
+                          <td class="text-left" style="width: 15%"><h4>Git URL</h4></td>
+                          <td class="text-left" style="width: 75%">{{ project.git.giturl }}</td>
+                        </tr>
+                        <tr> 
+                          <td class="text-left" style="width: 15%"><h4>ID</h4></td>
+                          <td class="text-left" style="width: 75%">{{ project.git.id }}</td>
+                        </tr>
+                        <tr> 
+                          <td class="text-left" style="width: 15%"><h4>name</h4></td>
+                          <td class="text-left" style="width: 75%">{{ project.git.name }}</td>
+                        </tr>
+                        <tr> 
+                          <td class="text-left" style="width: 15%"><h4>Password</h4></td>
+                          <td class="text-left" style="width: 75%">{{ gitpass }}</td>
+                        </tr>
+                        <tr>
+                          <td class="text-left" style="width: 15%"><h4>Kind</h4></td>
+                          <td class="text-left" style="width: 75%">
+                            <div v-if="project.git.type=='gitlab'">GitLab</div>
+                            <div v-if="project.git.type=='github'">GitHub</div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <br><br>
+                  </div>
+                </div>
+                <div style="margin: 0">
+                  <h3><div class="icon-div" style="background-color: #004D40"><i class="far fa-terminal" style="color: white; font-size: 15px"></i></div>Publish over SSH</h3><br>
+                  <div style="margin: auto; width: 90%">
+                    <table style="width: 100%">
+                      <tbody>
+                        <tr>
+                          <td class="text-left" style="width: 15%"><h4>Hostname</h4></td>
+                          <td class="text-left" style="width: 75%">{{ project.sshServer.hostName }}</td>
+                        </tr>
+                        <tr>
+                          <td class="text-left" style="width: 15%"><h4>Username</h4></td>
+                          <td class="text-left" style="width: 75%">{{ project.sshServer.userName }}</td>
+                        </tr>
+                        <tr>
+                          <td class="text-left" style="width: 15%"><h4>Password</h4></td>
+                          <td class="text-left" style="width: 75%">{{ sshpass }}</td>
+                        </tr>
+                        <tr>
+                          <td class="text-left" colspan="2">
+                            <h4>Key
+                              <i v-if="!keyArrow" class="fal fa-angle-down" style="margin-left: 20px; font-size: 25px; vertical-align: top;" @click="keyToggle"></i>
+                              <i v-if="keyArrow" class="fal fa-angle-up" style="margin-left: 20px; font-size: 25px; vertical-align: top;" @click="keyToggle"></i>
+                            </h4>
+                            </td>
+                        </tr>
+                        <tr v-if="keyArrow"> 
+                          <td class="text-left" colspan="2">
+                            <v-textarea
+                            v-model="project.sshServer.key"
+                            readonly
+                            background-color="teal lighten-5"
+                            ></v-textarea>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <br><br>
+                  </div>
+                </div>
+                <div style="margin: 0">
+                  <h3><div class="icon-div"><i class="fad fa-server" style="font-size: 25px; color: #004D40"></i></div>Server</h3> <br><br>
+                  <div style="margin: auto; width: 90%">
+                    <div v-for="(server, index) in project.servers" :key="index">
+                        <!-- <div v-if="server.kind=='Spring_maven' || server.kind=='Spring_gradle'"> -->
+                        <div v-if="server.kind=='Spring'">
+                          <div style="font-size:17px; font-weight: bold"><div class="icon-div"><i class="fad fa-leaf" style="font-size: 22px; color: #004D40"></i></div>Spring</div>
+                          <div style="margin: 0 1.7vw">
+                            <table style="width: 100%">
+                              <tbody>
+                                <tr>
+                                  <td class="text-left" style="width: 15%"><h4>port</h4></td>
+                                  <td class="text-left" style="width: 75%">{{ server.port }}</td>
+                                </tr>
+                                <tr>
+                                  <td class="text-left" style="width: 15%"><h4>pom.xml</h4></td>
+                                  <td class="text-left" style="width: 75%">{{ server.info }}</td>
+                                </tr>
+                                <tr>
+                                  <td class="text-left" style="width: 15%"><h4>build tool</h4></td>
+                                  <td class="text-left" style="width: 75%">
+                                    <div v-if="server.type=='Spring_maven'">Maven</div>
+                                    <div v-if="server.type=='Spring_gradle'">Gradle</div>
+                                  </td>
+                                </tr>
+                                <tr v-if="server.options.length!=0">
+                                  <td class="text-left" colspan="2"><h4>JVM Options</h4></td>
+                                </tr>
+                                <tr v-for="(option,idx) in server.options" :key="idx">
+                                  <td class="text-left" style="width: 15%"><h5>Option{{idx+1}}</h5></td>
+                                  <td>{{ server.options[idx] }}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <div v-if="server.kind=='Vue'">
+                          <div style="font-size:17px; font-weight: bold"><div class="icon-div"><i class="fab fa-vuejs" style="font-size: 22px; color: #004D40"></i></div>Vue</div>
+                          <div style="margin: 0 1.8vw">
+                            <table style="width: 100%">
+                              <tbody>
+                                <tr>
+                                  <td class="text-left" style="width: 15%"><h4>port</h4></td>
+                                  <td class="text-left" style="width: 75%">{{ server.port }}</td>
+                                </tr>
+                                <tr>
+                                  <td class="text-left" style="width: 15%"><h4>pom.xml</h4></td>
+                                  <td class="text-left" style="width: 75%">{{ server.info }}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      <br><br>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <div id="btn-area">
+                <v-btn class="font15" elevation="2" color="#B2DFDB" style="margin-right: 2vw; font-weight: bold"  @click="goEdit">수정하기</v-btn>
+                <v-btn class="font15" elevation="2" color="#004D40" style="color: white; margin-right: 2vw; font-weight: bold">삭제하기</v-btn>
               </div>
             </td>
           </tr>
         </tbody>
-      </template>
-    </v-simple-table>
-    <div id="btn-area">
-      <v-btn color="grey lighten-3" style="float:left; margin-left:20px;">삭제하기</v-btn>
-      <v-btn elevation="2" color="grey darken-3" style="color: white; float:right; margin-right:20px" @click="goEdit">수정하기</v-btn>
+      </table>
     </div>
   </v-container>
 </template>
 
 <script>
+import Navigator from "../components/Navigator";
+import Header from "../components/Header";
+import axios from 'axios'
+
 export default {
   name: 'Detail',
   data() {
     return {
-      name: 'SSAKINS 1차 CI/CD 설정',
-      createDay: '2020.10.12',
-      editDay: '2020.10.13',
+      userEmail: 'sooya@ssakins.com',
+      name: 'test4',
+      project: null,
+      keyArrow: false,
+      gitpass: null,
+      sshpass: null,
     }
   },
   methods: {
     goEdit() {
       this.$router.push("/edit")
+    },
+    keyToggle() {
+      this.keyArrow=!this.keyArrow
     }
+  },
+  components: {
+    navigator: Navigator,
+    headers: Header
+  },
+  mounted() {
+    // this.userEmail = sessionStorage.getItem('email')
+
+    axios.get(this.$store.state.server + 'mongo/select/' + this.userEmail + '/' + this.name)
+    .then(res => {
+      this.project = res.data
+      this.gitpass = '*'.repeat(res.data.git.password.length)
+      this.sshpass = '*'.repeat(res.data.sshServer.password.length)
+      console.log(this.project)
+    }).catch(err => {
+      console.log(err)
+    })
+
   }
   
 }
 </script>
 
 <style scoped>
-#detail {
-    text-align: center;
-    width: 70vw;
-    margin: 0 auto;
+#container {
+  width: 100%;
+  min-width: 100px;
 }
 
-v-simple-table {
+#navigator {
+  width: 20%;
+  min-width: 100px;
+}
+
+#detail {
+  text-align: center;
+  width: 75%;
+  margin: 0 auto;
+  font-family: 'S-CoreDream-3Light';
+}
+
+h3 {
+  font-family: 'S-CoreDream-6Bold';
+}
+
+table {
   table-layout: fixed;
   margin: 0 auto;
   padding: 0;
@@ -86,15 +275,22 @@ v-simple-table {
   margin: 20px;
 }
 
-#content {
+/* #content {
   background: #EEEEEE;
-}
+} */
 
 #btn-area {
   margin: 20px auto;
 }
 
-tbody tr:hover {
-  background-color: transparent !important;
+.icon-div {
+  width: 27px;
+  height: 27px;
+  border-radius:15%;
+  float: left;
+  margin-right: 10px;
+  text-align: center;
+  vertical-align:middle;
 }
+
 </style>

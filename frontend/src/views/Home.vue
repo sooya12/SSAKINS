@@ -4,8 +4,8 @@
       <b>SSAKINS</b>
     </div>
     <div id="logo">
-      <img src="ssakins_logo.jpg" style="width:25%" />
-    </div>
+      <img src="ssakins_logo.jpg" style="width:23%">
+    </div><br>
     <div id="kakaoLogin">
       <img
         :src="require('@/assets/kakao_login_large_narrow.png')"
@@ -39,11 +39,12 @@ export default {
 #title {
   position: relative;
   text-align: center;
-  margin-top: 8vh;
+  margin-top: 6vh;
 }
 
 #title b {
   font-size: 6vw;
+  font-family: 'S-CoreDream-8Heavy';
 }
 
 #kakaoLogin {
