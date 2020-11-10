@@ -30,7 +30,7 @@
                 <br>
                 <div style="margin: 0">
                   <h3><div class="icon-div"><i class="fab fa-jenkins" style="font-size: 28px; font-weight: bold; color: #004D40"></i></div>Jenkins</h3><br>
-                  <div style="margin: auto; width: 90%">
+                  <div style="margin: auto; width: 60%">
                     <table style="width: 100%">
                       <tbody>
                         <tr style="margin: 0">
@@ -246,7 +246,7 @@ export default {
 }
 
 #navigator {
-  width: 15%;
+  width: 20%;
   min-width: 100px;
 }
 
@@ -255,6 +255,10 @@ export default {
   width: 75%;
   margin: 0 auto;
   font-family: 'S-CoreDream-3Light';
+}
+
+h3 {
+  font-family: 'S-CoreDream-6Bold';
 }
 
 table {

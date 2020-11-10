@@ -34,6 +34,7 @@
       v-model="port"
       :rules="[rules.required, rules.port]"
       v-bind:color="color"
+      readonly
       hint="port number 80 fixed."
       @focus="portFocus"
       ></v-text-field>

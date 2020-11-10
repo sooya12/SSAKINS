@@ -88,7 +88,6 @@
                       <h4>Server Password</h4><v-text-field
                       v-model="SSHServer.password"
                       :append-icon="sshShow ? 'mdi-eye' : 'mdi-eye-off'" 
-                      :rules="[rules.required]" 
                       :type="sshShow ? 'text' : 'password'"
                       @click:append="sshShow = !sshShow"
                       ></v-text-field>
@@ -231,7 +230,8 @@
                           <p style="font-size:1.3rem;">Vue</p>
                           <h4>port</h4><v-text-field
                           v-model="server.port"
-                          :rules="[rules.required]"
+                          :rules="[rules.required, rules.port]"
+                          readonly
                           ></v-text-field>
                           <h4>package.json</h4><v-text-field
                           v-model="server.info"
@@ -320,8 +320,9 @@ export default {
       gitShow: false,
       sshShow: false,
       rules: {
-        required: (value) => !!value || "Required.",
-        number: (value) => /^[0-9]+$/.test(value) || "Only number.",
+        required: value => !!value || 'Required.',
+        number: value => /^[0-9]+$/.test(value) || 'Only number.',
+        port: value => value=="80" || 'port number 80 fixed!'
       },
 
       valid: false,
@@ -391,6 +392,7 @@ export default {
     },
     save() {
       axios.post(this.$store.state.server + 'project/save', {
+        userEmail: sessionStorage.getItem('email'),
         project :{
           name: this.name,
           url: this.url,
