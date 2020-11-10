@@ -4,20 +4,14 @@ import com.ssafy.ssakins.dto.AccountAndProject;
 import com.ssafy.ssakins.entity.*;
 import com.ssafy.ssakins.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 
 
 @RestController
@@ -115,7 +109,7 @@ class MongoTestController {
                 fw.write("GITUSERNAME=" + git.getName() + "\n");
                 fw.write("GITPASSWORD=" + git.getPassword() + "\n");
                 fw.write("GITURL=" + git.getGiturl() + "\n");
-                fw.write("GITKIND=" + git.getType() + "\n");
+                fw.write("GITKIND=" + git.getGitKind() + "\n");
                 fw.write("GITCREDENTIAL=" + git.getId() + "\n"); // git-configuration.xml - CredentialsId
                 fw.write("\n");
 
