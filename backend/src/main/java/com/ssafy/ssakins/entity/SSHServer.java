@@ -21,6 +21,7 @@ public class SSHServer {
                 "key='" + key + '\'' +
                 ", name='" + name + '\'' +
                 ", userName='" + userName + '\'' +
+                ", hostName='" + hostName + '\'' +
                 ", remoteDirectory='" + remoteDirectory + '\'' +
                 ", password='" + password + '\'' +
                 '}';

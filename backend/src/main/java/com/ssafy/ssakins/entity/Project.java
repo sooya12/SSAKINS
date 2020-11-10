@@ -90,12 +90,14 @@ public class Project {
         return this.commands;
     }
 
-
     @Override
     public String toString() {
         return "Project{" +
                 "name='" + name + '\'' +
-                ", git='" + git + '\'' +
+                ", url='" + url + '\'' +
+                ", port=" + port +
+                ", git=" + git +
+                ", sshServer=" + sshServer +
                 ", plugins=" + plugins +
                 ", credentials=" + credentials +
                 ", servers=" + servers +

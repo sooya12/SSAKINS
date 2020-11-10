@@ -8,10 +8,11 @@ import Game from '@/views/Game.vue'
 import Edit from '@/views/Edit.vue'
 import Detail from '@/views/Detail.vue'
 import Login from '@/components/LoginComponent'
+import PageNotFound from '@/views/PageNotFound'
 
 Vue.use(VueRouter)
 
-const routes =[
+const routes = [
   {
     path: '/',
     name: 'Home',
@@ -53,7 +54,19 @@ const routes =[
     component: Login,
     props: true
   },
-
+  {
+    path : '/notice',
+    name : 'Notice',
+    component : Notice
+  },
+  {
+    path : '*',
+    redirect : '/404',
+  },
+  {
+    path: '/404',
+    component : PageNotFound,
+  }
 ]
 
 const router = new VueRouter({

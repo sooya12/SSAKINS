@@ -14,7 +14,7 @@
         <v-data-table
           v-model="selected"
           :headers="headers"
-          :items="lists"
+          :items="this.data['project']"
           item-key="name"
           show-select="show-select"
           class="elevation-1"
@@ -84,7 +84,7 @@
                 persistent
                 width="300"
               >
-                <v-card color="blue-grey" dark>
+                <v-card color="blue" dark>
                   <v-card-text>
                     프로젝트를 삭제중입니다.
                     <v-progress-linear
@@ -108,6 +108,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import Navigator from "../components/Navigator";
 import Header from "../components/Header";
 
@@ -121,117 +122,46 @@ export default {
       dialog: false,
       dialog2: false,
       selected: [],
+      data: [],
       flag: false,
       headers: [
         {
           text: "No.",
-          align: "start",
+          value: "index",
+        },
+        {
+          text: "프로젝트명",
           value: "name",
         },
         {
-          text: "설정 CI/CD 명",
-          value: "calories",
+          text: "url",
+          value: "url",
         },
         {
-          text: "특징",
-          value: "fat",
+          text: "port",
+          value: "port",
         },
         {
-          text: "생성일",
-          value: "carbs",
+          text: "등록일",
+          value: "regDate",
         },
         {
           text: "수정일",
-          value: "protein",
-        },
-        {
-          text: "비고",
-          value: "iron",
-        },
-      ],
-      lists: [
-        {
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: "1%",
-        },
-        {
-          name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          iron: "1%",
-        },
-        {
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          iron: "7%",
-        },
-        {
-          name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          iron: "8%",
-        },
-        {
-          name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          iron: "16%",
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          iron: "0%",
-        },
-        {
-          name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          iron: "2%",
-        },
-        {
-          name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          iron: "45%",
-        },
-        {
-          name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          iron: "22%",
-        },
-        {
-          name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          iron: "6%",
+          value: "modDate",
         },
       ],
     };
+  },
+  created() {
+    let email = sessionStorage.getItem("email");
+    axios
+      .get(this.$store.state.server + "project" + "/" + email)
+      .then((res) => {
+        this.data = res.data;
+        // for (let index = 0; index <= this.data.length; index++) {
+        //   console.log(this.data["project"][index]["index"]);
+        // }
+      });
   },
   watch: {
     dialog2(val) {
@@ -239,7 +169,7 @@ export default {
 
       setTimeout(() => {
         this.dialog2 = false;
-        this.$router.go();
+        //this.$router.go();
       }, 3000);
     },
   },
@@ -248,7 +178,20 @@ export default {
       this.$router.push("/create");
     },
     deleted() {
+      let email = sessionStorage.getItem("email");
+      let names = [];
       console.log(this.selected);
+      for (let index = 0; index < this.selected.length; index++) {
+        names[index] = this.selected[index]["name"];
+      }
+      console.log(names);
+      axios
+        .delete(this.$store.state.server + "project" + "/" + email, {
+          projectName: {
+            names,
+          },
+        })
+        .then(() => {});
       this.dialog = false;
       this.dialog2 = true;
       this.flag = true;

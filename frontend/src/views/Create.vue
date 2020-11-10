@@ -25,10 +25,12 @@
               </td>
             </tr>
             <tr>
-              <td class="text-left font15" style="vertical-align: top"><br>설정 내용</td>
+              <td class="text-left font15" style="vertical-align: top">
+                <br />설정 내용
+              </td>
               <td class="text-left font15">
                 <div id="content" class="font15">
-                  <br>
+                  <br />
                   <div style="margin: 0 2vw">
                     <h3><div class="icon-div"><i class="fab fa-jenkins" style="font-size: 28px; font-weight: bold; color: #004D40"></i></div>Jenkins</h3><br>
                     <div style="margin: auto; width: 85%">
@@ -40,7 +42,7 @@
                       v-model="port" 
                       :rules="[rules.required, rules.number]"
                       ></v-text-field>
-                      <br>
+                      <br />
                     </div>
                   </div>
                   <div style="margin: 0 2vw">
@@ -173,7 +175,9 @@
                         <v-btn @click="removeCredential(index)">X</v-btn>
                       </div>
                       <div v-for="item in credentialForms" :key="item">
-                        <credential-form v-on:update="saveCredential"></credential-form>
+                        <credential-form
+                          v-on:update="saveCredential"
+                        ></credential-form>
                       </div>
                     </div>
                     <v-btn v-if="credentialForms.length==0" @click="toggleCredentialForm">+</v-btn>
@@ -194,9 +198,19 @@
                           v-model="server.info"
                           :rules="[rules.required]"
                           ></v-text-field>
-                          <v-radio-group v-model="server.kind" row :rules="[rules.required]">
-                            <v-radio label="Maven" value="Spring_maven"></v-radio>
-                            <v-radio label="Gradle" value="Spring_gradle"></v-radio>
+                          <v-radio-group
+                            v-model="server.kind"
+                            row
+                            :rules="[rules.required]"
+                          >
+                            <v-radio
+                              label="Maven"
+                              value="Spring_maven"
+                            ></v-radio>
+                            <v-radio
+                              label="Gradle"
+                              value="Spring_gradle"
+                            ></v-radio>
                           </v-radio-group>
                           <h4 v-if="server.options.length!=0">JVM Options</h4><br>
                           <div v-for="(option,idx) in server.options" :key="idx">
@@ -251,7 +265,7 @@
                     <!-- <v-icon v-if="serverForms.length==1" @click="toggleServerForm" large>mdi-toy-brick-remove-outline</v-icon> -->
 
                   </div>
-                  <br>
+                  <br />
                 </div>
               </td>
             </tr>
@@ -306,12 +320,11 @@ export default {
       gitShow: false,
       sshShow: false,
       rules: {
-        required: value => !!value || 'Required.',
-        number: value => /^[0-9]+$/.test(value) || 'Only number.'
+        required: (value) => !!value || "Required.",
+        number: (value) => /^[0-9]+$/.test(value) || "Only number.",
       },
 
       valid: false,
-
 
       serverKind: [
           'Spring',
@@ -355,7 +368,7 @@ export default {
       if(this.serverForms.length==0) {
         this.serverForms.push('CredentialForm')
       } else {
-        this.serverForms.pop()
+        this.serverForms.pop();
       }
     },
     removeServer(index, kind) {

@@ -5,7 +5,6 @@ import com.google.gson.JsonParser;
 import com.ssafy.ssakins.entity.Account;
 import com.ssafy.ssakins.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.http.HttpClient;
 import java.util.Optional;
 
 @RestController
@@ -33,6 +31,9 @@ public class AccountController {
         this.kakaoRedirectFrontURI = FRONT_SERVER_URI + "/main";
     }
 
+//    @Value("http://localhost:8000")
+//    private String FRONT_SERVER_URI;
+//    @Value("http://localhost:8080")
     @Value("${front.url}")
     private String FRONT_SERVER_URI;
     @Value("${backend.url}")
@@ -163,6 +164,5 @@ public class AccountController {
 
         return userEmail;
     }
-
 
 }
