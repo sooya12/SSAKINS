@@ -19,6 +19,7 @@
           show-select="show-select"
           class="elevation-1"
           @click="select(selected)"
+          @click:row="handleClick"
         >
         </v-data-table>
         <v-btn
@@ -153,13 +154,12 @@ export default {
     };
   },
   created() {
-    sessionStorage.setItem("email","neyo0311@naver.com");
-
     let email = sessionStorage.getItem("email");
     axios
       .get(this.$store.state.server + "project" + "/" + email)
       .then((res) => {
         this.data = res.data;
+        console.log(this.data['project'])
         // for (let index = 0; index <= this.data.length; index++) {
         //   console.log(this.data["project"][index]["index"]);
         // }
@@ -193,10 +193,14 @@ export default {
       this.dialog = false;
       this.dialog2 = true;
       this.flag = true;
-      
+
     },
     warning() {
       alert("선택을 해주세요!");
+    },
+    handleClick(value){
+      this.$router.push({name: 'Detail', params: {name: value.name}})
+
     },
   },
 };

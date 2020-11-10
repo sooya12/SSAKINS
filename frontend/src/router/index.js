@@ -41,6 +41,7 @@ const routes = [
   {
     path: '/detail',
     name: 'Detail',
+    props: true,
     component: Detail
   },
   {

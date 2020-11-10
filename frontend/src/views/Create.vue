@@ -57,7 +57,7 @@
                       :rules="[rules.required]"
                       ></v-text-field>
                       <h4>Username</h4><v-text-field
-                      v-model="git.username"
+                      v-model="git.name"
                       :rules="[rules.required]"
                       ></v-text-field>
                       <h4>Password</h4><v-text-field
@@ -303,7 +303,7 @@ export default {
         gitKind: null,
         giturl: null,
         id: null,
-        username: null,
+        name: null,
         password: null
       },
       // credentials: [],
@@ -398,13 +398,14 @@ export default {
           url: this.url,
           port: this.port,
           git: this.git,
-          SSHServer: this.SSHServer,
+          sshServer: this.SSHServer,
           servers: this.servers
         }
       }).then(res=>{
         console.log(this.credentials)
         console.log(this.servers)
         console.log(res)
+        this.$router.push({name: 'Detail', params: {name: this.name}})
       }).catch(err=>{
         console.log(err)
       })

@@ -37,6 +37,8 @@ public class ProjectController {
         return ResponseEntity.ok().body(accountRepository.findByEmail(email).get());
     }
 
+
+
     @RequestMapping(value = "delete/{email}", method = RequestMethod.POST)
     public ResponseEntity delete(@PathVariable String email, @RequestBody List<String> projectName) {
         Account account = accountRepository.findByEmail(email).get();
@@ -52,14 +54,12 @@ public class ProjectController {
 
         for (Project p : account.getProject()) {
             if(projectName.equals(p.getName())) {
-                project = p;
-                break;
+                System.out.println(p.toString());
+                return ResponseEntity.ok().body(p);
             }
-
-            project = null;
         }
 
-        return ResponseEntity.ok().body(project);
+        return ResponseEntity.notFound().build();
     }
 
 

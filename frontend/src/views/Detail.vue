@@ -199,10 +199,14 @@ import axios from 'axios'
 
 export default {
   name: 'Detail',
+  props:{
+    name:{
+      type:String
+    }
+  },
   data() {
     return {
-      userEmail: 'sooya@ssakins.com',
-      name: 'test4',
+      userEmail: '',
       project: null,
       keyArrow: false,
       gitpass: null,
@@ -222,15 +226,19 @@ export default {
     headers: Header
   },
   mounted() {
-    // this.userEmail = sessionStorage.getItem('email')
-
-    axios.get(this.$store.state.server + 'mongo/select/' + this.userEmail + '/' + this.name)
+    this.userEmail = sessionStorage.getItem('email')
+    console.log(this.name)
+    axios.get(this.$store.state.server + 'project/' + this.userEmail + '/' + this.name)
     .then(res => {
       this.project = res.data
       this.gitpass = '*'.repeat(res.data.git.password.length)
-      this.sshpass = '*'.repeat(res.data.sshServer.password.length)
+      if(res.data.sshServer.password!=null && res.data.sshServer.password.length>0){
+        this.sshpass = '*'.repeat(res.data.sshServer.password.length)
+
+      }
       console.log(this.project)
     }).catch(err => {
+      console.log('error다!!!!!!!!!!!!')
       console.log(err)
     })
 
