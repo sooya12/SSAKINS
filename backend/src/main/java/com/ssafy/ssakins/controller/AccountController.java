@@ -34,6 +34,9 @@ public class AccountController {
     @Value("http://localhost:8000")
     private String FRONT_SERVER_URI;
     @Value("http://localhost:8080")
+//    @Value("${front.url}")
+//    private String FRONT_SERVER_URI;
+//    @Value("${backend.url}")
     private String BACK_SERVER_URI;
 
     private final String kakaoRedirectBackURI = BACK_SERVER_URI + "/login/";
