@@ -36,7 +36,7 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/{email}", method = RequestMethod.DELETE)
-    public ResponseEntity delete(@PathVariable String email, @RequestBody Set<String> projectName) {
+    public ResponseEntity delete(@PathVariable String email, @RequestBody Setg<String> projectName) {
         Account account = accountRepository.findByEmail(email).get();
         account.deleteProject(projectName);
         return ResponseEntity.ok().build();
