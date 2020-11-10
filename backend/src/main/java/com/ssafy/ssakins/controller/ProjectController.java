@@ -1,27 +1,51 @@
 package com.ssafy.ssakins.controller;
 
 import com.ssafy.ssakins.dto.AccountAndProject;
-import com.ssafy.ssakins.entity.ServerKind;
+import com.ssafy.ssakins.entity.Account;
+import com.ssafy.ssakins.entity.Project;
+import com.ssafy.ssakins.repository.AccountRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-
 
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/project")
 public class ProjectController {
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public ResponseEntity save(@RequestBody AccountAndProject accountAndProject){
-    	accountAndProject.getProject().getServers().forEach((s)->s.setType());
-    	accountAndProject.getProject().getCredentials().forEach(c->c.setType());
-    	
-    	
-        System.out.println(accountAndProject);
-        System.out.println(accountAndProject.getProject());
+    @Autowired
+    AccountRepository accountRepository;
 
-        return ResponseEntity.ok().body("good");
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public ResponseEntity insert(@RequestBody AccountAndProject accountAndProject) {
+        Account account = accountRepository.findByEmail(accountAndProject.getUserEmail()).get();
+        accountAndProject.getProject().getServers().forEach((s)->s.setType());
+        account.addProject(accountAndProject.getProject());
+        accountRepository.save(account);
+
+        return ResponseEntity.ok().body("save complete");
+    }
+
+    @RequestMapping(value = "/{email}", method = RequestMethod.GET)
+    public ResponseEntity select(@PathVariable String email) {
+        return ResponseEntity.ok().body(accountRepository.findByEmail(email).get());
+    }
+
+    @RequestMapping(value = "/{email}/{projectName}", method = RequestMethod.GET)
+    public ResponseEntity selectProject(@PathVariable String email, @PathVariable String projectName) {
+        Account account = accountRepository.findByEmail(email).get();
+        Project project = new Project();
+
+        for (Project p : account.getProject()) {
+            if(projectName.equals(p.getName())) {
+                project = p;
+                break;
+            }
+
+            project = null;
+        }
+
+        return ResponseEntity.ok().body(project);
     }
 }
 

@@ -3,7 +3,6 @@ package com.ssafy.ssakins.controller;
 import com.ssafy.ssakins.entity.*;
 import com.ssafy.ssakins.repository.AccountRepository;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
