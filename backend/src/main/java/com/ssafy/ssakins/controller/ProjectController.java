@@ -12,7 +12,7 @@ public class ProjectController {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ResponseEntity save(@RequestBody AccountAndProject accountAndProject){
-//    	accountAndProject.getProject().getServers().forEach((s)->s.setType());
+    	accountAndProject.getProject().getServers().forEach((s)->s.setType());
     	accountAndProject.getProject().getCredentials().forEach(c->c.setType());
     	
     	

@@ -3,12 +3,14 @@ package com.ssafy.ssakins.entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class Project {
     private String name;
@@ -18,7 +20,7 @@ public class Project {
     private SSHServer sshServer;
     private List<Plugin> plugins;
     private List<Credential> credentials;
-    private Server servers;
+    private List<Server> servers;
     private List<GlobalTool> globalTools;
     private List<Command> commands;
 
@@ -45,7 +47,7 @@ public class Project {
         getCredentialsInternal().add(credential);
     }
 
-    public void addServer(Server servers){ this.servers=servers; }
+    public void addServer(Server server){ getServersInternal().add(server); }
 
     public void addGlobalTool(GlobalTool globalTool){
         getGlobalToolsInternal().add(globalTool);
@@ -69,12 +71,12 @@ public class Project {
         }
         return this.credentials;
     }
-//    private List<Server> getServersInternal(){
-//        if(this.servers==null){
-//            this.servers=new ArrayList<>();
-//        }
-//        return this.servers;
-//    }
+    private List<Server> getServersInternal(){
+        if(this.servers==null){
+            this.servers=new ArrayList<>();
+        }
+        return this.servers;
+    }
     private List<GlobalTool> getGlobalToolsInternal(){
         if(this.globalTools==null){
             this.globalTools=new ArrayList<>();

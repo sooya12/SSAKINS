@@ -7,9 +7,11 @@ import Create from '@/views/Create.vue'
 import Game from '@/views/Game.vue'
 import Edit from '@/views/Edit.vue'
 import Detail from '@/views/Detail.vue'
+import Login from '@/components/LoginComponent'
 
 Vue.use(VueRouter)
 
+<<<<<<< HEAD
 const routes =[
     {
         path : '/main',
@@ -46,6 +48,41 @@ const routes =[
         name : 'Game',
         component : Game
     },
+=======
+const routes = [
+  {
+    path: '/',
+    name: 'Home',
+    component: Home
+  },
+  {
+    path: '/create',
+    name: 'Create',
+    component: Create
+  },
+  {
+    path: '/main',
+    name: 'Main',
+    component: Main
+  },
+  {
+    path: '/edit',
+    name: 'Edit',
+    component: Edit 
+  },
+  {
+    path: '/detail',
+    name: 'Detail',
+    component: Detail
+  },
+  {
+    path: '/login/:email',
+    name: 'Login',
+    component: Login,
+    props: true
+  },
+
+>>>>>>> b145492304de4fbe8efe096fbd29d9416bc668e8
 ]
 
 const router = new VueRouter({
