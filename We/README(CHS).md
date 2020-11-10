@@ -1037,3 +1037,57 @@ sed -i -r -e '/CopyOnWriteArrayList/c\\t\t\t'$VALUE credential.xml
 
 
 
+## :calendar: 20.11.09
+
+#### :black_nib: mongoDB에 account 추가
+
+```shell
+> db.account.insert({ "id":1, "name":"현수", "email":"sooya@ssakins.com", "project":[{"name":"test1", "url":"k3a201.p.ssafy.io", "port":"8080", "git":{"id":"github", "name":"sooya12", "password":"1234", "giturl":"lab.ssafy.com/s03-final/s03p31a201", "type":"gitlab"}, "sshServer":{"key":"pemkeypemkeypemkey", "name":"ssh", "hostname":"k3a201.p.ssafy.io", "username":"ubuntu", "remoteDirectory":"deploy", "password":"1234"}, "servers":{"kind":"Spring", "name":"backend", "info":"/backend/src/main", "port":"8081", "options":["jvm", "jbm", "jim"]}}]})
+```
+
+
+
+```json
+> db.account.find().pretty()
+
+{
+        "_id" : ObjectId("5fa8d56fb5ab9511e8dc948a"),
+        "id" : 1,
+        "name" : "현수",
+        "email" : "sooya@ssakins.com",
+        "project" : [
+                {
+                        "name" : "test1",
+                        "url" : "k3a201.p.ssafy.io",
+                        "port" : "8080",
+                        "git" : {
+                                "id" : "github",
+                                "name" : "sooya12",
+                                "password" : "1234",
+                                "giturl" : "lab.ssafy.com/s03-final/s03p31a201",
+                                "type" : "gitlab"
+                        },
+                        "sshServer" : {
+                                "key" : "pemkeypemkeypemkey",
+                                "name" : "ssh",
+                                "hostname" : "k3a201.p.ssafy.io",
+                                "username" : "ubuntu",
+                                "remoteDirectory" : "deploy",
+                                "password" : "1234"
+                        },
+                        "servers" : {
+                                "kind" : "Spring",
+                                "name" : "backend",
+                                "info" : "/backend/src/main",
+                                "port" : "8081",
+                                "options" : [
+                                        "jvm",
+                                        "jbm",
+                                        "jim"
+                                ]
+                        }
+                }
+        ]
+}
+```
+
