@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Builder
 @Getter
@@ -24,12 +25,18 @@ public class Account {
         getProjectsInternal().add(p);
     }
 
+    public void deleteProject(Set<String> projectName ){
+        project.removeIf(p->projectName.contains(p.getName()));
+    }
+
     private List<Project> getProjectsInternal(){
         if(this.project==null){
             this.project=new ArrayList<>();
         }
         return this.project;
     }
+
+
 
     @Override
     public String toString() {

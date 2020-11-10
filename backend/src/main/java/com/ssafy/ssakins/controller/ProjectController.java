@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Set;
+
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/main")
@@ -30,6 +33,13 @@ public class ProjectController {
     @RequestMapping(value = "/{email}", method = RequestMethod.GET)
     public ResponseEntity select(@PathVariable String email) {
         return ResponseEntity.ok().body(accountRepository.findByEmail(email).get());
+    }
+
+    @RequestMapping(value = "/{email}", method = RequestMethod.DELETE)
+    public ResponseEntity delete(@PathVariable String email, @RequestBody Set<String> projectName) {
+        Account account = accountRepository.findByEmail(email).get();
+        account.deleteProject(projectName);
+        return ResponseEntity.ok().build();
     }
 
     @RequestMapping(value = "/{email}/{projectName}", method = RequestMethod.GET)
