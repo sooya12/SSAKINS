@@ -83,10 +83,6 @@
                       v-model="SSHServer.userName"
                       :rules="[rules.required]"
                       ></v-text-field>
-                      <h4>Server Remote Directory</h4><v-text-field
-                      v-model="SSHServer.remoteDirectory"
-                      :rules="[rules.required]"
-                      ></v-text-field>
                       <h4>Server Password</h4><v-text-field
                       v-model="SSHServer.password"
                       :append-icon="sshShow ? 'mdi-eye' : 'mdi-eye-off'" 
@@ -264,7 +260,7 @@
               </td>
               <td>
                 <div id="btn-area">
-                  <v-btn class="font15" :disabled="!valid" elevation="2" color="#004D40" style="color: white;" @click="save">저장하기</v-btn>
+                  <v-btn class="font15" :disabled="!valid" elevation="2" color="#004D40" style="color: white; font-weight: bold" @click="save">저장하기</v-btn>
                 </div>
               </td>
             </tr>
@@ -302,7 +298,6 @@ export default {
         key: null,
         hostName: null,
         userName: null,
-        remoteDirectory: null,
         password: null
       },
       servers: [],

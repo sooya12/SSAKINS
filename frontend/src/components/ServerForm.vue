@@ -32,7 +32,10 @@
     <div v-if="serverSelected=='Vue'">
       <h4>port</h4><v-text-field
       v-model="port"
-      :rules="[rules.required, rules.number]"
+      :rules="[rules.required, rules.port]"
+      v-bind:color="color"
+      hint="port number 80 fixed."
+      @focus="portFocus"
       ></v-text-field>
       <h4>package.json</h4><v-text-field
       v-model="info"
@@ -47,6 +50,7 @@
     ><i class="fad fa-save"></i></v-btn>
   </v-form>
   </div>
+  
 </template>
 
 <script>
@@ -57,7 +61,7 @@ export default {
       serverSelected: null,
       
       info: null,
-      port: null,
+      port: 80,
       tool: null,
       options: [],
 
@@ -66,9 +70,11 @@ export default {
 
       rules: {
         required: value => !!value || 'Required.',
-        number: value => /^[0-9]+$/.test(value) || 'Only number.'
+        number: value => /^[0-9]+$/.test(value) || 'Only number.',
+        port: value => value=="80" || 'port number 80 fixed!'
       },
-      valid: false
+      valid: false,
+
     }
   },
   props: {
