@@ -12,7 +12,7 @@ public class Git {
     private String name;
     private String password;
     private String giturl;
-    private String type; // gitlab 또는 github
+    private String gitKind; // gitlab 또는 github
 
     public void changeId(String id) {
         this.id = id;
@@ -30,8 +30,8 @@ public class Git {
         this.giturl = giturl;
     }
 
-    public void changeType(String Type) {
-        this.type = type;
+    public void changeType(String gitKind) {
+        this.gitKind = gitKind;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class Git {
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", giturl='" + giturl + '\'' +
-                ", type='" + type + '\'' +
+                ", gitKind='" + gitKind + '\'' +
                 '}';
     }
 }

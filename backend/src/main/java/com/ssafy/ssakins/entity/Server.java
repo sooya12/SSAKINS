@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Arrays;
+
 @Builder
 @Getter
 @AllArgsConstructor
@@ -53,8 +55,13 @@ public class Server {
 
 	@Override
 	public String toString() {
-		return "Server [type=" + type + ", kind=" + kind + ", name=" + name + ", info=" + info + ", port=" + port + "]";
+		return "Server{" +
+				"type=" + type +
+				", kind='" + kind + '\'' +
+				", name='" + name + '\'' +
+				", info='" + info + '\'' +
+				", port=" + port +
+				", options=" + Arrays.toString(options) +
+				'}';
 	}
-    
-    
 }
