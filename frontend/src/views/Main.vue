@@ -84,7 +84,7 @@
                 persistent
                 width="300"
               >
-                <v-card color="blue-grey" dark>
+                <v-card color="blue" dark>
                   <v-card-text>
                     프로젝트를 삭제중입니다.
                     <v-progress-linear
@@ -153,19 +153,14 @@ export default {
     };
   },
   created() {
+    let email = sessionStorage.getItem("email");
     axios
-      .get(
-        this.$store.state.server +
-          "/mongo" +
-          "/select" +
-          "/" +
-          sessionStorage.getItem("email")
-      )
+      .get(this.$store.state.server + "project" + "/" + email)
       .then((res) => {
         this.data = res.data;
-        for (let index = 0; index <= this.data.length; index++) {
-          console.log(this.data["project"][index]["index"]);
-        }
+        // for (let index = 0; index <= this.data.length; index++) {
+        //   console.log(this.data["project"][index]["index"]);
+        // }
       });
   },
   watch: {

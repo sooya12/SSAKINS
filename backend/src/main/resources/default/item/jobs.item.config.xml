@@ -79,7 +79,7 @@
             <configuredLocalRules/>
         </hudson.tasks.Shell>
         <hudson.tasks.Shell>
-            <command>APPLICATION.PROPERTIES</command>
+            <command>APPLICATION.PROPERTIES 안 받는다</command>
             <configuredLocalRules/>
         </hudson.tasks.Shell>
     </builders>
