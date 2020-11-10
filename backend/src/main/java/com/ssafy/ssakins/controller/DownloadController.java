@@ -193,7 +193,7 @@ public class DownloadController {
                 fw.write("GITUSERNAME=" + git.getName() + "\n");
                 fw.write("GITPASSWORD=" + git.getPassword() + "\n");
                 fw.write("GITURL=" + git.getGiturl() + "\n");
-                fw.write("GITKIND=" + git.getType() + "\n");
+                fw.write("GITKIND=" + git.getGitKind() + "\n");
                 fw.write("GITCREDENTIAL=" + git.getId() + "\n"); // git-configuration.xml - CredentialsId
                 fw.write("\n");
 
