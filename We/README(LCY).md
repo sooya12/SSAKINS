@@ -1183,43 +1183,43 @@ println(secret.getEncryptedValue())
 
 # 2020년 11월 06일
 
-* ssh.sh
+* ssakins-ssh.sh
 
 ```shell
-IPADDRESS=$(sed -n 's/^ *IPADDRESS *=*//p' ./Data)
+IPADDRESS=$(sed -n 's/^ *IPADDRESS= *=*//p' /var/jenkins_home/accountInfo.sh)
 
 
-sed -i'' -r -e '/hostname\//i\<hostname>'"$IPADDRESS"'</hostname>' ./ssakins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+sed -i'' -r -e '/hostname\//i\<hostname>'"$IPADDRESS"'</hostname>' /var/jenkins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
 
-sed -i '/hostname\//d' ./ssakins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
-
-
-SERVERUSERNAME=$(sed -n 's/^ *SERVERUSERNAME *=*//p' ./Data)
-
-sed -i'' -r -e '/username\//i\<username>'"$SERVERUSERNAME"'</username>' ./ssakins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
-
-sed -i '/username\//d' ./ssakins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+sed -i '/hostname\//d' /var/jenkins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
 
 
-SSHSSH=$(sed -n 's/^ *SSHSSH *=*//p' ./Data)
+SERVERUSERNAME=$(sed -n 's/^ *SERVERUSERNAME= *=*//p' /var/jenkins_home/accountInfo.sh)
 
-sed -i'' -r -e '/name\//i\<name>'"$SSHSSH"'</name>' ./ssakins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+sed -i'' -r -e '/username\//i\<username>'"$SERVERUSERNAME"'</username>' /var/jenkins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
 
-sed -i '/name\//d' ./ssakins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
-
-
-PEMKEY=$(sed -n 's/^ *PEMKEY *=*//p' ./Data)
-
-sed -i'' -r -e '/key\//i\<key>'"$PEMKEY"'</key>' ./ssakins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
-
-sed -i '/key\//d' ./ssakins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+sed -i '/username\//d' /var/jenkins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
 
 
-SERVERPASSWORD=$(sed -n 's/^ *SERVERPASSWORD *=*//p' ./Data)
+SSHNAME=$(sed -n 's/^ *SSHNAME= *=*//p' /var/jenkins_home/accountInfo.sh)
 
-sed -i'' -r -e '/secretPassphrase\//i\<secretPassphrase>'"$SERVERPASSWORD"'</secretPassphrase>' ./ssakins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+sed -i'' -r -e '/name\//i\<name>'"$SSHNAME"'</name>' /var/jenkins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
 
-sed -i '/secretPassphrase\//d' ./ssakins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+sed -i '/name\//d' /var/jenkins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+
+
+PEMKEY=$(sed -n 's/^ *PEMKEY= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+sed -i'' -r -e '/key\//i\<key>'"$PEMKEY"'</key>' /var/jenkins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+
+sed -i '/key\//d' /var/jenkins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+
+
+SERVERPASSWORD=$(sed -n 's/^ *SERVERPASSWORD= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+sed -i'' -r -e '/secretPassphrase\//i\<secretPassphrase>'"$SERVERPASSWORD"'</secretPassphrase>' /var/jenkins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+
+sed -i '/secretPassphrase\//d' /var/jenkins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
 
 ```
 
@@ -1284,6 +1284,7 @@ ITEM=concon
 GITREPOSITORYURL=gitrepourl
 GITREPOSITORYGIT=.git
 CREDENTIALID=creid
+
 POMXMLLOCATION=/pom.xml
 FRONTLOCATION=/frontend
 APPLICATIONPROPERTIES=application.properties
@@ -1298,6 +1299,67 @@ GITLABNAME=gitlabname
 GITLABURL=url
 GITLABCREDENTIAL=credential
 --------------------------------
+```
+
+
+
+* 거의 완성된 accountInfo
+
+```shell
+PROJECTNAME=test4
+
+# GROOVY
+◆URL=1010.p.ssafy.io
+◆PORT=1010
+
+#Git
+◆GITID=gitlab
+◆GITUSERNAME=sooya12
+◆GITPASSWORD=1234
+◆GITURL=lab.ssafy.com/s03-final/1222.git
+◆GITKIND=gitlab
+◆GITCREDENTIAL=gitlab
+
+#GitLabConnectionConfig.xml
+◆GITLABCONFIGNAME=[GITID 넣어 걍]
+◆GITLABCONFIGURL=[.com에서 끊어서 넣는다..화이팅]
+◆GITLABCONFIGCREDENTIAL=그루비
+
+#github-plugin-configuration.xml
+◆GITHUBCONFIGNAME=[GITID 넣어 걍]
+◆GITHUBCONFIGURL=[.com에서 끊어서 넣는다..화이팅]
+◆GITHUBCONFIGCREDENTIAL=그루비
+
+#BapSshPublisherPlugin.xml
+◆SSHNAME=[프로젝트네임 넣어]
+◆IPADDRESS=null
+◆SERVERUSERNAME=null
+◆SERVERPASSWORD=1234
+◆PEMKEY=
+REMOTEDIRECTORY=[안 받아요 몰라경로]
+
+#jobs.item.config.xml
+◆ITEM=[프로젝트네임으로 해주자]
+◆GITREPOSITORYURL=[GITURL에서 .GIT 빼기]
+◆GITREPOSITORYGIT=[GITURL]
+◆GITCREDENTIALID=[GITID 넣어주자]
+
+◆CONFIGNAME=[프로젝트네임, 챙이가 하던 jobs.item.config.xml-JOBSSH]
+
+◆FRONTLOCATION=frontend/
+◆FRONTPORT=80 [고정]
+◆SOURCEFILE=[FRONTLOCATION]/dist
+◆FRONTREMOVEPREFIX=[FRONTLOCATION]/
+
+◆BACKLOCATION=backend/
+◆BACKPORT=8081
+◆POMXMLLOCATION=[BACKLOCATION]/pom.xml
+◆SOURCEFILE=[BACKLOCATION]/target/*.jar
+◆BACKREMOVEPREFIX=[BACKLOCATION]/target/
+
+◆FRONTEXECCOMMAND="sh [몰라경로 ssakins_home/remoteDirectory]/deploy-vue.sh"
+◆BACKEXECCOMMAND="sh [몰라경로 ssakins_home/remoteDirectory]/deploy-spring.sh"
+
 ```
 
 
@@ -1383,10 +1445,6 @@ GITLABCREDENTIAL=credential
             <command1/>
             <configuredLocalRules/>
         </hudson.tasks.Shell>
-        <hudson.tasks.Shell>
-            <command2/>
-            <configuredLocalRules/>
-        </hudson.tasks.Shell>
     </builders>
     <publishers>
         <jenkins.plugins.publish__over__ssh.BapSshPublisherPlugin plugin="publish-over-ssh@1.20.1">
@@ -1452,116 +1510,113 @@ GITLABCREDENTIAL=credential
 
 
 
-* job.sh
+* ssakins-job.sh
 
 ```shell
-ITEM=$(sed -n 's/^ *ITEM *=*//p' ./Data)
+ITEM=$(sed -n 's/^ *ITEM= *=*//p' /var/jenkins_home/accountInfo.sh)
 
-mkdir ./ssakins_home/jobs/$ITEM
+mkdir /var/jenkins_home/jobs/$ITEM
 
-cp config.xml ./ssakins_home/jobs/$ITEM/
+cp jobconfig.xml /var/jenkins_home/jobs/$ITEM/config.xml
 
-mkdir ./ssakins_home/jobs/$ITEM/builds
+mkdir /var/jenkins_home/jobs/$ITEM/builds
 
-touch ./ssakins_home/jobs/$ITEM/builds/legacyIds
+touch /var/jenkins_home/jobs/$ITEM/builds/legacyIds
 
-touch ./ssakins_home/jobs/$ITEM/builds/permalinks
+touch /var/jenkins_home/jobs/$ITEM/builds/permalinks
 
-echo "lastFailedBuild -1\nlastSuccessfulBuild -1" > ./ssakins_home/jobs/$ITEM/builds/permalinks
-
-
-GITREPOSITORYURL=$(sed -n 's/^ *GITREPOSITORYURL *=*//p' ./Data)
-
-sed -i'' -r -e '/projectUrl\//i\<projectUrl>'"$GITREPOSITORYURL"'</projectUrl>' ./ssakins_home/jobs/$ITEM/config.xml
-
-sed -i '/projectUrl\//d' ./ssakins_home/jobs/$ITEM/config.xml
+echo "lastFailedBuild -1\nlastSuccessfulBuild -1" > /var/jenkins_home/$ITEM/builds/permalinks
 
 
-GITREPOSITORYGIT=$(sed -n 's/^ *GITREPOSITORYGIT *=*//p' ./Data)
+GITREPOSITORYURL=$(sed -n 's/^ *GITREPOSITORYURL= *=*//p' /var/jenkins_home/accountInfo.sh)
 
-sed -i'' -r -e '/url\//i\<url>'"$GITREPOSITORYGIT"'</url>' ./ssakins_home/jobs/$ITEM/config.xml
+sed -i'' -r -e '/projectUrl\//i\<projectUrl>'"$GITREPOSITORYURL"'</projectUrl>' /var/jenkins_home/jobs/$ITEM/config.xml
 
-sed -i '/url\//d' ./ssakins_home/jobs/$ITEM/config.xml
-
-
-CREDENTIALID=$(sed -n 's/^ *CREDENTIALID *=*//p' ./Data)
-
-sed -i'' -r -e '/credentialsId\//i\<credentialsId>'"$CREDENTIALID"'</credentialsId>' ./ssakins_home/jobs/$ITEM/config.xml
-
-sed -i '/credentialsId\//d' ./ssakins_home/jobs/$ITEM/config.xml
+sed -i '/projectUrl\//d' /var/jenkins_home/jobs/$ITEM/config.xml
 
 
-POMXMLLOCATION=$(sed -n 's/^ *POMXMLLOCATION *=*//p' ./Data)
+GITREPOSITORYGIT=$(sed -n 's/^ *GITREPOSITORYGIT= *=*//p' /var/jenkins_home/accountInfo.sh)
 
-sed -i'' -r -e '/pom\//i\<pom>'"$POMXMLLOCATION"'</pom>' ./ssakins_home/jobs/$ITEM/config.xml
+sed -i'' -r -e '/url\//i\<url>'"$GITREPOSITORYGIT"'</url>' /var/jenkins_home/jobs/$ITEM/config.xml
 
-sed -i '/pom\//d' ./ssakins_home/jobs/$ITEM/config.xml
-
-
-FRONTLOCATION=$(sed -n 's/^ *FRONTLOCATION *=*//p' ./Data)
-
-sed -i'' -r -e '/command1\//i\<command>cd '"$FRONTLOCATION"'\nnpm install\nnpm run build</command>' ./ssakins_home/jobs/$ITEM/config.xml
-
-sed -i '/command1\//d' ./ssakins_home/jobs/$ITEM/config.xml
+sed -i '/url\//d' /var/jenkins_home/jobs/$ITEM/config.xml
 
 
-APPLICATIONPROPERTIES=$(sed -n 's/^ *APPLICATIONPROPERTIES *=*//p' ./Data)
+GITCREDENTIALID=$(sed -n 's/^ *GITCREDENTIALID= *=*//p' /var/jenkins_home/accountInfo.sh)
 
-sed -i'' -r -e '/command2\//i\<command>'"$APPLICATIONPROPERTIES"'</command>' ./ssakins_home/jobs/$ITEM/config.xml
+sed -i'' -r -e '/credentialsId\//i\<credentialsId>'"$GITCREDENTIALID"'</credentialsId>' /var/jenkins_home/jobs/$ITEM/config.xml
 
-sed -i '/command2\//d' ./ssakins_home/jobs/$ITEM/config.xml
+sed -i '/credentialsId\//d' /var/jenkins_home/jobs/$ITEM/config.xml
+
+
+POMXMLLOCATION=$(sed -n 's/^ *POMXMLLOCATION= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+sed -i'' -r -e '/pom\//i\<pom>'"$POMXMLLOCATION"'</pom>' /var/jenkins_home/jobs/$ITEM/config.xml
+
+sed -i '/pom\//d' /var/jenkins_home/jobs/$ITEM/config.xml
+
+
+FRONTLOCATION=$(sed -n 's/^ *FRONTLOCATION= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+sed -i'' -r -e '/command1\//i\<command>cd '"$FRONTLOCATION"'\nnpm install\nnpm run build</command>' /var/jenkins_home/jobs/$ITEM/config.xml
+
+sed -i '/command1\//d' /var/jenkins_home/jobs/$ITEM/config.xml
 
 
 
-JOBSSH=$(sed -n 's/^ *JOBSSH *=*//p' ./Data)
 
-sed -i'' -r -e '/configName\//i\<configName>'"$JOBSSH"'</configName>' ./ssakins_home/jobs/$ITEM/config.xml
+CONFIGNAME=$(sed -n 's/^ *CONFIGNAME= *=*//p' /var/jenkins_home/accountInfo.sh)
 
-sed -i '/configName\//d' ./ssakins_home/jobs/$ITEM/config.xml
+sed -i'' -r -e '/configName\//i\<configName>'"$CONFIGNAME"'</configName>' /var/jenkins_home/jobs/$ITEM/config.xml
 
-
-
-sed -i'' -r -e '/frontsourceFiles\//i\<sourceFiles>'"$FRONTLOCATION"'/dist</sourceFiles>' ./ssakins_home/jobs/$ITEM/config.xml
-
-sed -i '/frontsourceFiles\//d' ./ssakins_home/jobs/$ITEM/config.xml
+sed -i '/configName\//d' /var/jenkins_home/jobs/$ITEM/config.xml
 
 
+FRONTSOURCEFILE=$(sed -n 's/^ *FRONTSOURCEFILE= *=*//p' /var/jenkins_home/accountInfo.sh)
 
-FRONTPREFIX=$(sed -n 's/^ *FRONTPREFIX *=*//p' ./Data)
+sed -i'' -r -e '/frontsourceFiles\//i\<sourceFiles>'"$FRONTSOURCEFILE"'</sourceFiles>' /var/jenkins_home/jobs/$ITEM/config.xml
 
-sed -i'' -r -e '/frontremovePrefix\//i\<removePrefix>'"$FRONTPREFIX"'</removePrefix>' ./ssakins_home/jobs/$ITEM/config.xml
-
-sed -i '/frontremovePrefix\//d' ./ssakins_home/jobs/$ITEM/config.xml
+sed -i '/frontsourceFiles\//d' /var/jenkins_home/jobs/$ITEM/config.xml
 
 
 
-FRONTSH=$(sed -n 's/^ *FRONTSH *=*//p' ./Data)
+FRONTREMOVEPREFIX=$(sed -n 's/^ *FRONTREMOVEPREFIX= *=*//p' /var/jenkins_home/accountInfo.sh)
 
-sed -i'' -r -e '/frontexecCommand\//i\<execCommand>sh ~/deploy/'"$FRONTSH"'</execCommand>' ./ssakins_home/jobs/$ITEM/config.xml
+sed -i'' -r -e '/frontremovePrefix\//i\<removePrefix>'"$FRONTREMOVEPREFIX"'</removePrefix>' /var/jenkins_home/jobs/$ITEM/config.xml
 
-sed -i '/frontexecCommand\//d' ./ssakins_home/jobs/$ITEM/config.xml
-
-
-
-BACKLOCATION=$(sed -n 's/^ *BACKLOCATION *=*//p' ./Data)
-
-sed -i'' -r -e '/backsourceFiles\//i\<sourceFiles>'"$BACKLOCATION"'/target/*.jar</sourceFiles>' ./ssakins_home/jobs/$ITEM/config.xml
-
-sed -i '/backsourceFiles\//d' ./ssakins_home/jobs/$ITEM/config.xml
+sed -i '/frontremovePrefix\//d' /var/jenkins_home/jobs/$ITEM/config.xml
 
 
 
-sed -i'' -r -e '/backremovePrefix\//i\<removePrefix>'"$BACKLOCATION"'/target</removePrefix>' ./ssakins_home/jobs/$ITEM/config.xml
+FRONTEXECCOMMAND=$(sed -n 's/^ *FRONTEXECCOMMAND= *=*//p' /var/jenkins_home/accountInfo.sh)
 
-sed -i '/backremovePrefix\//d' ./ssakins_home/jobs/$ITEM/config.xml
+sed -i'' -r -e '/frontexecCommand\//i\<execCommand>'"$FRONTEXECCOMMAND"'</execCommand>' /var/jenkins_home/jobs/$ITEM/config.xml
+
+sed -i '/frontexecCommand\//d' /var/jenkins_home/jobs/$ITEM/config.xml
 
 
 
-BACKSH=$(sed -n 's/^ *BACKSH *=*//p' ./Data)
+BACKSOURCEFILE=$(sed -n 's/^ *BACKSOURCEFILE= *=*//p' /var/jenkins_home/accountInfo.sh)
 
-sed -i'' -r -e '/backexecCommand\//i\<execCommand>sh ~/deploy/'"$BACKSH"'</execCommand>' ./ssakins_home/jobs/$ITEM/config.xml
+sed -i'' -r -e '/backsourceFiles\//i\<sourceFiles>'"$BACKSOURCEFILE"'</sourceFiles>' /var/jenkins_home/jobs/$ITEM/config.xml
 
-sed -i '/backexecCommand\//d' ./ssakins_home/jobs/$ITEM/config.xml
+sed -i '/backsourceFiles\//d' /var/jenkins_home/jobs/$ITEM/config.xml
+
+
+
+BACKREMOVEPREFIX=$(sed -n 's/^ *BACKREMOVEPREFIX= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+sed -i'' -r -e '/backremovePrefix\//i\<removePrefix>'"$BACKREMOVEPREFIX"'</removePrefix>' /var/jenkins_home/jobs/$ITEM/config.xml
+
+sed -i '/backremovePrefix\//d' /var/jenkins_home/jobs/$ITEM/config.xml
+
+
+
+BACKEXECCOMMAND=$(sed -n 's/^ *BACKEXECCOMMAND= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+sed -i'' -r -e '/backexecCommand\//i\<execCommand>'"$BACKEXECCOMMAND"'</execCommand>' /var/jenkins_home/jobs/$ITEM/config.xml
+
+sed -i '/backexecCommand\//d' /var/jenkins_home/jobs/$ITEM/config.xml
 
 
 ```
@@ -1594,33 +1649,37 @@ sed -i '/backexecCommand\//d' ./ssakins_home/jobs/$ITEM/config.xml
 
 
 
-* lab.sh
+* ssakins-lab.sh
 
 ```shell
-GITLABNAME=$(sed -n 's/^ *GITLABNAME *=*//p' ./Data)
+GITLABCONFIGNAME=$(sed -n 's/^ *GITLABCONFIGNAME= *=*//p' /var/jenkins_home/accountInfo.sh)
 
-sed -i'' -r -e '/name\//i\<name>'"$GITLABNAME"'</name>' /var/jenkins_home/com.dabsquared.gitlabjenkins.connection.GitLabConnectionConfig.xml 
+sed -i'' -r -e '/name\//i\<name>'"$GITLABCONFIGNAME"'</name>' /var/jenkins_home/com.dabsquared.gitlabjenkins.connection.GitLabConnectionConfig.xml 
 
 sed -i '/name\//d' /var/jenkins_home/com.dabsquared.gitlabjenkins.connection.GitLabConnectionConfig.xml 
 
 
 
-GITLABURL=$(sed -n 's/^ *GITLABURL *=*//p' ./Data)
+GITLABCONFIGURL=$(sed -n 's/^ *GITLABCONFIGURL= *=*//p' /var/jenkins_home/accountInfo.sh)
 
-sed -i'' -r -e '/url\//i\<url>'"$GITLABURL"'</url>' /var/jenkins_home/com.dabsquared.gitlabjenkins.connection.GitLabConnectionConfig.xml 
+sed -i'' -r -e '/url\//i\<url>'"$GITLABCONFIGURL"'</url>' /var/jenkins_home/com.dabsquared.gitlabjenkins.connection.GitLabConnectionConfig.xml 
 
 sed -i '/url\//d' /var/jenkins_home/com.dabsquared.gitlabjenkins.connection.GitLabConnectionConfig.xml 
 
 
 
 
-GITLABCREDENTIAL=$(sed -n 's/^ *GITLABCREDENTIAL *=*//p' /var/jenkins_home/Data)
+GITLABCONFIGCREDENTIAL=$(sed -n 's/^ *GITLABCONFIGCREDENTIAL= *=*//p' /var/jenkins_home/accountInfo.sh)
 echo "import hudson.util.Secret
-def password = "\"$GITLABCREDENTIAL\""
+def password = "\"$GITLABCONFIGCREDENTIAL\""
 def secret = Secret.fromString(password)
-println(secret.getEncryptedValue())" > /var/jenkins_home/lab.groovy
+println(secret.getEncryptedValue())" > /var/jenkins_home/ssakins-lab.groovy
 
-ENCRYPTED_PASSWORD=$(java -jar /bin/jenkins-cli.jar -s http://k3a201.p.ssafy.io:8282/ groovy =< /var/jenkins_home/lab.groovy)
+
+URL=$(sed -n 's/^ *URL= *=*//p' /var/jenkins_home/accountInfo.sh)
+PORT=$(sed -n 's/^ *PORT= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+ENCRYPTED_PASSWORD=$(java -jar /bin/jenkins-cli.jar -s http://"$URL":"$PORT"/ groovy =< /var/jenkins_home/ssakins-lab.groovy)
 echo $ENCRYPTED_PASSWORD
 
 
@@ -1629,8 +1688,6 @@ sed -i'' -r -e '/apiTokenId\//i\<apiTokenId>'"$ENCRYPTED_PASSWORD"'</apiTokenId>
 sed -i '/apiTokenId\//d' /var/jenkins_home/com.dabsquared.gitlabjenkins.connection.GitLabConnectionConfig.xml 
 
 ```
-
-주소 커스텀 해야됨
 
 
 
@@ -1725,11 +1782,17 @@ println(hudson.util.Secret.decrypt("{AQAAABAAAAAwlGBrc02snzrQn+M58w/OzGpyJKDwtpL
 
 
 
-### 내일 할 일
+# 2020년 11월 10일
 
-/var/jenkins_home 으로 다 옮기기
+* 오늘 한 일
 
-현수랑 변수명 회의하기
+final 폴더에 sh파일이랑 xml 파일 다 넣기
 
-http:// 부분 커스터마이징 가능하게 짜기 > groovy 부분
+
+
+
+
+
+
+
 
