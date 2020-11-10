@@ -37,12 +37,11 @@ public class ProjectController {
         return ResponseEntity.ok().body(accountRepository.findByEmail(email).get());
     }
 
-    @RequestMapping(value = "/{email}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "delete/{email}", method = RequestMethod.POST)
     public ResponseEntity delete(@PathVariable String email, @RequestBody List<String> projectName) {
-    	System.out.println(email);
-    	System.out.println(projectName.size());
         Account account = accountRepository.findByEmail(email).get();
         account.deleteProject(projectName.stream().collect(Collectors.toSet()));
+        accountRepository.save(account);
         return ResponseEntity.ok().build();
     }
 

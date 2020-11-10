@@ -153,6 +153,8 @@ export default {
     };
   },
   created() {
+    sessionStorage.setItem("email","neyo0311@naver.com");
+
     let email = sessionStorage.getItem("email");
     axios
       .get(this.$store.state.server + "project" + "/" + email)
@@ -179,22 +181,19 @@ export default {
     },
     deleted() {
       let email = sessionStorage.getItem("email");
-      let names = [];
+      let projectName = [];
       console.log(this.selected);
       for (let index = 0; index < this.selected.length; index++) {
-        names[index] = this.selected[index]["name"];
+        projectName[index] = this.selected[index]["name"];
       }
-      console.log(names);
+      console.log(projectName);
       axios
-        .delete(this.$store.state.server + "project" + "/" + email, {
-          projectName: {
-            names,
-          },
-        })
+        .post(this.$store.state.server + "project" + "/delete/" + email, projectName)
         .then(() => {});
       this.dialog = false;
       this.dialog2 = true;
       this.flag = true;
+      
     },
     warning() {
       alert("선택을 해주세요!");
