@@ -33,17 +33,17 @@ public class AccountController {
         this.kakaoRedirectFrontURI = FRONT_SERVER_URI + "/main";
     }
 
-    @Value("http://localhost:8000")
-    private String FRONT_SERVER_URI;
-    @Value("http://localhost:8080")
-//    @Value("${front.url}")
+//    @Value("http://localhost:8000")
 //    private String FRONT_SERVER_URI;
-//    @Value("${backend.url}")
+//    @Value("http://localhost:8080")
+    @Value("${front.url}")
+    private String FRONT_SERVER_URI;
+    @Value("${backend.url}")
     private String BACK_SERVER_URI;
 
-    //@Value("${backend.url}/account/login")
+    @Value("${backend.url}/account/login")
     private final String kakaoRedirectBackURI;
-    //@Value("${front.url}/login/")
+    @Value("${front.url}/login/")
     private final String kakaoRedirectFrontURI;
 
 

@@ -11,44 +11,6 @@ import Login from '@/components/LoginComponent'
 
 Vue.use(VueRouter)
 
-<<<<<<< HEAD
-const routes =[
-    {
-        path : '/main',
-        name : 'Main',
-        component : Main
-    },
-    {
-        path : '/notice',
-        name : 'Notice',
-        component : Notice
-    },
-    {
-        path: '/home',
-        name: 'Home',
-        component: Home
-    },
-    {
-        path : '/create',
-        name : 'Create',
-        component : Create
-    },
-    {
-        path: '/edit',
-        name: 'Edit',
-        component: Edit 
-    },
-    {
-        path: '/detail',
-        name: 'Detail',
-        component: Detail
-    },
-    {
-        path : '/game',
-        name : 'Game',
-        component : Game
-    },
-=======
 const routes = [
   {
     path: '/',
@@ -81,8 +43,23 @@ const routes = [
     component: Login,
     props: true
   },
+{
+    path : '/notice',
+    name : 'Notice',
+    component : Notice
+},
+{
+    path: '/home',
+    name: 'Home',
+    component: Home
+},
 
->>>>>>> b145492304de4fbe8efe096fbd29d9416bc668e8
+{
+    path : '/game',
+    name : 'Game',
+    component : Game
+},
+
 ]
 
 const router = new VueRouter({

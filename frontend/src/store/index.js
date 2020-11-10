@@ -9,7 +9,7 @@ export default new Vuex.Store({
         // createPersistedState()
     ],
     state:{
-        server: 'http://localhost:8080',
+        server: 'http://localhost:8080/',
         // server: 'https://k3a201.p.ssafy.io/',
     },
 })
