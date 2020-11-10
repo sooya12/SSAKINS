@@ -61,7 +61,7 @@ export default {
       serverSelected: null,
       
       info: null,
-      port: 80,
+      port: null,
       tool: null,
       options: [],
 
@@ -111,6 +111,9 @@ export default {
       let current = this.serverSelected
       this.$refs.form.reset()
       this.serverSelected = current
+      if(current=='Vue') {
+        this.port="80"
+      }
     },
     addOption() {
       this.options.push("")
