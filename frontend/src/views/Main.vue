@@ -169,7 +169,7 @@ export default {
 
       setTimeout(() => {
         this.dialog2 = false;
-        this.$router.go();
+        //this.$router.go();
       }, 3000);
     },
   },
@@ -178,7 +178,20 @@ export default {
       this.$router.push("/create");
     },
     deleted() {
+      let email = sessionStorage.getItem("email");
+      let names = [];
       console.log(this.selected);
+      for (let index = 0; index < this.selected.length; index++) {
+        names[index] = this.selected[index]["name"];
+      }
+      console.log(names);
+      axios
+        .delete(this.$store.state.server + "project" + "/" + email, {
+          projectName: {
+            names,
+          },
+        })
+        .then(() => {});
       this.dialog = false;
       this.dialog2 = true;
       this.flag = true;
