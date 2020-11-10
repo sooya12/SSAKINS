@@ -13,6 +13,7 @@
       <div id="title">
         <h2>CI/CD 설정 상세</h2>
       </div>
+
       <table>
         <tbody>
           <tr>
@@ -21,6 +22,123 @@
             </td>
             <td class="text-left font15" style="width: 60vw">
               {{ name }}
+            </td>
+          </tr>
+          <tr>
+            <td class="text-left font15" style="width: 10vw">
+              사용 방법
+            </td>
+            <td class="text-left font15" style="width: 60vw; " >
+              <div style="margin-top:5%;" v-if="more">
+                <h1>시작하기</h1>
+                <br>
+                젠킨스를 설치할 서버에서 아래 코드를 복사한 후 실행합니다.<br>
+                (만약, 서버에서 unzip을 실행할 수 없다면 <span style="background-color: #e0f2f1; font-weight: bold; padding-left: 5px; " > &nbsp; sudo apt install unzip &nbsp;</span> &nbsp;명령어를 통해 unzip을 먼저 설치해주세요.)<br>
+                &nbsp;
+
+                <br>
+
+                <div>
+                  <v-text-field
+                      v-model="ssakins"
+                      label="First Name"
+                      solo
+                      readonly
+                      background-color="teal lighten-5"
+                      class="overflow-y-auto"
+                      style="width:80%;"
+                      prepend-inner-icon="mdi-code-greater-than"
+                  >
+
+                    <template v-slot:append >
+                        <i class="fad fa-paste" style="color:#004D40;margin-right: 4%; font-size: 30px;" @click="copy()" ></i>
+                    </template>
+                  </v-text-field>
+                  <v-snackbar
+                      v-model="snackbar"
+                      color="green"
+
+                      :timeout="timeout"
+                      centered
+
+                  >
+                    복사되었습니다.
+
+                    <template v-slot:action="{ attrs }">
+                      <v-btn
+                          color="white"
+                          text
+                          v-bind="attrs"
+                          @click="snackbar = false"
+                      >
+                        확인
+                      </v-btn>
+                    </template>
+                  </v-snackbar>
+
+                </div>
+                설치가 완료되면 폴더 내 install.sh 파일을 <span style="background-color: #e0f2f1; font-weight: bold; padding-left: 5px; " > &nbsp; sh install.sh &nbsp;</span> &nbsp; 명령어로 실행시켜주세요. <br>
+                서버의 사양에 따라 5~10분 후 젠킨스 서버 설치가 완료됩니다.
+                <br>
+                <br>
+                <br>
+                <span style="color:red;">※ 다음의 경우, 정상적인 서비스 사용이 불가하니 참고바랍니다.</span> <br>
+                <span style=" margin-left: 2%;">  &centerdot; &nbsp; 입력한 내용이 정확하지 않은 경우</span> <br>
+                <span style=" margin-left: 2%;">  &centerdot; &nbsp; 설정한 포트 번호 중 하나 이상의 포트가 이미 사용중인 경우</span> <br>
+                <span style=" margin-left: 2%;">  &centerdot; &nbsp; SSAKINS 서비스를 사용하여 두개 이상의 Jenkins 서버를 구동하는 경우</span> <br><br><br><br><br><br>
+                <span style="color:red; margin-top: 0px;">위 주소를 타인과 공유하거나 공개된 곳에 게시하지 마세요.</span>
+                <div style="width: 80%; text-align: center; margin-top: 5%;" @click="more=false">
+                  설명 닫기
+                </div>
+              </div>
+
+              <div style="margin-top:5%;" v-if="!more">
+                <div>
+                  <v-text-field
+                      v-model="ssakins"
+                      label="First Name"
+                      solo
+                      readonly
+                      background-color="teal lighten-5"
+                      class="overflow-y-auto"
+                      style="width:80%;"
+                      prepend-inner-icon="mdi-code-greater-than"
+                  >
+
+                    <template v-slot:append >
+                      <i class="fad fa-paste" style="color:#004D40;margin-right: 4%; font-size: 30px;" @click="copy()" ></i>
+                    </template>
+                  </v-text-field>
+                  <v-snackbar
+                      v-model="snackbar"
+                      color="green"
+
+                      :timeout="timeout"
+                      centered
+
+                  >
+                    복사되었습니다.
+
+                    <template v-slot:action="{ attrs }">
+                      <v-btn
+                          color="white"
+                          text
+                          v-bind="attrs"
+                          @click="snackbar = false"
+                      >
+                        확인
+                      </v-btn>
+                    </template>
+                  </v-snackbar>
+
+                </div>
+
+                <div style="width: 80%; text-align: center; margin-bottom: 3%;" @click="more=true">
+                  자세히 보기
+                </div>
+              </div>
+
+
             </td>
           </tr>
           <tr>
@@ -122,8 +240,7 @@
                   <h3><div class="icon-div"><i class="fad fa-server" style="font-size: 25px; color: #004D40"></i></div>Server</h3> <br><br>
                   <div style="margin: auto; width: 90%">
                     <div v-for="(server, index) in project.servers" :key="index">
-                        <!-- <div v-if="server.kind=='Spring_maven' || server.kind=='Spring_gradle'"> -->
-                        <div v-if="server.kind=='Spring'">
+                        <div v-if="server.kind=='Spring'||server.kind=='Spring_maven'||server.kind=='Spring_gradle'">
                           <div style="font-size:17px; font-weight: bold"><div class="icon-div"><i class="fad fa-leaf" style="font-size: 22px; color: #004D40"></i></div>Spring</div>
                           <div style="margin: 0 1.7vw">
                             <table style="width: 100%">
@@ -211,6 +328,10 @@ export default {
       keyArrow: false,
       gitpass: null,
       sshpass: null,
+      ssakins: "wget -o http://localhost:8080/download/email@naver.com && ",
+      snackbar: false,
+      timeout: 3000,
+      more : false,
     }
   },
   methods: {
@@ -219,7 +340,21 @@ export default {
     },
     keyToggle() {
       this.keyArrow=!this.keyArrow
-    }
+    },
+    copy () {
+      let copyText = document.createElement('textarea')
+      copyText.value=this.ssakins
+      document.body.appendChild(copyText);
+      copyText.select()
+      copyText.setSelectionRange(0, 9999);
+      try {
+        document.execCommand('copy');
+        this.snackbar=true
+      } catch (err) {
+        alert('Oops, unable to copy');
+      }
+      document.body.removeChild(copyText)
+    },
   },
   components: {
     navigator: Navigator,
@@ -227,6 +362,7 @@ export default {
   },
   mounted() {
     this.userEmail = sessionStorage.getItem('email')
+    this.ssakins='wget '+this.$store.state.server+'download/'+this.userEmail+'/'+this.name+' -O && unzip -d ssakins ssakins.zip && rm ssakins.zip'
     console.log(this.name)
     axios.get(this.$store.state.server + 'project/' + this.userEmail + '/' + this.name)
     .then(res => {
@@ -234,11 +370,10 @@ export default {
       this.gitpass = '*'.repeat(res.data.git.password.length)
       if(res.data.sshServer.password!=null && res.data.sshServer.password.length>0){
         this.sshpass = '*'.repeat(res.data.sshServer.password.length)
-
       }
+      this.project.sshServer.key='*******YOU CAN\'T READ THIS.*******'
       console.log(this.project)
     }).catch(err => {
-      console.log('error다!!!!!!!!!!!!')
       console.log(err)
     })
 
