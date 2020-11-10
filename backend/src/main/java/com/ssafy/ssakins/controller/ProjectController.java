@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -36,9 +38,11 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/{email}", method = RequestMethod.DELETE)
-    public ResponseEntity delete(@PathVariable String email, @RequestBody Set<String> projectName) {
+    public ResponseEntity delete(@PathVariable String email, @RequestBody List<String> projectName) {
+    	System.out.println(email);
+    	System.out.println(projectName.size());
         Account account = accountRepository.findByEmail(email).get();
-        account.deleteProject(projectName);
+        account.deleteProject(projectName.stream().collect(Collectors.toSet()));
         return ResponseEntity.ok().build();
     }
 
