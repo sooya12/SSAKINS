@@ -160,7 +160,7 @@ public class DownloadController {
         File file = new File("accountInfo"); // 파일 객체 생성
 
         try {
-            FileWriter fw = new FileWriter(file, false); // 기존 내용에 이어서 작성
+            FileWriter fw = new FileWriter(file, false); // false : 기존 내용에 이어서 작성하지 않음
             Project project = new Project();
 
             for (Project p : account.getProject()) {
@@ -169,7 +169,7 @@ public class DownloadController {
                     break;
                 }
 
-                project = null;
+                project = null; // 해당 프로젝트 없음
             }
 
             if(!project.equals(null)) {
@@ -180,7 +180,6 @@ public class DownloadController {
                 fw.write("URL=" + project.getUrl() + "\n");
                 fw.write("PORT=" + project.getPort() + "\n");
                 fw.write("\n");
-
 
                 Git git = project.getGit();
 
@@ -197,17 +196,19 @@ public class DownloadController {
                 fw.write("GITCREDENTIAL=" + git.getId() + "\n"); // git-configuration.xml - CredentialsId
                 fw.write("\n");
 
-                fw.write("# GitLabConnectionConfig.xml \n");
-                fw.write("GITLABCONFIGNAME=" + git.getId() + "\n");
-                fw.write("GITLABCONFIGURL=" + configurl + "\n");
-                fw.write("GITLABCONFIGCREDENTIAL=" + git.getPassword() + "\n");
-                fw.write("\n");
-
-                fw.write("# github-plugin-configuration.xml \n");
-                fw.write("GITHUBCONFIGNAME=" + git.getId() + "\n");
-                fw.write("GITHUBCONFIGURL=" + configurl + "\n");
-                fw.write("GITHUBCONFIGCREDENTIAL=" + git.getPassword() + "\n");
-                fw.write("\n");
+                if("gitlab".equals(git.getGitKind())) {
+                    fw.write("# GitLabConnectionConfig.xml \n");
+                    fw.write("GITLABCONFIGNAME=" + git.getId() + "\n");
+                    fw.write("GITLABCONFIGURL=" + configurl + "\n");
+                    fw.write("GITLABCONFIGCREDENTIAL=" + git.getPassword() + "\n");
+                    fw.write("\n");
+                } else {
+                    fw.write("# github-plugin-configuration.xml \n");
+                    fw.write("GITHUBCONFIGNAME=" + git.getId() + "\n");
+                    fw.write("GITHUBCONFIGURL=" + configurl + "\n");
+                    fw.write("GITHUBCONFIGCREDENTIAL=" + git.getPassword() + "\n");
+                    fw.write("\n");
+                }
 
                 SSHServer sshServer = project.getSshServer();
 

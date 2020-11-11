@@ -25,7 +25,7 @@ export default {
         {
           title: "SSAKINS 안내",
           icon: "mdi-information-outline",
-          value: "/notice",
+          value: "/reference",
           no: 0,
         },
         {
@@ -35,22 +35,16 @@ export default {
           no: 1,
         },
         {
-          title: "SSAKINS 문의",
+          title: "SSAKINS 이용약관",
           icon: "mdi-help-box",
           value: "/info",
           no: 2,
         },
         {
-          title: "SSAKINS 이용약관",
-          icon: "mdi-help-box",
-          value: "/info",
-          no: 3,
-        },
-        {
           title: "개발자를 위한 쉼터",
           icon: "mdi-gamepad-variant",
           value: "/game",
-          no: 4,
+          no: 3,
         },
       ],
       right: null,

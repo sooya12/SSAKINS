@@ -159,7 +159,7 @@ export default {
       .get(this.$store.state.server + "project" + "/" + email)
       .then((res) => {
         this.data = res.data;
-        console.log(this.data['project'])
+        console.log(this.data["project"]);
         // for (let index = 0; index <= this.data.length; index++) {
         //   console.log(this.data["project"][index]["index"]);
         // }
@@ -188,19 +188,20 @@ export default {
       }
       console.log(projectName);
       axios
-        .post(this.$store.state.server + "project" + "/delete/" + email, projectName)
+        .post(
+          this.$store.state.server + "project" + "/delete/" + email,
+          projectName
+        )
         .then(() => {});
       this.dialog = false;
       this.dialog2 = true;
       this.flag = true;
-
     },
     warning() {
       alert("선택을 해주세요!");
     },
-    handleClick(value){
-      this.$router.push({name: 'Detail', params: {name: value.name}})
-
+    handleClick(value) {
+      this.$router.push({ name: "Detail", params: { name: value.name } });
     },
   },
 };
@@ -216,6 +217,7 @@ export default {
   width: 72.5%;
   min-width: 200px;
   text-align: center;
+  cursor: pointer;
 }
 #navigator {
   width: 20%;

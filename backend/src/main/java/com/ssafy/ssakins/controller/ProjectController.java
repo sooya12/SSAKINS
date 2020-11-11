@@ -62,6 +62,17 @@ public class ProjectController {
         return ResponseEntity.notFound().build();
     }
 
+    @RequestMapping(value = "/check/{email}/{projectName}", method = RequestMethod.GET)
+    public ResponseEntity selectProjectName(@PathVariable String email, @PathVariable String projectName) {
+        Account account = accountRepository.findByEmail(email).get();
+        for (Project project : account.getProject()) {
+            if(projectName.equals(project.getName())) {
+                return ResponseEntity.badRequest().body("duplication");
+            }
+        }
+        return ResponseEntity.ok().body("ok");
+    }
+
 
 }
 
