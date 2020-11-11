@@ -181,7 +181,6 @@ public class DownloadController {
                 fw.write("PORT=" + project.getPort() + "\n");
                 fw.write("\n");
 
-
                 Git git = project.getGit();
 
                 String url = git.getGiturl();
@@ -197,17 +196,19 @@ public class DownloadController {
                 fw.write("GITCREDENTIAL=" + git.getId() + "\n"); // git-configuration.xml - CredentialsId
                 fw.write("\n");
 
-                fw.write("# GitLabConnectionConfig.xml \n");
-                fw.write("GITLABCONFIGNAME=" + git.getId() + "\n");
-                fw.write("GITLABCONFIGURL=" + configurl + "\n");
-                fw.write("GITLABCONFIGCREDENTIAL=" + git.getPassword() + "\n");
-                fw.write("\n");
-
-                fw.write("# github-plugin-configuration.xml \n");
-                fw.write("GITHUBCONFIGNAME=" + git.getId() + "\n");
-                fw.write("GITHUBCONFIGURL=" + configurl + "\n");
-                fw.write("GITHUBCONFIGCREDENTIAL=" + git.getPassword() + "\n");
-                fw.write("\n");
+                if("gitlab".equals(git.getGitKind())) {
+                    fw.write("# GitLabConnectionConfig.xml \n");
+                    fw.write("GITLABCONFIGNAME=" + git.getId() + "\n");
+                    fw.write("GITLABCONFIGURL=" + configurl + "\n");
+                    fw.write("GITLABCONFIGCREDENTIAL=" + git.getPassword() + "\n");
+                    fw.write("\n");
+                } else {
+                    fw.write("# github-plugin-configuration.xml \n");
+                    fw.write("GITHUBCONFIGNAME=" + git.getId() + "\n");
+                    fw.write("GITHUBCONFIGURL=" + configurl + "\n");
+                    fw.write("GITHUBCONFIGCREDENTIAL=" + git.getPassword() + "\n");
+                    fw.write("\n");
+                }
 
                 SSHServer sshServer = project.getSshServer();
 
