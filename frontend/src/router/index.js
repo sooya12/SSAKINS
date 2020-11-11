@@ -9,6 +9,7 @@ import Edit from '@/views/Edit.vue'
 import Detail from '@/views/Detail.vue'
 import Login from '@/components/LoginComponent'
 import PageNotFound from '@/views/PageNotFound'
+import Test from '@/views/Test'
 
 Vue.use(VueRouter)
 
@@ -39,6 +40,11 @@ const routes = [
     component: Edit 
   },
   {
+    path: '/test',
+    name: 'Test',
+    component :Test
+  },
+  {
     path: '/detail',
     name: 'Detail',
     props: true,
@@ -62,7 +68,7 @@ const routes = [
   {
     path: '/404',
     component : PageNotFound,
-  }
+  },
 ]
 
 const router = new VueRouter({
