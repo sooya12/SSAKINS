@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
 import Main from '@/views/Main.vue'
-import Notice from '@/views/Notice.vue'
+import Reference from '@/views/Reference.vue'
 import Create from '@/views/Create.vue'
 import Game from '@/views/Game.vue'
 import Edit from '@/views/Edit.vue'
@@ -24,9 +24,9 @@ const routes = [
     component : Main
   },
   {
-    path : '/notice',
-    name : 'Notice',
-    component : Notice
+    path : '/reference',
+    name : 'Reference',
+    component : Reference
   },
   {
     path : '/create',
@@ -54,11 +54,6 @@ const routes = [
     name: 'Login',
     component: Login,
     props: true
-  },
-  {
-    path : '/notice',
-    name : 'Notice',
-    component : Notice
   },
   {
     path : '*',

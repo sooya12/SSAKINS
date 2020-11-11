@@ -2,7 +2,7 @@
   <div style="text-align: center;">
     <img id="error" :src="require('@/assets/error.png')" />
 
-    <h2>찾을 수 없는 페이지 입니다.</h2>
+    <h2>찾을 수 없는 페이지입니다.</h2>
     <h2>요청하신 페이지가 사라졌거나, 잘못된 경로를 이용하셨어요 :)</h2>
     <div style="margin-top:30px;">
       <button class="btn" @click="back()">BACK</button>
@@ -41,10 +41,10 @@ h1 {
   padding: 15px 20px;
   margin: 5px;
   color: black;
-  font-family: "Lato", sans-serif;
+  /* font-family: "Lato", sans-serif; */
   text-transform: uppercase;
-  font-size: 0.6em;
-  letter-spacing: 1px;
+  font-size: 10pt;
+  /* letter-spacing: 1px; */
 }
 
 .btn:hover {
