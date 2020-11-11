@@ -10,6 +10,16 @@
       >
         <navigator></navigator>
       </div>
+      <div id="reference" class="rounded-lg">
+        <p>레퍼런스</p>
+        <img id="error" :src="require('@/assets/error.png')" />
+        <br />
+        <img id="error" :src="require('@/assets/ssakins.jpg')" />
+        <br />
+        <img id="error" :src="require('@/assets/error.png')" />
+        <br />
+        <img id="error" :src="require('@/assets/ssakins.jpg')" />
+      </div>
     </div>
   </v-container>
 </template>
@@ -37,13 +47,18 @@ export default {
   min-width: 100px;
 }
 
-#table {
-  width: 72.5%;
-  min-width: 200px;
-  text-align: center;
-}
 #navigator {
   width: 20%;
   min-width: 100px;
+}
+
+#reference {
+  border: 1px solid grey;
+  float: left;
+  margin-top: 16px;
+  margin-left: 20px;
+  width: 72.5%;
+  min-width: 200px;
+  text-align: center;
 }
 </style>

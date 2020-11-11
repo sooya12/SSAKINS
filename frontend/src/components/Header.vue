@@ -3,7 +3,7 @@
     <div id="header">
       <div id="left" style="float:left; margin-left:10px;" @click="go()">
         <div id="logo" style="float:left">
-          <img :src="require('@/assets/ssakins.jpg')" style="" />
+          <img :src="require('@/assets/ssakins.jpg')" style="width:70px;" />
         </div>
         <div id="ssakins" style="float:left; font-family:S-CoreDream-8Heavy">
           <p>SSAKINS</p>
@@ -75,7 +75,7 @@ export default {
   width: 100%;
   min-width: 200px;
   height: 100px;
-  font-family: 'S-CoreDream-3Light';
+  font-family: "S-CoreDream-3Light";
 }
 
 img {
