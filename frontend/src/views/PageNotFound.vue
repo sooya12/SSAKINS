@@ -1,20 +1,20 @@
 <template>
-  <html>
-    <h1>안녕</h1>
-    <h1>안녕</h1>
-    <h1>안녕</h1>
-    <h1>안녕</h1>
-    <h1>안녕</h1>
-    <h1>안녕</h1>
-    <h1>안녕</h1>
-    <h1>안녕</h1>
-    <h1>안녕</h1>
-    <h1>안녕</h1>
-  </html>
+  <div style="text-align: center;">
+    <img :src="require('@/assets/error.png')" />
+
+    <h1>요청하신 페이지를 찾을 수 없습니다.</h1>
+  </div>
 </template>
 
-<script>
-export default {};
-</script>
+<script></script>
 
-<style></style>
+<style>
+img {
+  margin-top: 100px;
+  width: 50%;
+}
+h1 {
+  margin-top: 50px;
+  font-size: 50px;
+}
+</style>
