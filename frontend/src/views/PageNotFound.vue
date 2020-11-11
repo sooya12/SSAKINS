@@ -1,20 +1,54 @@
 <template>
   <div style="text-align: center;">
-    <img :src="require('@/assets/error.png')" />
+    <img id="error" :src="require('@/assets/error.png')" />
 
-    <h1>요청하신 페이지를 찾을 수 없습니다.</h1>
+    <h2>찾을 수 없는 페이지 입니다.</h2>
+    <h2>요청하신 페이지가 사라졌거나, 잘못된 경로를 이용하셨어요 :)</h2>
+    <div style="margin-top:30px;">
+      <button class="btn" @click="back()">BACK</button>
+      <button class="btn" @click="home()">HOME</button>
+    </div>
   </div>
 </template>
 
-<script></script>
+<script>
+export default {
+  methods: {
+    back() {
+      this.$router.go(-1);
+    },
+    home() {
+      this.$router.push("/main");
+    },
+  },
+};
+</script>
 
 <style>
-img {
+#error {
   margin-top: 100px;
-  width: 50%;
+  margin-bottom: 50px;
+  width: 40%;
 }
 h1 {
-  margin-top: 50px;
   font-size: 50px;
+}
+
+.btn {
+  width: 80px;
+  border: 2px solid black;
+  background: white;
+  padding: 15px 20px;
+  margin: 5px;
+  color: black;
+  font-family: "Lato", sans-serif;
+  text-transform: uppercase;
+  font-size: 0.6em;
+  letter-spacing: 1px;
+}
+
+.btn:hover {
+  background: white;
+  transition: all 0.4s ease-out;
 }
 </style>
