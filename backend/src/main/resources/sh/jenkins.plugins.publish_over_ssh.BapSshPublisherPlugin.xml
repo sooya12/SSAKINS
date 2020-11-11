@@ -1,0 +1,68 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<jenkins.plugins.publish__over__ssh.BapSshPublisherPlugin_-Descriptor plugin="publish-over-ssh@1.20.1">
+    <hostConfigurations>
+        <jenkins.plugins.publish__over__ssh.BapSshHostConfiguration>
+            <name>[이름]</name>
+            <!--<hostname>49.50.161.106</hostname>-->
+            <hostname>[IP주소]</hostname>
+            <!--<username>root</username>-->
+            <username>[유저이름]</username>
+            <!--<secretPassword>{AQAAABAAAAAQdIwNFKhWXXq1TlQW9EVgjCL71RHABBLzmFj0NTQPytg=}</secretPassword>-->
+            <secretPassword>[공백]</secretPassword>
+            <remoteRootDir></remoteRootDir>
+            <port>22</port>
+            <commonConfig class="jenkins.plugins.publish_over_ssh.BapSshCommonConfiguration">
+                <!--<secretPassphrase>{AQAAABAAAAAQwwBFuOPrIo31OV1uEGzmz2VSsAAYva5OaQY3eKPPv6Q=}</secretPassphrase>-->
+                <secretPassphrase>[공백]</secretPassphrase>
+                <!--<key>-&#45;&#45;&#45;&#45;BEGIN RSA PRIVATE KEY-&#45;&#45;&#45;&#45;
+                    MIIEowIBAAKCAQEAhTsT0ZzRP1fDhYpiyjqjpkc3ks9dMHiGi09L1oKthx5D8DKH
+                    TVjTNchOBZfxEsyRxAc0M8lgcxp667TY62GuXhj4stAHWbYJKYjenjyQtBOgj277
+                    M5C249GpLfDgAEWI21n4c7fF1tZXvY0iKZTnur7zhk1H6/YEW5Yfe6YxEmoF57pj
+                    bime2kmwDVtB7ULVtjK3FAK2IFdK//KMX3im5C1g0RJ8rBtdmdzhIoSPflCI8aUT
+                    LgC2fKS1HkX4pWlR/scHYGYOIhpXwJcREsFswKWkFRVxYN7efCWQkOxrnBb0JJvR
+                    rKNImwmxTEJNGh/0fLbSHRpYn3CXzoOzX4T87QIDAQABAoIBABOBeb5Xoj8O315e
+                    y2XmPe1rQdSprXAaRUCCJI1MZpGAuduh2jNVzN5z7BBflXj2IGU91MO8OPXBK7v0
+                    p0mW7It0Rn0PffQBdcfx9P3fyiPDN9+oFPkQt+YU3RsPyAviIk5TFtACWOHCUeg7
+                    kIPb/C1YJZlFGUGPrEWobgWRaF/UlX+b3tWlX3prDEoHdpPUHLH5FnyE/Ytzajkv
+                    0VbJuGsb1AitgJNEIPM70CtWc4l8WsMfHLSxXG41mMf5AKH5g4nd3eytm3y00XCY
+                    M051GWz4S4HLwonvuddG8Rnctvgi/FQqkIajKhuDPtbMtnbFnEfNzfhVsOMRT+3s
+                    V0j8SuECgYEA0Cl6LyluzymBWJwzYUqz4fCWFhqsiq1LKaPEIa267g+TjXCQqKSr
+                    ruSh7fMz4f++ASJC0Y+gLYPnxdi1KWdu8TEdkDFsAAcJO553ZXr0koODJ+Y2ATKh
+                    Cg0nf2oUvMbuhM7TTSFyLAmuIA4+xYxifn1aukI+BWO/PWpAtmnfv2UCgYEAo9lE
+                    s4wzkG+/fc59sVKUD5j0UMhdc6lzO5IugmyA4oKUCD6OHwjHNzIugYxcQqrI88YM
+                    iUmw8my3u3Fhg/M962zoTcmTkhYK8Vp0uwYBvIqfXTRcpCLDBm7PvUzJhSKIZHjY
+                    KShLleSXdLFdpkAEgoa8Ebb1KKhN1a0ee8pNAukCgYEAkm57Cy4kSwqxeLn40toQ
+                    DEKH8ei1s6AQHaycTey+cLT4YSjsOhYMx60B1DefKb4T1Qxa4LweO6Zsppq5ZfTi
+                    8DxSxZpelO5eKlhhOTvzTBXDb4/cMZ+B9WYngNQI3ns6UqaDseBzRlNQ8C/VLHaC
+                    2uQnrJrosjXm07co6qkzwpkCgYA7GYhtVvnWdGhW4Z920Xl0ctBVPyBuMsXMy/qY
+                    srh+e2kX3DB5QzpQT3p04gL5TQ701w/4iSsZFlvjcY8iAB/qhjr4q+fdvrOtwNnw
+                    B8eikUHQZa2wypUcAeZOup7Jtd4Kl4gouE8jPvPedId6CwdVaXH21c5yHtsMYshn
+                    EF5c2QKBgFWYzqTYV3J3otIdY2Gqg1MaVS4DjW4lItlYM1s2HqThmpNEgO0XdbCB
+                    mVRSu63+kdWR6h0IGo1ne6UCZCdpDx0gcyf6WedGMKYnHT3Iuuft7cXy3BsPM62X
+                    7fRN/vCvshlKcjxQ4hyOTmODtYkDUYzFV3Xm9xc1JW+dFbRnzoMf
+                    -&#45;&#45;&#45;&#45;END RSA PRIVATE KEY-&#45;&#45;&#45;&#45;</key>-->
+                <key>[pem key]</key>
+                <keyPath></keyPath>
+                <disableAllExec>false</disableAllExec>
+            </commonConfig>
+            <timeout>300000</timeout>
+            <overrideKey>true</overrideKey>
+            <disableExec>false</disableExec>
+            <keyInfo>
+                <!--<secretPassphrase>{AQAAABAAAAAQ2vY3FGDMvtfsIJPUOeNy8gGkdAvJWI1XzNL8Q1Arjxc=}</secretPassphrase> 이게 ssafy 다! -->
+               	<!-- 서버에 비번 걸려있으면 넣고 없으면 공백 -->
+                <secretPassphrase>[암호화된 비밀번호]</secretPassphrase>
+                <key></key>
+                <keyPath></keyPath>
+            </keyInfo>
+            <jumpHost></jumpHost>
+            <proxyType></proxyType>
+            <proxyHost></proxyHost>
+            <proxyPort>0</proxyPort>
+            <proxyUser></proxyUser>
+            <proxyPassword></proxyPassword>
+        </jenkins.plugins.publish__over__ssh.BapSshHostConfiguration>
+    </hostConfigurations>
+    <commonConfig reference="../hostConfigurations/jenkins.plugins.publish__over__ssh.BapSshHostConfiguration/commonConfig"/>
+    <defaults class="jenkins.plugins.publish_over_ssh.options.SshPluginDefaults"/>
+</jenkins.plugins.publish__over__ssh.BapSshPublisherPlugin_-Descriptor>
