@@ -21,7 +21,20 @@
                 설정 CI/CD 명
               </td>
               <td class="text-left font15" style="width: 60vw">
-                <v-text-field v-model="name" :rules="[rules.required, rules.space, rules.title]" class="font15" placeholder="설정의 이름은 공백없이 영어로 입력해 주세요" hide-details="auto" dense shaped></v-text-field>
+                <v-text-field
+                v-model="name"
+                :rules="[rules.required, rules.space, rules.title]"
+                append-icon="<i class='fad fa-check-double' style='user-select: auto;'></i>"
+                class="font15"
+                placeholder="설정의 이름은 공백없이 영어로 입력해 주세요 (중복 확인 必)"
+                hide-details="auto"
+                dense
+                shaped
+                >
+                  <template v-slot:append >
+                    <span><i class="fad fa-check-double" style="color: #004D40" @click="checkDuplication"></i></span>
+                  </template>
+                </v-text-field>
               </td>
             </tr>
             <tr>
@@ -325,7 +338,7 @@
               </td>
               <td>
                 <div id="btn-area">
-                  <v-btn class="font15" :disabled="!valid" elevation="2" color="#004D40" style="color: white; font-weight: bold" @click="save">저장하기</v-btn>
+                  <v-btn class="font15" :disabled="!valid && !check" elevation="2" color="#004D40" style="color: white; font-weight: bold" @click="save">저장하기</v-btn>
                 </div>
               </td>
             </tr>
@@ -347,6 +360,7 @@ export default {
   name: "Create",
   data() {
     return {
+      userEmail: null,
       name: null,
       url: null,
       port: null,
@@ -382,6 +396,7 @@ export default {
       },
 
       valid: false,
+      check: false,
 
       serverKind: [
           'Spring',
@@ -404,6 +419,9 @@ export default {
     ServerForm,
     navigator: Navigator,
     headers: Header,
+  },
+  mounted() {
+    this.userEmail = sessionStorage.getItem('email')
   },
   methods: {
     // toggleCredentialForm: function() {
@@ -444,6 +462,12 @@ export default {
     },
     delOption(index, idx) {
       this.servers[index].options.splice(idx, 1)
+    },
+    checkDuplication() {
+      axios.get(this.$store.state.server + 'project/check' + this.userEmail + '/' + this.name, {
+      }).then(res=>{
+        console.log(res)
+      })
     },
     save() {
       this.git.id=this.git.gitKind
