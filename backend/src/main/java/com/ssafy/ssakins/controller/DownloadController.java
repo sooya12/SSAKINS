@@ -160,7 +160,7 @@ public class DownloadController {
         File file = new File("accountInfo"); // 파일 객체 생성
 
         try {
-            FileWriter fw = new FileWriter(file, false); // 기존 내용에 이어서 작성
+            FileWriter fw = new FileWriter(file, false); // false : 기존 내용에 이어서 작성하지 않음
             Project project = new Project();
 
             for (Project p : account.getProject()) {
@@ -169,7 +169,7 @@ public class DownloadController {
                     break;
                 }
 
-                project = null;
+                project = null; // 해당 프로젝트 없음
             }
 
             if(!project.equals(null)) {
