@@ -298,7 +298,12 @@
           <tr>
             <td colspan="2">
               <div id="btn-area">
-                <v-btn class="font15" elevation="2" color="#B2DFDB" style="margin-right: 2vw; font-weight: bold"  @click="goEdit">수정하기</v-btn>
+                <v-tooltip top color="#e0f2f1">
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn class="font15" elevation="2" color="#B2DFDB" style="margin-right: 2vw; font-weight: bold" v-bind="attrs" v-on="on" @click="goEdit">설정 가져가기</v-btn>
+                    </template>
+                    <span style="font-family: 'S-CoreDream-3Light'; color: black">현재 설정 정보를 가지고 새로운 설정을 생성할 수 있습니다.</span>
+                  </v-tooltip>
                 <v-btn class="font15" elevation="2" color="#004D40" style="color: white; margin-right: 2vw; font-weight: bold">삭제하기</v-btn>
               </div>
             </td>
@@ -336,7 +341,7 @@ export default {
   },
   methods: {
     goEdit() {
-      this.$router.push("/edit")
+      this.$router.push({ name: "Edit", params: { name: this.name }})
     },
     keyToggle() {
       this.keyArrow=!this.keyArrow
@@ -363,7 +368,6 @@ export default {
   mounted() {
     this.userEmail = sessionStorage.getItem('email')
     this.ssakins='wget '+this.$store.state.server+'download/'+this.userEmail+'/'+this.name+' -O && unzip -d ssakins ssakins.zip && rm ssakins.zip'
-    console.log(this.name)
     axios.get(this.$store.state.server + 'project/' + this.userEmail + '/' + this.name)
     .then(res => {
       this.project = res.data
