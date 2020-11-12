@@ -48,7 +48,7 @@
                           color="white"
                           text
                           v-bind="attrs"
-                          @click="snackbar = false"
+                          @click="snackbar=false"
                       >
                         확인
                       </v-btn>
@@ -489,12 +489,16 @@ export default {
       }).then(res=>{
         if(res.data=='ok') {
           this.check=true
-        } else if(res.data=='duplication') {
-          this.check=false
         }
+        this.snackbar=true
         console.log(res)
       }).catch(err=>{
-        console.log(err)
+        if(err.response.data=='duplication') {
+          this.check=false
+        }
+        this.snackbar=true
+        console.dir(err)
+        // console.log(err)
       })
     },
     save() {
