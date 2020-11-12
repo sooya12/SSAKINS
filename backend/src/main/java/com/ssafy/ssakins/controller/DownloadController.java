@@ -236,7 +236,7 @@ public class DownloadController {
                         fw.write("FRONTPORT=80 \n");
                         fw.write("FRONTSOURCEFILE=" + server.getInfo() + "/dist \n");
                         fw.write("FRONTREMOVEPREFIX=" + server.getInfo() + "/ \n");
-                        fw.write("FRONTEXECCOMMAND='sh 절대경로/jenkins_home/remoteDirectory/deploy-vue.sh' \n");
+                        fw.write("FRONTEXECCOMMAND=/deploy-vue.sh \n");
                         fw.write("\n");
                     } else if("Spring".equals(server.getKind())) {
                         fw.write("# Back Infomation \n");
@@ -245,7 +245,7 @@ public class DownloadController {
                         fw.write("POMXMLLOCATION=" + server.getInfo() + "/pom.xml \n");
                         fw.write("BACKSOURCEFILE=" + server.getInfo() + "/target/*.jar \n");
                         fw.write("BACKREMOVEPREFIX=" + server.getInfo() + "/target/ \n");
-                        fw.write("BACKEXECCOMMAND='sh 절대경로/jenkins_home/remoteDirectory/deploy-spring.sh' \n");
+                        fw.write("BACKEXECCOMMAND=/deploy-spring.sh \n");
                         fw.write("\n");
                     }
                 }
