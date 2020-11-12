@@ -225,7 +225,7 @@ public class DownloadController {
                 fw.write("ITEM=" + project.getName() + "\n");
                 fw.write("GITREPOSITORYURL=" + git.getGiturl().substring(0, git.getGiturl().length() - 4) + "\n");
                 fw.write("GITREPOSITORYGIT=" + git.getGiturl() + "\n");
-                fw.write("GITCREDENTIAL=" + git.getId() + "\n");
+                fw.write("GITCREDENTIALID=" + git.getId() + "\n");
                 fw.write("CONFIGNAME=" + project.getName() + "\n");
                 fw.write("\n");
 
