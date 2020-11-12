@@ -29,9 +29,9 @@
                 hide-details="auto"
                 dense
                 shaped
-                @change="check=false"
+                @change="reCheck"
                 >
-                  <template v-slot:append >
+                  <template v-slot:append>
                     <span><i class="fad fa-check-double" style="color: #004D40" @click="checkDuplication"></i></span>
                   </template>
                 </v-text-field>
@@ -49,6 +49,24 @@
                           text
                           v-bind="attrs"
                           @click="snackbar=false"
+                      >
+                        확인
+                      </v-btn>
+                    </template>
+                  </v-snackbar>
+                  <v-snackbar
+                    v-model="dupcheck"
+                    color="green"
+                    :timeout="timeout"
+                    centered
+                  >
+                  설정명 중복체크를 해 주세요.
+                    <template v-slot:action="{ attrs }">
+                      <v-btn
+                          color="white"
+                          text
+                          v-bind="attrs"
+                          @click="dupcheck=false"
                       >
                         확인
                       </v-btn>
@@ -303,7 +321,6 @@
                               @click="delOption(index, idx)"
                               ></i>
                             </div>
-                            <!-- <v-icon style="float: right; margin-right: 1vw" color="red lighten-1" large @click="delOption(index, idx)">mdi-tooltip-remove-outline</v-icon> -->
                           </div>
                            <v-btn style="float: right; color: white " color="teal darken-2" depressed  @click="addOption(index)">+ JVM Option</v-btn>
                         </div>
@@ -322,9 +339,7 @@
                           ></v-text-field>
                         </div>
                         <i id="remove-btn" class="fad fa-trash-alt" @click="removeServer(index, server.kind)"></i>
-                        
-                        <!-- <v-btn @click="removeServer(index, server.kind)">X</v-btn> -->
-                      <br><br>
+                        <br><br>
                       </div>
                       <div v-for="item in serverForms" :key="item">
                         <server-form v-on:update="saveServer"
@@ -344,9 +359,6 @@
                     @click="toggleServerForm"
                     style="margin-left: 20px; font-size: 30px; color: #004D40"
                     ></i>
-                    <!-- <v-icon v-if="serverForms.length==0 && servers.length<2" @click="toggleServerForm" large>mdi-plus</v-icon> -->
-                    <!-- <v-icon v-if="serverForms.length==1" @click="toggleServerForm" large>mdi-toy-brick-remove-outline</v-icon> -->
-
                   </div>
                   <br />
                 </div>
@@ -357,7 +369,7 @@
               </td>
               <td>
                 <div id="btn-area">
-                  <v-btn class="font15" :disabled="!valid || !check" elevation="2" color="#004D40" style="color: white; font-weight: bold" @click="save">저장하기</v-btn>
+                  <v-btn class="font15" :disabled="!valid" elevation="2" color="#004D40" style="color: white; font-weight: bold" @click="save">저장하기</v-btn>
                 </div>
               </td>
             </tr>
@@ -381,6 +393,7 @@ export default {
     return {
       userEmail: null,
       name: null,
+      tempname: null,
       url: null,
       port: null,
       git: {
@@ -411,13 +424,14 @@ export default {
         http: value => /^(http(s)?:\/\/)/.test(value) || 'Start with http:// or https://',
         title: value => /^[a-zA-Z]*([-_]?([a-zA-Z]))*$/.test(value) || "Start/End with Alphabet. You can use Alphabet or '-' or '_'",
         info: value => /[^/]$/.test(value) || "Please remove last'/'",
-        korean: value => /^[^ㄱ-ㅎㅏ-ㅣ가-힣]*$/.test(value) || 'Please remove Korean'
+        korean: value => /^[^ㄱ-ㅎㅏ-ㅣ가-힣]*$/.test(value) || 'Please remove Korean',
       },
 
       valid: false,
       check: false,
       timeout: 2000,
       snackbar: false,
+      dupcheck: false,
 
       serverKind: [
           'Spring',
@@ -461,7 +475,7 @@ export default {
     // },
     toggleServerForm() {
       if(this.serverForms.length==0) {
-        this.serverForms.push('CredentialForm')
+        this.serverForms.push('ServerForm')
       } else {
         this.serverForms.pop();
       }
@@ -485,10 +499,11 @@ export default {
       this.servers[index].options.splice(idx, 1)
     },
     checkDuplication() {
-      axios.get(this.$store.state.server + 'project/check/' + this.userEmail + '/' + this.name, {
-      }).then(res=>{
+      axios.get(this.$store.state.server + 'project/check/' + this.userEmail + '/' + this.name)
+      .then(res=>{
         if(res.data=='ok') {
           this.check=true
+          this.tempname=this.name
         }
         this.snackbar=true
         console.log(res)
@@ -498,29 +513,35 @@ export default {
         }
         this.snackbar=true
         console.dir(err)
-        // console.log(err)
       })
     },
+    reCheck() {
+      if(this.name!=this.tempname) {
+        this.check=false
+      }
+    },
     save() {
-      this.git.id=this.git.gitKind
-      axios.post(this.$store.state.server + 'project/save', {
-        userEmail: sessionStorage.getItem('email'),
-        project :{
-          name: this.name,
-          url: this.url,
-          port: this.port,
-          git: this.git,
-          sshServer: this.SSHServer,
-          servers: this.servers
-        }
-      }).then(res=>{
-        console.log(this.credentials)
-        console.log(this.servers)
-        console.log(res)
-        this.$router.push({name: 'Detail', params: {name: this.name}})
-      }).catch(err=>{
-        console.log(err)
-      })
+      if(!this.check) {
+        this.dupcheck=true
+      } else {
+        this.git.id=this.git.gitKind
+        axios.post(this.$store.state.server + 'project/save', {
+          userEmail: sessionStorage.getItem('email'),
+          project :{
+            name: this.name,
+            url: this.url,
+            port: this.port,
+            git: this.git,
+            sshServer: this.SSHServer,
+            servers: this.servers
+          }
+        }).then(res=>{
+          console.log(res)
+          this.$router.push({name: 'Detail', params: {name: this.name}})
+        }).catch(err=>{
+          console.log(err)
+        })
+      }
     }
   }
 }
