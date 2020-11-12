@@ -23,18 +23,37 @@
               <td class="text-left font15" style="width: 60vw">
                 <v-text-field
                 v-model="name"
-                :rules="[rules.required, rules.space, rules.title]"
-                append-icon="<i class='fad fa-check-double' style='user-select: auto;'></i>"
+                :rules="[rules.required, rules.title]"
                 class="font15"
                 placeholder="설정의 이름은 공백없이 영어로 입력해 주세요 (중복 확인 必)"
                 hide-details="auto"
                 dense
                 shaped
+                @change="check=false"
                 >
                   <template v-slot:append >
                     <span><i class="fad fa-check-double" style="color: #004D40" @click="checkDuplication"></i></span>
                   </template>
                 </v-text-field>
+                <v-snackbar
+                    v-model="snackbar"
+                    color="green"
+                    :timeout="timeout"
+                    centered
+                  >
+                  <div v-if="check">사용 가능한 이름입니다.</div>
+                  <div v-if="!check">새로운 이름을 입력해 주세요.</div>
+                    <template v-slot:action="{ attrs }">
+                      <v-btn
+                          color="white"
+                          text
+                          v-bind="attrs"
+                          @click="snackbar = false"
+                      >
+                        확인
+                      </v-btn>
+                    </template>
+                  </v-snackbar>
               </td>
             </tr>
             <tr>
@@ -338,7 +357,7 @@
               </td>
               <td>
                 <div id="btn-area">
-                  <v-btn class="font15" :disabled="!valid && !check" elevation="2" color="#004D40" style="color: white; font-weight: bold" @click="save">저장하기</v-btn>
+                  <v-btn class="font15" :disabled="!valid || !check" elevation="2" color="#004D40" style="color: white; font-weight: bold" @click="save">저장하기</v-btn>
                 </div>
               </td>
             </tr>
@@ -387,16 +406,18 @@ export default {
       rules: {
         required: value => !!value || 'Required.',
         number: value => /^[0-9]+$/.test(value) || 'Only Number.',
-        space: value => /^[^\s]+$/.test(value) || 'No Space',
+        space: value => /^[^\s]*$/.test(value) || 'No Space',
         git: value => /^(http(s)?:\/\/).+\.git$/.test(value) || 'Start with http:// or https://. End with .git',
         http: value => /^(http(s)?:\/\/)/.test(value) || 'Start with http:// or https://',
         title: value => /^[a-zA-Z]*([-_]?([a-zA-Z]))*$/.test(value) || "Start/End with Alphabet. You can use Alphabet or '-' or '_'",
         info: value => /[^/]$/.test(value) || "Please remove last'/'",
-        korean: value => /^[^ㄱ-ㅎㅏ-ㅣ가-힣]+$/.test(value) || 'Please remove Korean'
+        korean: value => /^[^ㄱ-ㅎㅏ-ㅣ가-힣]*$/.test(value) || 'Please remove Korean'
       },
 
       valid: false,
       check: false,
+      timeout: 2000,
+      snackbar: false,
 
       serverKind: [
           'Spring',
@@ -464,9 +485,16 @@ export default {
       this.servers[index].options.splice(idx, 1)
     },
     checkDuplication() {
-      axios.get(this.$store.state.server + 'project/check' + this.userEmail + '/' + this.name, {
+      axios.get(this.$store.state.server + 'project/check/' + this.userEmail + '/' + this.name, {
       }).then(res=>{
+        if(res.data=='ok') {
+          this.check=true
+        } else if(res.data=='duplication') {
+          this.check=false
+        }
         console.log(res)
+      }).catch(err=>{
+        console.log(err)
       })
     },
     save() {
