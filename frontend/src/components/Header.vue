@@ -32,7 +32,7 @@
           style="float:left;  margin-top:30px; margin-left:60px;"
         >
           <v-row align="center" justify="space-around">
-            <v-btn text style="float:left; margin-right:20px;">
+            <v-btn text style="float:left; margin-right:20px;" @click="kakaoLogout">
               logout
             </v-btn>
           </v-row>
@@ -65,6 +65,12 @@ export default {
     },
     mouseOver: function() {
       this.active = !this.active;
+    },
+    kakaoLogout() {
+      let win = window.open('https://accounts.kakao.com/logout?continue=https://accounts.kakao.com/weblogin/account')
+      win.close()
+      sessionStorage.removeItem("email")
+      this.$router.push("/")
     },
   },
 };

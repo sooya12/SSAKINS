@@ -6,11 +6,13 @@
     <div v-if="serverSelected=='Spring'">
       <h4>port</h4><v-text-field
       v-model="port"
-      :rules="[rules.required, rules.number]"
+      :rules="[rules.required, rules.number, rules.space]"
+      placeholder="포트 번호를 입력해 주세요"
       ></v-text-field>
       <h4>pom.xml</h4><v-text-field
       v-model="info"
-      :rules="[rules.required]"
+      :rules="[rules.required, rules.space, rules.info, rules.korean]"
+      placeholder="pom.xml의 경로를 입력해 주세요 (마지막'/'제외)"
       ></v-text-field>
       <v-radio-group v-model="tool" row :rules="[rules.required]">
         <v-radio label="Maven" value="Spring_maven"></v-radio>
@@ -19,7 +21,12 @@
       <h4 v-if="options.length!=0">JVM Options</h4><br>
       <div v-for="(option,index) in options" :key="index">
         <h5 style="clear: both; text-align: left">Option</h5>
-        <v-text-field v-model="options[index]" :rules="[rules.required]" style="width: 90%; float: left; padding-top: 2px"></v-text-field>
+        <v-text-field
+        v-model="options[index]"
+        :rules="[rules.required, rules.korean, rules.space]"
+        placeholder='ex) -Dspring.profiles.active="live"'
+        style="width: 90%; float: left; padding-top: 2px"
+        ></v-text-field>
         <i 
         class="far fa-cut"
         style="float: right; margin-right: 2vw; font-size: 25px; color: #D32F2F"
@@ -32,15 +39,15 @@
     <div v-if="serverSelected=='Vue'">
       <h4>port</h4><v-text-field
       v-model="port"
-      :rules="[rules.required, rules.port]"
-      v-bind:color="color"
+      :rules="[rules.required, rules.number, rules.space]"
+      placeholder="포트 번호를 입력해 주세요"
       readonly
       hint="port number 80 fixed."
-      @focus="portFocus"
       ></v-text-field>
       <h4>package.json</h4><v-text-field
       v-model="info"
-      :rules="[rules.required]"
+      :rules="[rules.required, rules.space, rules.info, rules.korean]"
+      placeholder="package.json의 경로를 입력해 주세요 (마지막'/'제외)"
       ></v-text-field>
     </div>
     <v-btn
@@ -72,7 +79,9 @@ export default {
       rules: {
         required: value => !!value || 'Required.',
         number: value => /^[0-9]+$/.test(value) || 'Only number.',
-        port: value => value=="80" || 'port number 80 fixed!'
+        space: value => /^[^\s]+$/.test(value) || 'No Space',
+        info: value => /[^/]$/.test(value) || "Please remove last'/'",
+        korean: value => /^[^ㄱ-ㅎ가-힣]+$/.test(value) || 'Please remove Korean'
       },
       valid: false,
 
