@@ -304,7 +304,7 @@
                     </template>
                     <span style="font-family: 'S-CoreDream-3Light'; color: black">현재 설정 정보를 가지고 새로운 설정을 생성할 수 있습니다.</span>
                   </v-tooltip>
-                <v-btn class="font15" elevation="2" color="#004D40" style="color: white; margin-right: 2vw; font-weight: bold">삭제하기</v-btn>
+                <v-btn class="font15" elevation="2" color="#004D40" style="color: white; margin-right: 2vw; font-weight: bold" @click="deleteProject">삭제하기</v-btn>
               </div>
             </td>
           </tr>
@@ -360,6 +360,16 @@ export default {
       }
       document.body.removeChild(copyText)
     },
+    deleteProject() {
+      let projectName=[];
+      projectName.push(this.project.name)
+      axios.post(this.$store.state.server + "project/delete/" + this.userEmail, projectName)
+      .then(()=>{
+        this.$router.push('/main')
+      }).catch(err=>{
+        console.log(err)
+      })
+    }
   },
   components: {
     navigator: Navigator,
