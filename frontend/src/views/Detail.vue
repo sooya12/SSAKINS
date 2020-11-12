@@ -148,7 +148,7 @@
                 <br>
                 <div style="margin: 0">
                   <h3><div class="icon-div"><i class="fab fa-jenkins" style="font-size: 28px; font-weight: bold; color: #004D40"></i></div>Jenkins</h3><br>
-                  <div style="margin: auto; width: 60%">
+                  <div style="margin: auto; width: 90%">
                     <table style="width: 100%">
                       <tbody>
                         <tr style="margin: 0">
