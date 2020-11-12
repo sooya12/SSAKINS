@@ -12,6 +12,15 @@ export default {
   data: () => ({
     //
   }),
+  mounted() {
+    /*
+      에러 페이지 제작시 수정해야 함!
+    */ 
+    const email = sessionStorage.getItem('email')
+    if(email==null) {
+      this.$router.push('/')
+    }
+  }
 };
 </script>
 
