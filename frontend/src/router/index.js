@@ -10,6 +10,7 @@ import Detail from '@/views/Detail.vue'
 import Login from '@/components/LoginComponent'
 import PageNotFound from '@/views/PageNotFound'
 import Test from '@/views/Test'
+import TermsOfUse from "@/views/TermsOfUse";
 
 Vue.use(VueRouter)
 
@@ -70,6 +71,11 @@ const routes = [
     path: '/404',
     component : PageNotFound,
   },
+  {
+    path: '/termsofuse',
+    name: 'TermsOfUse',
+    component: TermsOfUse
+  }
 ]
 
 const router = new VueRouter({

@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping(value = "/account")
+@RequestMapping(value = "/api/account")
 public class AccountController {
 
     private final AccountRepository accountRepository;

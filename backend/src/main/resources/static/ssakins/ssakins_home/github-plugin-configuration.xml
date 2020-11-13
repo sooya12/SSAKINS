@@ -1,0 +1,12 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<github-plugin-configuration plugin="github@1.31.0">
+    <configs>
+        <github-server-config>
+            <name/>
+            <apiUrl/>
+            <manageHooks>false</manageHooks>
+            <credentialsId/>
+            <clientCacheSize>20</clientCacheSize>
+        </github-server-config>
+    </configs>
+</github-plugin-configuration>

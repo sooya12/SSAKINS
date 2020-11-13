@@ -1,0 +1,4 @@
+FROM openjdk:14
+ARG JAR_FILE=./*.jar
+COPY ${JAR_FILE} springproject.jar
+ENTRYPOINT ["java","-jar","-Dserver.port=8080","springproject.jar"]

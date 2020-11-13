@@ -13,6 +13,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.email)
     sessionStorage.setItem("email",this.email)
     /**
      * TODO : 수정해야함 >~<

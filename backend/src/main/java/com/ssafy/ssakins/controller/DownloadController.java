@@ -19,7 +19,7 @@ import java.util.zip.ZipOutputStream;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/download")
+@RequestMapping("/api/download")
 public class DownloadController {
 
     private ResourceLoader resourceLoader;
