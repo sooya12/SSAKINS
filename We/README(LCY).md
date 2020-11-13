@@ -1043,7 +1043,7 @@ cd /home/ubuntu/repo/ssakins/ssakins_home
 docker restart ssakins1
 
 // root 에 접근
-sudo docker exec -u root -it ssakins2 /bin/bash 
+sudo docker exec -u root -it ssakins4 /bin/bash 
 
 // 도커 확인
 sudo docker ps -a
@@ -1361,6 +1361,14 @@ REMOTEDIRECTORY=[안 받아요 몰라경로]
 ◆BACKEXECCOMMAND="sh [몰라경로 ssakins_home/remoteDirectory]/deploy-spring.sh"
 
 ```
+
+* accountInfo 예시 (dockername = ssakins4)
+
+```shell
+
+```
+
+
 
 
 
@@ -1691,7 +1699,7 @@ sed -i '/apiTokenId\//d' /var/jenkins_home/com.dabsquared.gitlabjenkins.connecti
 
 
 
-* lab.groovy 만들어진 모습
+> lab.groovy 만들어진 모습
 
 ```groovy
 import hudson.util.Secret
@@ -1704,7 +1712,7 @@ println(secret.getEncryptedValue())
 
 
 
-* 그루비 사용하기 위해서 ssakins_home 위치에서 설치
+> 그루비 사용하기 위해서 ssakins_home 위치에서 설치
 
 ```shell
 wget -P /bin http://k3a201.p.ssafy.io:8282/jnlpJars/jenkins-cli.jar
@@ -1722,14 +1730,6 @@ println(secret.getEncryptedValue())
 ```
 
 여기서 비밀번호 설정 -> 출력됨
-
-> 비밀번호 설정 값을 가져와야함
->
-> 출력된 값을 변수로 가져와야함
->
-> 그 변수를 gitlab.xml  
-
-
 
 
 
@@ -1790,9 +1790,194 @@ final 폴더에 sh파일이랑 xml 파일 다 넣기
 
 
 
+# 2020년 11월 11일
+
+* 오늘 할 일
+
+어제 넣었던 거 테스트하기 (한 번에 실행 안 될 수 있음)
+
+> name, hostname 순서 때문인지 잘 파악하기
+
+
+
+상대경로 안먹음 -> 다 절대경로로 바꾸기
+
+jobs 안에 config.xml 안생김
+
+파일명 오류 : credentials, publish_over_ssh 로 수정
+
+
+
+if 문 때문에 sh -> bash 명령어로 대체
+
+jenkins_cli 설치해야함 for groovy
+
+
+
+* 플러그인 설치
+
+publish_over_ssh 
+
+gitlab 
+
+nodejs 
+
+
+
+accountInfo.sh 경로 설정하기
+
+
+
+*  final <- final2
+
+com.dab
 
 
 
 
 
+* final <- final3
+
+jenkins_cli 위치 변경하기
+
+
+
+
+
+* 밥먹고하기...
+
+final 복사해서 credential 확인하기
+
+
+
+# 2020년 11월 12일
+
+* final 말고 final2 파일로 테스트해보기 (ssakins4)
+
+고쳐야되는 파일 몇개 수정해야됨 -> credential 부분
+
+> * 고친 부분
+>
+> ssakins-setting.sh
+>
+> ssakins_credential.sh
+
+
+
+* jenkins_cli 설치 부분에 http 빼기
+
+* gitlab일때 체크 부분 빼기
+* credential 비번 확인
+
+
+
+
+
+### 내일 할 일
+
+* 지금 안되는 거
+
+gitlab github 구분
+
+lab.sh 파일에 if 문 넣어서 수정해야함
+
+sh 파일이 실행되지 않음
+
+true / false 위치 파악해야함 (실테스트가 필요함)
+
+
+
+* 피피티 만들기
+
+
+
+# 2020년 11월 13일
+
+if -> ssakins-lab.sh
+
+else -> ssakins-github-plugin-configuration.sh
+
+
+
+새로운 도커 만들때
+
+accountInfo.sh + install.sh
+
+
+
+### 문제
+
+github, gitlab으로 실행할 경우 if 문으로 비교
+
+gitlab을 사용할 때 ssakins-lab.sh 내부의 sed 코드에서 $변수가 작동하지 않음
+
+단, ssakins-lab.sh안에서 sed문 밖에서 echo $는 작동됨 :smiley:
+
+
+
+> ### try
+>
+> * ssakins-setting.sh
+>
+> sh ssakins_lab.sh => **bash** ssakins_lab.sh 
+>
+> :red_circle: 안됨
+>
+> 
+>
+> * ssakins-setting.sh
+>
+> if 문 자체를 다 지워버림 -> sh ssakins-lab.sh을 실행안하고 ssakins-job.sh만 실행
+>
+> 두 sh 파일이 겹친다고 생각했지만 
+>
+> :red_circle: 그것도 아님 
+>
+> 
+>
+> * ssakins-setting.sh
+>
+> 여기서 사용되는 5개의 sh 파일의 실행 순서가 문제라고 생각함
+>
+> 현재 : jdk(config.xml) -> credentials(credentials.xml) -> lab(com.dab.con.xml) ->  ssh(jen.plu.pu.xml) -> job(jobconfig.xml)
+>
+> ssakins-setting.sh 내에 실행되는 5개의 sh 파일들 실행마다 **sleep 10** 줬음
+>
+> :red_circle: 순서 무관한 듯
+>
+> 
+>
+> * 5개의 sh 파일을 수동으로 실행시킴
+>
+> 값이 너무 잘 들어가서 완벽하다고 생각했음
+>
+> 근데 **docker restart** 하자마자 지랄남 -> gitlab 부분 xml 파일이 문제임
+>
+> :large_blue_circle: docker 시작할 때가 문제 -> 
+>
+> docker restart하면 젠킨스 > 시스템 관리 > gitlab부분 난리남 ->
+>
+> 당연히 /var/jenkins_home/ 에도 gitlab.xml 파일은 난장판
+>
+> :large_blue_circle: docker restart 후에는 gitlab 관련 다른 xml 파일이 새로 생김
+>
+> 
+>
+> * 새로 생기는 이유가 gitlab.xml 파일에서 <clientBuilder> 태그가 문제라고 생각했음
+>
+> 지우고 docker restart 해봤음
+>
+> :red_circle: 응 안돼
+
+
+
+### 내일 할 일
+
+... 하기싫어
+
+깃랩 버리고 깃헙만 하거나
+
+근데 깃헙도 안되면 어카냐..
+
+ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
 
