@@ -13,11 +13,12 @@ export default {
     }
   },
   mounted() {
-    //sessionStorage.setItem("email",this.email)
+    console.log(this.email)
+    sessionStorage.setItem("email",this.email)
     /**
      * TODO : 수정해야함 >~<
      */
-    sessionStorage.setItem("email","ajph03102@naver.com");
+    // sessionStorage.setItem("email","ajph03102@naver.com");
     this.$router.push('/main')
   }
 }

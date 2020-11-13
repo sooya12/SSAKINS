@@ -13,5 +13,6 @@ export default new Vuex.Store({
         server: 'https://www.ssakins.com/api/',
         //front: 'http://localhost/',
         front: 'https://www.ssakins.com/'
+
     },
 })
