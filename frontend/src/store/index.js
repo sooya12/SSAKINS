@@ -5,7 +5,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state:{
-        server: 'http://localhost:8080/api/',
-        // server: 'https://www.ssakins.com/api/',
+        // front: 'http://localhost/',
+        front: 'https://www.ssakins.com/',
+
+        // server: 'http://localhost:8080/api/',
+        server: 'https://www.ssakins.com/api/',
     },
 })
