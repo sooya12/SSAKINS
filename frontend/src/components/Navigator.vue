@@ -37,7 +37,7 @@ export default {
         {
           title: "SSAKINS 이용약관",
           icon: "mdi-help-box",
-          value: "/info",
+          value: "/termsofuse",
           no: 2,
         },
         {
