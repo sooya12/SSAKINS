@@ -128,28 +128,28 @@ export default {
       headers: [
         {
           text: "No.",
-          value: "index",
+          value: "",
         },
         {
-          text: "프로젝트명",
+          text: "NAME",
           value: "name",
         },
         {
-          text: "url",
+          text: "URL",
           value: "url",
         },
         {
-          text: "port",
+          text: "PORT",
           value: "port",
         },
-        {
+        /*{
           text: "등록일",
           value: "regDate",
         },
         {
           text: "수정일",
           value: "modDate",
-        },
+        },*/
       ],
     };
   },

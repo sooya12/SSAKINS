@@ -413,6 +413,7 @@ export default {
   width: 75%;
   margin: 0 auto;
   font-family: 'S-CoreDream-3Light';
+  float: left;
 }
 
 h3 {
