@@ -8,8 +8,10 @@ import Game from '@/views/Game.vue'
 import Edit from '@/views/Edit.vue'
 import Detail from '@/views/Detail.vue'
 import Login from '@/components/LoginComponent'
+import Logout from '@/components/LogoutComponent'
 import PageNotFound from '@/views/PageNotFound'
 import Test from '@/views/Test'
+import { faLongArrowAltUp } from '@fortawesome/pro-duotone-svg-icons'
 
 Vue.use(VueRouter)
 
@@ -61,6 +63,11 @@ const routes = [
     name: 'Login',
     component: Login,
     props: true
+  },
+  {
+    path: '/logout',
+    name: 'Logout',
+    component: Logout
   },
   {
     path : '*',
