@@ -10,15 +10,18 @@ export default {
   props: {
     email: {
       type: String
+    },
+    name: {
+      type: String
+    },
+    image: {
+      type: String
     }
   },
   mounted() {
-    console.log(this.email)
-    sessionStorage.setItem("email",this.email)
-    /**
-     * TODO : 수정해야함 >~<
-     */
-    // sessionStorage.setItem("email","ajph03102@naver.com");
+    sessionStorage.setItem("email", this.email)
+    sessionStorage.setItem("name", this.name)
+    sessionStorage.setItem("image", decodeURIComponent(this.image))
     this.$router.push('/main')
   }
 }
