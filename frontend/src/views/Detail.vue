@@ -176,10 +176,6 @@
                           <td class="text-left" style="width: 75%">{{ project.git.giturl }}</td>
                         </tr>
                         <tr> 
-                          <td class="text-left" style="width: 15%"><h4>ID</h4></td>
-                          <td class="text-left" style="width: 75%">{{ project.git.id }}</td>
-                        </tr>
-                        <tr> 
                           <td class="text-left" style="width: 15%"><h4>name</h4></td>
                           <td class="text-left" style="width: 75%">{{ project.git.name }}</td>
                         </tr>
@@ -190,8 +186,8 @@
                         <tr>
                           <td class="text-left" style="width: 15%"><h4>Kind</h4></td>
                           <td class="text-left" style="width: 75%">
-                            <div v-if="project.git.type=='gitlab'">GitLab</div>
-                            <div v-if="project.git.type=='github'">GitHub</div>
+                            <div v-if="project.git.gitKind=='gitlab'">GitLab</div>
+                            <div v-if="project.git.gitKind=='github'">GitHub</div>
                           </td>
                         </tr>
                       </tbody>
