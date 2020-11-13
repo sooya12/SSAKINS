@@ -9,9 +9,9 @@ export default new Vuex.Store({
         // createPersistedState()
     ],
     state:{
-        server: 'http://localhost:8080/',
-        // server: 'https://www.ssakins.com:8080/',
-        front: 'http://localhost/',
-        // front: 'https://www.ssakins.com/'
+        //server: 'http://localhost:8080/',
+        server: 'https://www.ssakins.com/api/',
+        //front: 'http://localhost/',
+        front: 'https://www.ssakins.com/'
     },
 })
