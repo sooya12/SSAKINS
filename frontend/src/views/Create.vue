@@ -95,7 +95,7 @@
                     <div style="margin: auto; width: 85%">
                       <h4>URL</h4><v-text-field
                       v-model="url"
-                      :rules="[rules.required, rules.http, rules.space]"
+                      :rules="[rules.required, rules.http, rules.space, rules.info]"
                       placeholder="ex) http://k3a201.p.ssafy.io"
                       ></v-text-field>
                       <h4>Port</h4><v-text-field
@@ -563,6 +563,7 @@ export default {
   width: 75%;
   margin: 0 auto;
   font-family: 'S-CoreDream-3Light';
+  float: left;
 }
 
 table {

@@ -77,7 +77,6 @@
                   </v-snackbar>
 
                 </div>
-                설치가 완료되면 폴더 내 install.sh 파일을 <span style="background-color: #e0f2f1; font-weight: bold; padding-left: 5px; " > &nbsp; sh install.sh &nbsp;</span> &nbsp; 명령어로 실행시켜주세요. <br>
                 (만약, 서버에 docker가 설치되어 있지 않다면  <v-hover> <span style="font-weight: bold; padding-left: 5px; color: blue; cursor:pointer " @click="installDockerPage()">  &nbsp;도커 설치페이지&nbsp;  </span> </v-hover>에서 운영체제에 맞는 docker를 먼저 설치해주세요.)<br><br>
                 서버의 사양에 따라 5~10분 후 젠킨스 서버 설치가 완료됩니다.
                 <br>
@@ -379,7 +378,7 @@ export default {
   },
   mounted() {
     this.userEmail = sessionStorage.getItem('email')
-    this.ssakins='wget '+this.$store.state.server+'download/'+this.userEmail+'/'+this.name+' -O && unzip -d ssakins ssakins.zip && rm ssakins.zip'
+    this.ssakins='wget '+this.$store.state.server+'download/'+this.userEmail+'/'+this.name+' -O ssakins.zip && sudo unzip -d ssakins ssakins.zip && sudo rm ssakins.zip && cd ssakins/ssakins/ && sh install.sh'
     axios.get(this.$store.state.server + 'project/' + this.userEmail + '/' + this.name)
     .then(res => {
       this.project = res.data
@@ -414,6 +413,7 @@ export default {
   width: 75%;
   margin: 0 auto;
   font-family: 'S-CoreDream-3Light';
+  float: left;
 }
 
 h3 {

@@ -14,18 +14,20 @@
           id="profile"
           style="float:left; margin-top:15px; margin-left:50px;"
         >
-          <!-- <v-row justify="space-around">
-                    <v-avatar
-                    color="indigo"
-                    size="64"
-                    >
-                    <img :src="require('@/assets/profile.jpg')" style="">
-                    </v-avatar>
-                 </v-row> -->
-          <v-icon size="60" style="float:center;">mdi-account-circle</v-icon>
+          <v-row
+              v-if="this.userImage != 'none'"
+              justify="space-around">
+              <v-avatar
+                color="indigo"
+                size="64"
+              >
+              <img :src="this.userImage" style="">
+              </v-avatar>
+          </v-row>
+          <v-icon v-else size="60" style="float:center;">mdi-account-circle</v-icon>
         </div>
         <div id="name" style="float:left; margin-top:35px; margin-left:60px;">
-          <h3>감자</h3>
+          <h3>{{ this.userName }}</h3>
         </div>
         <div
           id="logout"
@@ -53,7 +55,10 @@
 
 export default {
   data() {
-    return {};
+    return {
+      userName: "",
+      userImage: "",
+    };
   },
   methods: {
     go() {
@@ -74,6 +79,10 @@ export default {
       this.$router.push("/")
     },
   },
+  mounted() {
+    this.userName = sessionStorage.getItem("name")
+    this.userImage = sessionStorage.getItem("image")
+  }
 };
 </script>
 

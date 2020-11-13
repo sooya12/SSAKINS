@@ -1,7 +1,9 @@
 package com.ssafy.ssakins.controller;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.ssafy.ssakins.dto.AccountInfo;
 import com.ssafy.ssakins.entity.Account;
 import com.ssafy.ssakins.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Optional;
 
 @RestController
@@ -51,26 +54,31 @@ public class AccountController {
         String access_token = getKakaoAccessToken(code); // 토큰 얻어오기
 
         // 이메일 정보 얻어오기
-        String userEmail = getKakaoUserInfo(access_token);
+        AccountInfo accountInfo = getKakaoUserInfo(access_token);
 
         String token = "";
 
-        Optional<Account> accountOp = accountRepository.findByEmail(userEmail);
+        Optional<Account> accountOp = accountRepository.findByEmail(accountInfo.getUserEmail());
 
         if(accountOp.isPresent()){ // 이미 정보가 있는 회원
-
-            response.sendRedirect(kakaoRedirectFrontURI + accountOp.get().getEmail());
+            String imageUrl;
+            if(accountOp.get().getImage().isEmpty()) {
+                imageUrl = "none";
+            } else {
+                imageUrl = accountOp.get().getImage();
+            }
+            response.sendRedirect(kakaoRedirectFrontURI + accountOp.get().getEmail() + "/" + URLEncoder.encode(accountOp.get().getName(), "UTF-8") + "/" + URLEncoder.encode(imageUrl, "UTF-8"));
             return ResponseEntity.ok().body("기존 회원");
         } else {
             Account account;
             account = Account.builder()
-                    .email(userEmail)
+                    .email(accountInfo.getUserEmail())
+                    .name(accountInfo.getNickname())
+                    .image(accountInfo.getImageUrl())
                     .build();
             accountRepository.save(account);
-            response.sendRedirect(kakaoRedirectFrontURI + account.getEmail());
+            response.sendRedirect(kakaoRedirectFrontURI + account.getEmail() + "/" + URLEncoder.encode(account.getName(), "UTF-8") + "/" + URLEncoder.encode(account.getImage(), "UTF-8"));
             return ResponseEntity.ok().body("새로운 회원 생성");
-
-
         }
     }
 
@@ -130,9 +138,10 @@ public class AccountController {
     }
 
     // 토큰으로 로그인 정보(이메일) 가져오는 함수
-    private String getKakaoUserInfo(String access_token) {
+    private AccountInfo getKakaoUserInfo(String access_token) {
 
-        String userEmail = "";
+        AccountInfo accountInfo = new AccountInfo();
+
         String reqURL = "https://kapi.kakao.com/v2/user/me";
         try {
             URL url = new URL(reqURL);
@@ -156,13 +165,19 @@ public class AccountController {
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
             System.out.println(element);
-            userEmail = element.getAsJsonObject().get("kakao_account").getAsJsonObject().getAsJsonObject().get("email").getAsString();
 
+            accountInfo.setUserEmail(element.getAsJsonObject().get("kakao_account").getAsJsonObject().getAsJsonObject().get("email").getAsString());
+            accountInfo.setNickname(element.getAsJsonObject().get("properties").getAsJsonObject().getAsJsonObject().get("nickname").getAsString());
+
+            String imageUrl;
+            JsonElement imageJson = element.getAsJsonObject().get("properties").getAsJsonObject().getAsJsonObject().get("thumbnail_image");
+            imageUrl = imageJson.isJsonNull() ? "none" : imageJson.getAsString();
+            accountInfo.setImageUrl(imageUrl);
         } catch(IOException e) {
             e.printStackTrace();
         }
 
-        return userEmail;
+        return accountInfo;
     }
 
 }
