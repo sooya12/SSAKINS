@@ -58,7 +58,7 @@ const routes = [
     component : Game
   },
   {
-    path: '/login/:email',
+    path: '/login/:email/:name/:image',
     name: 'Login',
     component: Login,
     props: true
