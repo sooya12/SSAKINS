@@ -60,7 +60,6 @@ public class AccountController {
         Optional<Account> accountOp = accountRepository.findByEmail(accountInfo.getUserEmail());
 
         if(accountOp.isPresent()){ // 이미 정보가 있는 회원
-            String imageUrl = URLEncoder.encode(accountOp.get().getImage(), "UTF-8");
             response.sendRedirect(kakaoRedirectFrontURI + accountOp.get().getEmail() + "/" + URLEncoder.encode(accountOp.get().getName(), "UTF-8") + "/" + URLEncoder.encode(accountOp.get().getImage(), "UTF-8"));
             return ResponseEntity.ok().body("기존 회원");
         } else {
@@ -71,7 +70,6 @@ public class AccountController {
                     .image(accountInfo.getImageUrl())
                     .build();
             accountRepository.save(account);
-            String imageUrl = URLEncoder.encode(account.getImage(), "UTF-8");
             response.sendRedirect(kakaoRedirectFrontURI + account.getEmail() + "/" + URLEncoder.encode(account.getName(), "UTF-8") + "/" + URLEncoder.encode(account.getImage(), "UTF-8"));
             return ResponseEntity.ok().body("새로운 회원 생성");
         }
@@ -162,8 +160,14 @@ public class AccountController {
 
             accountInfo.setUserEmail(element.getAsJsonObject().get("kakao_account").getAsJsonObject().getAsJsonObject().get("email").getAsString());
             accountInfo.setNickname(element.getAsJsonObject().get("properties").getAsJsonObject().getAsJsonObject().get("nickname").getAsString());
-            accountInfo.setImageUrl(element.getAsJsonObject().get("properties").getAsJsonObject().getAsJsonObject().get("thumbnail_image").getAsString());
 
+            String imageUrl = element.getAsJsonObject().get("properties").getAsJsonObject().getAsJsonObject().get("thumbnail_image").getAsString();
+
+            if(imageUrl.equals(null)) {
+                imageUrl = "";
+            }
+
+            accountInfo.setImageUrl(imageUrl);
         } catch(IOException e) {
             e.printStackTrace();
         }
