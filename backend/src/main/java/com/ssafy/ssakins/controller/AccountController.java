@@ -1,6 +1,7 @@
 package com.ssafy.ssakins.controller;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ssafy.ssakins.dto.AccountInfo;
 import com.ssafy.ssakins.entity.Account;
@@ -60,7 +61,13 @@ public class AccountController {
         Optional<Account> accountOp = accountRepository.findByEmail(accountInfo.getUserEmail());
 
         if(accountOp.isPresent()){ // 이미 정보가 있는 회원
-            response.sendRedirect(kakaoRedirectFrontURI + accountOp.get().getEmail() + "/" + URLEncoder.encode(accountOp.get().getName(), "UTF-8") + "/" + URLEncoder.encode(accountOp.get().getImage(), "UTF-8"));
+            String imageUrl;
+            if(accountOp.get().getImage().isEmpty()) {
+                imageUrl = "none";
+            } else {
+                imageUrl = accountOp.get().getImage();
+            }
+            response.sendRedirect(kakaoRedirectFrontURI + accountOp.get().getEmail() + "/" + URLEncoder.encode(accountOp.get().getName(), "UTF-8") + "/" + URLEncoder.encode(imageUrl, "UTF-8"));
             return ResponseEntity.ok().body("기존 회원");
         } else {
             Account account;
@@ -157,16 +164,14 @@ public class AccountController {
 
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
+            System.out.println(element);
 
             accountInfo.setUserEmail(element.getAsJsonObject().get("kakao_account").getAsJsonObject().getAsJsonObject().get("email").getAsString());
             accountInfo.setNickname(element.getAsJsonObject().get("properties").getAsJsonObject().getAsJsonObject().get("nickname").getAsString());
 
-            String imageUrl = element.getAsJsonObject().get("properties").getAsJsonObject().getAsJsonObject().get("thumbnail_image").getAsString();
-
-            if(imageUrl.equals(null)) {
-                imageUrl = "";
-            }
-
+            String imageUrl;
+            JsonElement imageJson = element.getAsJsonObject().get("properties").getAsJsonObject().getAsJsonObject().get("thumbnail_image");
+            imageUrl = imageJson.isJsonNull() ? "none" : imageJson.getAsString();
             accountInfo.setImageUrl(imageUrl);
         } catch(IOException e) {
             e.printStackTrace();
