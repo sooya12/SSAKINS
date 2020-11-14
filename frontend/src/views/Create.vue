@@ -21,20 +21,27 @@
                 설정 CI/CD 명
               </td>
               <td class="text-left font15" style="width: 60vw">
-                <v-text-field
-                v-model="name"
-                :rules="[rules.required, rules.title]"
-                class="font15"
-                placeholder="설정의 이름은 공백없이 영어로 입력해 주세요 (중복 확인 必)"
-                hide-details="auto"
-                dense
-                shaped
-                @change="reCheck"
-                >
-                  <template v-slot:append>
-                    <span><i class="fad fa-check-double" style="color: #004D40" @click="checkDuplication"></i></span>
+                <v-tooltip bottom color="#E53935">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                    v-model="name"
+                    :rules="[rules.required, rules.title]"
+                    class="font15"
+                    placeholder="설정의 이름은 공백없이 영어로 입력해 주세요 (중복 확인 必)"
+                    hide-details="auto"
+                    dense
+                    shaped
+                    style="width: 80%; margin: 0 auto"
+                    v-bind="attrs" v-on="on"
+                    @change="reCheck"
+                    >
+                      <template v-slot:append>
+                        <span><i class="fad fa-check-double" style="color: #004D40" @click="checkDuplication"></i></span>
+                      </template>
+                    </v-text-field>
                   </template>
-                </v-text-field>
+                  <span style="font-family: 'S-CoreDream-3Light';">우측의 체크 버튼을 통해 중복 확인을 해 주세요.</span>
+                </v-tooltip>
                 <v-snackbar
                     v-model="snackbar"
                     color="green"
