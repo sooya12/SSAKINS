@@ -378,7 +378,7 @@ export default {
   },
   mounted() {
     this.userEmail = sessionStorage.getItem('email')
-    this.ssakins='wget '+this.$store.state.server+'download/'+this.userEmail+'/'+this.name+' -O ssakins.zip && sudo unzip -d ssakins ssakins.zip && sudo rm ssakins.zip && cd ssakins/ssakins/ && sh install.sh'
+    this.ssakins='wget '+this.$store.state.server+'download/'+this.userEmail+'/'+this.name+' -O ssakins.zip && sudo unzip -d ssakins ssakins.zip && sudo rm ssakins.zip  && sh ssakins/ssakins/install.sh'
     axios.get(this.$store.state.server + 'project/' + this.userEmail + '/' + this.name)
     .then(res => {
       this.project = res.data

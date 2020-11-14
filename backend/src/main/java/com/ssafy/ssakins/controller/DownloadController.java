@@ -39,8 +39,8 @@ public class DownloadController {
         ZipOutputStream zipOutputStream = new ZipOutputStream(bufferedOutputStream);
 
         Deque<File> files = new LinkedList<>();
-        URI base = resourceLoader.getResource("classpath:static/").getFile().toURI();
-        Resource resource = resourceLoader.getResource("classpath:static/ssakins/");
+        URI base = resourceLoader.getResource("/static/").getURI();
+        Resource resource = resourceLoader.getResource("/static/ssakins/");
         files.add(resource.getFile());
         while (!files.isEmpty()) {
             File dir =files.pop();
@@ -238,7 +238,7 @@ public class DownloadController {
                         fw.write("FRONTREMOVEPREFIX=" + server.getInfo() + "/ \n");
                         fw.write("FRONTEXECCOMMAND=/deploy-vue.sh \n");
                         fw.write("\n");
-                    } else if("Spring".equals(server.getKind())) {
+                    } else if("Spring".equals(server.getKind())||server.getKind().equals("Spring_maven")) {
                         fw.write("# Back Infomation \n");
                         fw.write("BACKLOCATION=" + server.getInfo() + "\n");
                         fw.write("BACKPORT=" + server.getPort() + "\n");
