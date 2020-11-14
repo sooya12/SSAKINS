@@ -40,7 +40,7 @@
                       </template>
                     </v-text-field>
                   </template>
-                  <span style="font-family: 'S-CoreDream-3Light';">우측의 체크 버튼을 통해 중복 확인을 해 주세요.</span>
+                  <span style="font-family: 'S-CoreDream-3Light';">우측의 체크 버튼을 눌러 중복 확인을 해 주세요.</span>
                 </v-tooltip>
                 <v-snackbar
                     v-model="snackbar"
