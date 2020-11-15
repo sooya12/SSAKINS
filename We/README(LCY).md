@@ -963,3 +963,1021 @@ function getCurrentDate(){
 }
 ```
 
+
+
+:star: **몽고디비**
+
+> root/ssakins
+
+
+
+# 2020년 10월 30일
+
+* 몽고디비 특징
+
+
+
+
+
+# 2020년 11월 2일
+
+* sed 명령어
+
+**<jdks/> 를 <jdks></jdks>로 치환하기 실패~**
+
+```shell
+// jdk가 속한 한 줄 출력
+sed -n '/jdk/p' config.xml
+
+// jdk가 속한 줄 삭제
+sed -i '/jdk/d' config.xml
+
+// <viewsTabBar> 위에 삽입
+sed -i'' -r -e '/viewsTabBar/i\<jdks/>' config.xml
+
+```
+
+
+
+**기존에 있는 것 기준으로 넣고 -> 기존 것 삭제**
+
+```shell
+// 기존에 들어있는 것
+<jdks/> 
+
+// <jdks/> 있는 곳 위에 <jdks><jdk><name></name></jdk></jdks> 삽입
+sed -i'' -r -e '/jdks/i\<jdks><jdk><name>java</name><home>/usr/lib/jvm/java-11-openjdk-amd64</home></jdk></jdks>' config.xml
+
+// 기존에 있던 <jdks/> 얘만 삭제
+sed -i '/jdks\//d' config.xml
+```
+
+
+
+* 내 서버 위에 도커사용하기
+
+```shell
+// 도커 컨테이너 확인하기
+docker ps -a
+
+// 도커 이미지 다 삭제하기
+docker rm $(docker ps -a -q)
+
+// 언집 가능하게 설치
+sudo apt install unzip
+
+// 집 파일 설치하고 풀기
+wget http://49.50.161.106:8080/zip -O ssakins.zip && unzip -d chaengRepository ssakins.zip && rm ssakins.zip
+
+
+// sh install.sh 파일 수정하기 포트번호 && 컨테이너 이름
+
+
+// 집파일로 받은 install.sh 실행 (ssakins 도커이미지 다운)
+sh install.sh
+
+// config.xml 같은 파일 위치
+cd /home/ubuntu/repo/ssakins/ssakins_home
+
+// 도커 다시시작
+docker restart ssakins1
+
+// root 에 접근
+sudo docker exec -u root -it ssakins4 /bin/bash 
+
+// 도커 확인
+sudo docker ps -a
+
+// 도커 죽이기
+sudo docker kill [도커 이미지 이름]
+sudo docker rm [도커 이미지 이름]
+
+
+```
+
+
+
+
+
+```shell
+// install.sh
+echo "["`date`"] start to install SSAKINS."
+sleep 1
+
+echo "["`date`"] pull SSAKINS image from docker-hub... "
+sudo docker pull phm0127/ssakins
+sleep 1
+
+echo -n "["`date`"] Set environments for SSAKINS ... "
+
+sp='/-\|'
+printf ' '
+for n in `seq 0 10` ; do
+    printf '\b%.1s' "$sp"
+    sleep 0.5
+    sp=${sp#?}${sp%???}
+done
+echo ""
+SSAKINS_HOME=`pwd`
+sudo chown 1000 $SSAKINS_HOME/ssakins_home
+echo "["`date`"] set SSAKINS_HOME directory owned by root."
+sleep 1
+
+sudo docker run --name "ssakins1" -u 'root' -v $SSAKINS_HOME/ssakins_home/:/var/jenkins_home/ -p 8181:8080 -d phm0127/ssakins
+echo -n "["`date`"] run SSAKINS on docker... "
+
+printf ' '
+for n in `seq 0 10` ; do
+    printf '\b%.1s' "$sp"
+    sleep 0.5
+    sp=${sp#?}${sp%???}
+done
+echo ""
+
+
+echo "  #####    #####     ###    ##  ##    ####    ##   ##   #####
+ ##   ##  ##   ##   ## ##   ##  ##     ##     ###  ##  ##   ##
+ ##       ##       ##   ##  ## ##      ##     #### ##  ##
+  #####    #####   #######  ####       ##     ## ####   #####
+      ##       ##  ##   ##  ## ##      ##     ##  ###       ##
+ ##   ##  ##   ##  ##   ##  ##  ###    ##     ##   ##  ##   ##
+  #####    #####   ##   ##  ##   ##   ####    ##   ##   ##### "
+sleep 1
+echo "["`date`"] success install SSAKINS"
+
+```
+
+
+
+# 2020년 11월 03일
+
+* git 설정
+
+root@9fbe0e0dbea3:/var/jenkins_home# cat hudson.plugins.git.GitTool.xml
+<?xml version='1.1' encoding='UTF-8'?>
+<hudson.plugins.git.GitTool_-DescriptorImpl plugin="git-client@3.5.1">
+  <installations class="hudson.plugins.git.GitTool-array">
+    <hudson.plugins.git.GitTool>
+      <name>git</name>
+      <home>/usr/bin/git</home>
+      <properties/>
+    </hudson.plugins.git.GitTool>
+  </installations>
+
+
+
+![image-20201103113617301](C:\Users\multicampus\AppData\Roaming\Typora\typora-user-images\image-20201103113617301.png)
+
+
+
+
+
+# 2020년 11월 04일
+
+:white_check_mark: **ssakins_home -> docker**
+
+ssakins 2 <- Repository2
+
+ssakins_home 폴더에 maven 추가, config.xml 수정
+
+install.sh 실행해서 jenkins_home 에 반영되는지 확인
+
+-----------------
+
+:white_check_mark: **jobs 관련 내용 생성되는지 확인**
+
+item 생성
+
+* item/builds 
+* item/config.xml : 기본이 아니어도 반영됨
+* item/builds/legacyIds : 빈파일
+* item/builds/permalinks 
+
+permalinks 내용
+
+lastFailedBuild -1
+lastSuccessfulBuild -1
+
+<< nodejs, pubilsh ssh 플러그인 설치 
+
+--------------------------------
+
+:white_check_mark: **비밀번호 암호 관련**
+
+현수가 groovy로 해결함
+
+java -jar /bin/jenkins-cli.jar -s http://k3a201.p.ssafy.io:8888/ groovy = < /test.groovy
+
+```groovy
+// test.groovy
+
+import hudson.util.Secret
+
+def secret = Secret.fromString("your password")
+println(secret.getEncryptedValue())
+```
+
+
+
+
+
+# 2020년 11월 06일
+
+* ssakins-ssh.sh
+
+```shell
+IPADDRESS=$(sed -n 's/^ *IPADDRESS= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+
+sed -i'' -r -e '/hostname\//i\<hostname>'"$IPADDRESS"'</hostname>' /var/jenkins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+
+sed -i '/hostname\//d' /var/jenkins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+
+
+SERVERUSERNAME=$(sed -n 's/^ *SERVERUSERNAME= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+sed -i'' -r -e '/username\//i\<username>'"$SERVERUSERNAME"'</username>' /var/jenkins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+
+sed -i '/username\//d' /var/jenkins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+
+
+SSHNAME=$(sed -n 's/^ *SSHNAME= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+sed -i'' -r -e '/name\//i\<name>'"$SSHNAME"'</name>' /var/jenkins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+
+sed -i '/name\//d' /var/jenkins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+
+
+PEMKEY=$(sed -n 's/^ *PEMKEY= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+sed -i'' -r -e '/key\//i\<key>'"$PEMKEY"'</key>' /var/jenkins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+
+sed -i '/key\//d' /var/jenkins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+
+
+SERVERPASSWORD=$(sed -n 's/^ *SERVERPASSWORD= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+sed -i'' -r -e '/secretPassphrase\//i\<secretPassphrase>'"$SERVERPASSWORD"'</secretPassphrase>' /var/jenkins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+
+sed -i '/secretPassphrase\//d' /var/jenkins_home/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+
+```
+
+
+
+# 2020년 11월 09일
+
+* jenkins.plugins.publish__over__ssh.BapSshPublisherPlugin 기본 파일
+
+```shell
+<?xml version='1.1' encoding='UTF-8'?>
+<jenkins.plugins.publish__over__ssh.BapSshPublisherPlugin_-Descriptor plugin="publish-over-ssh@1.20.1">
+    <hostConfigurations>
+        <jenkins.plugins.publish__over__ssh.BapSshHostConfiguration>
+            <name/>
+            <hostname/>
+            <username/>
+            <secretPassword></secretPassword>
+            <remoteRootDir></remoteRootDir>
+            <port>22</port>
+            <commonConfig class="jenkins.plugins.publish_over_ssh.BapSshCommonConfiguration">
+                <secretPassphrase></secretPassphrase>
+                <key/>
+                <keyPath></keyPath>
+                <disableAllExec>false</disableAllExec>
+            </commonConfig>
+            <timeout>300000</timeout>
+            <overrideKey>true</overrideKey>
+            <disableExec>false</disableExec>
+            <keyInfo>
+                <secretPassphrase/>
+                <key></key>
+                <keyPath></keyPath>
+            </keyInfo>
+            <jumpHost></jumpHost>
+            <proxyType></proxyType>
+            <proxyHost></proxyHost>
+            <proxyPort>0</proxyPort>
+            <proxyUser></proxyUser>
+            <proxyPassword></proxyPassword>
+        </jenkins.plugins.publish__over__ssh.BapSshHostConfiguration>
+    </hostConfigurations>
+    <commonConfig reference="../hostConfigurations/jenkins.plugins.publish__over__ssh.BapSshHostConfiguration/commonConfig"/>
+    <defaults class="jenkins.plugins.publish_over_ssh.options.SshPluginDefaults"/>
+</jenkins.plugins.publish__over__ssh.BapSshPublisherPlugin_-Descriptor>
+```
+
+
+
+* 임시 Data
+
+```shell
+[ssh]
+IPADDRESS=ip
+SERVERUSERNAME=server
+SSHSSH=ssh
+PEMKEY=pemkey
+SERVERPASSWORD=serverpassword
+--------------------------------
+[job]
+ITEM=concon
+GITREPOSITORYURL=gitrepourl
+GITREPOSITORYGIT=.git
+CREDENTIALID=creid
+
+POMXMLLOCATION=/pom.xml
+FRONTLOCATION=/frontend
+APPLICATIONPROPERTIES=application.properties
+JOBSSH=ssh
+FRONTPREFIX=fprefix
+FRONTSH=frontsh
+BACKLOCATION=/backend
+BACKSH=backsh
+--------------------------------
+[lab]
+GITLABNAME=gitlabname
+GITLABURL=url
+GITLABCREDENTIAL=credential
+--------------------------------
+```
+
+
+
+* 거의 완성된 accountInfo
+
+```shell
+PROJECTNAME=test4
+
+# GROOVY
+◆URL=1010.p.ssafy.io
+◆PORT=1010
+
+#Git
+◆GITID=gitlab
+◆GITUSERNAME=sooya12
+◆GITPASSWORD=1234
+◆GITURL=lab.ssafy.com/s03-final/1222.git
+◆GITKIND=gitlab
+◆GITCREDENTIAL=gitlab
+
+#GitLabConnectionConfig.xml
+◆GITLABCONFIGNAME=[GITID 넣어 걍]
+◆GITLABCONFIGURL=[.com에서 끊어서 넣는다..화이팅]
+◆GITLABCONFIGCREDENTIAL=그루비
+
+#github-plugin-configuration.xml
+◆GITHUBCONFIGNAME=[GITID 넣어 걍]
+◆GITHUBCONFIGURL=[.com에서 끊어서 넣는다..화이팅]
+◆GITHUBCONFIGCREDENTIAL=그루비
+
+#BapSshPublisherPlugin.xml
+◆SSHNAME=[프로젝트네임 넣어]
+◆IPADDRESS=null
+◆SERVERUSERNAME=null
+◆SERVERPASSWORD=1234
+◆PEMKEY=
+REMOTEDIRECTORY=[안 받아요 몰라경로]
+
+#jobs.item.config.xml
+◆ITEM=[프로젝트네임으로 해주자]
+◆GITREPOSITORYURL=[GITURL에서 .GIT 빼기]
+◆GITREPOSITORYGIT=[GITURL]
+◆GITCREDENTIALID=[GITID 넣어주자]
+
+◆CONFIGNAME=[프로젝트네임, 챙이가 하던 jobs.item.config.xml-JOBSSH]
+
+◆FRONTLOCATION=frontend/
+◆FRONTPORT=80 [고정]
+◆SOURCEFILE=[FRONTLOCATION]/dist
+◆FRONTREMOVEPREFIX=[FRONTLOCATION]/
+
+◆BACKLOCATION=backend/
+◆BACKPORT=8081
+◆POMXMLLOCATION=[BACKLOCATION]/pom.xml
+◆SOURCEFILE=[BACKLOCATION]/target/*.jar
+◆BACKREMOVEPREFIX=[BACKLOCATION]/target/
+
+◆FRONTEXECCOMMAND="sh [몰라경로 ssakins_home/remoteDirectory]/deploy-vue.sh"
+◆BACKEXECCOMMAND="sh [몰라경로 ssakins_home/remoteDirectory]/deploy-spring.sh"
+
+```
+
+* accountInfo 예시 (dockername = ssakins4)
+
+```shell
+
+```
+
+
+
+
+
+* jobs.item.config.xml 기본 파일
+
+```shell
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+    <actions/>
+    <description></description>
+    <keepDependencies>false</keepDependencies>
+    <properties>
+        <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.31.0">
+            <projectUrl/>
+            <displayName></displayName>
+        </com.coravy.hudson.plugins.github.GithubProjectProperty>
+        <com.dabsquared.gitlabjenkins.connection.GitLabConnectionProperty plugin="gitlab-plugin@1.5.13">
+            <gitLabConnection></gitLabConnection>
+        </com.dabsquared.gitlabjenkins.connection.GitLabConnectionProperty>
+    </properties>
+    <scm class="hudson.plugins.git.GitSCM" plugin="git@4.4.4">
+        <configVersion>2</configVersion>
+        <userRemoteConfigs>
+            <hudson.plugins.git.UserRemoteConfig>
+                <url/>
+                <credentialsId/>
+            </hudson.plugins.git.UserRemoteConfig>
+        </userRemoteConfigs>
+        <branches>
+            <hudson.plugins.git.BranchSpec>
+                <name>*/master</name>
+            </hudson.plugins.git.BranchSpec>
+        </branches>
+        <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+        <submoduleCfg class="list"/>
+        <extensions/>
+    </scm>
+    <canRoam>true</canRoam>
+    <disabled>false</disabled>
+    <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+    <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+    <triggers>
+        <com.dabsquared.gitlabjenkins.GitLabPushTrigger plugin="gitlab-plugin@1.5.13">
+            <spec></spec>
+            <triggerOnPush>true</triggerOnPush>
+            <triggerOnMergeRequest>true</triggerOnMergeRequest>
+            <triggerOnPipelineEvent>false</triggerOnPipelineEvent>
+            <triggerOnAcceptedMergeRequest>false</triggerOnAcceptedMergeRequest>
+            <triggerOnClosedMergeRequest>false</triggerOnClosedMergeRequest>
+            <triggerOnApprovedMergeRequest>true</triggerOnApprovedMergeRequest>
+            <triggerOpenMergeRequestOnPush>never</triggerOpenMergeRequestOnPush>
+            <triggerOnNoteRequest>true</triggerOnNoteRequest>
+            <noteRegex>Jenkins please retry a build</noteRegex>
+            <ciSkip>true</ciSkip>
+            <skipWorkInProgressMergeRequest>true</skipWorkInProgressMergeRequest>
+            <setBuildDescription>true</setBuildDescription>
+            <branchFilterType>All</branchFilterType>
+            <includeBranchesSpec></includeBranchesSpec>
+            <excludeBranchesSpec></excludeBranchesSpec>
+            <sourceBranchRegex></sourceBranchRegex>
+            <targetBranchRegex></targetBranchRegex>
+            <secretToken></secretToken>
+            <pendingBuildName></pendingBuildName>
+            <cancelPendingBuildsOnUpdate>false</cancelPendingBuildsOnUpdate>
+        </com.dabsquared.gitlabjenkins.GitLabPushTrigger>
+        <com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.31.0">
+            <spec></spec>
+        </com.cloudbees.jenkins.GitHubPushTrigger>
+    </triggers>
+    <concurrentBuild>false</concurrentBuild>
+    <builders>
+        <hudson.tasks.Maven>
+            <targets>package</targets>
+            <mavenName>maven</mavenName>
+            <pom/>
+            <usePrivateRepository>false</usePrivateRepository>
+            <settings class="jenkins.mvn.DefaultSettingsProvider"/>
+            <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
+            <injectBuildVariables>false</injectBuildVariables>
+        </hudson.tasks.Maven>
+        <hudson.tasks.Shell>
+            <command1/>
+            <configuredLocalRules/>
+        </hudson.tasks.Shell>
+    </builders>
+    <publishers>
+        <jenkins.plugins.publish__over__ssh.BapSshPublisherPlugin plugin="publish-over-ssh@1.20.1">
+            <consolePrefix>SSH: </consolePrefix>
+            <delegate plugin="publish-over@0.22">
+                <publishers>
+                    <jenkins.plugins.publish__over__ssh.BapSshPublisher plugin="publish-over-ssh@1.20.1">
+                        <configName/>
+                        <verbose>false</verbose>
+                        <transfers>
+                            <jenkins.plugins.publish__over__ssh.BapSshTransfer>
+                                <remoteDirectory>deploy</remoteDirectory>
+                                <frontsourceFiles/>
+                                <excludes></excludes>
+                                <frontremovePrefix/>
+                                <remoteDirectorySDF>false</remoteDirectorySDF>
+                                <flatten>false</flatten>
+                                <cleanRemote>false</cleanRemote>
+                                <noDefaultExcludes>false</noDefaultExcludes>
+                                <makeEmptyDirs>false</makeEmptyDirs>
+                                <patternSeparator>[, ]+</patternSeparator>
+                                <frontexecCommand/>
+                                <execTimeout>120000</execTimeout>
+                                <usePty>false</usePty>
+                                <useAgentForwarding>false</useAgentForwarding>
+                            </jenkins.plugins.publish__over__ssh.BapSshTransfer>
+                            <jenkins.plugins.publish__over__ssh.BapSshTransfer>
+                                <remoteDirectory>deploy</remoteDirectory>
+                                <backsourceFiles/>
+                                <excludes></excludes>
+                                <backremovePrefix/>
+                                <remoteDirectorySDF>false</remoteDirectorySDF>
+                                <flatten>false</flatten>
+                                <cleanRemote>false</cleanRemote>
+                                <noDefaultExcludes>false</noDefaultExcludes>
+                                <makeEmptyDirs>false</makeEmptyDirs>
+                                <patternSeparator>[, ]+</patternSeparator>
+                                <backexecCommand/>
+                                <execTimeout>120000</execTimeout>
+                                <usePty>false</usePty>
+                                <useAgentForwarding>false</useAgentForwarding>
+                            </jenkins.plugins.publish__over__ssh.BapSshTransfer>
+                        </transfers>
+                        <useWorkspaceInPromotion>false</useWorkspaceInPromotion>
+                        <usePromotionTimestamp>false</usePromotionTimestamp>
+                    </jenkins.plugins.publish__over__ssh.BapSshPublisher>
+                </publishers>
+                <continueOnError>false</continueOnError>
+                <failOnError>false</failOnError>
+                <alwaysPublishFromMaster>false</alwaysPublishFromMaster>
+                <hostConfigurationAccess class="jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin" reference="../.."/>
+            </delegate>
+        </jenkins.plugins.publish__over__ssh.BapSshPublisherPlugin>
+    </publishers>
+    <buildWrappers>
+        <jenkins.plugins.nodejs.NodeJSBuildWrapper plugin="nodejs@1.3.9">
+            <nodeJSInstallationName>nodejs</nodeJSInstallationName>
+            <cacheLocationStrategy class="jenkins.plugins.nodejs.cache.DefaultCacheLocationLocator"/>
+        </jenkins.plugins.nodejs.NodeJSBuildWrapper>
+    </buildWrappers>
+</project>
+```
+
+
+
+* ssakins-job.sh
+
+```shell
+ITEM=$(sed -n 's/^ *ITEM= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+mkdir /var/jenkins_home/jobs/$ITEM
+
+cp jobconfig.xml /var/jenkins_home/jobs/$ITEM/config.xml
+
+mkdir /var/jenkins_home/jobs/$ITEM/builds
+
+touch /var/jenkins_home/jobs/$ITEM/builds/legacyIds
+
+touch /var/jenkins_home/jobs/$ITEM/builds/permalinks
+
+echo "lastFailedBuild -1\nlastSuccessfulBuild -1" > /var/jenkins_home/$ITEM/builds/permalinks
+
+
+GITREPOSITORYURL=$(sed -n 's/^ *GITREPOSITORYURL= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+sed -i'' -r -e '/projectUrl\//i\<projectUrl>'"$GITREPOSITORYURL"'</projectUrl>' /var/jenkins_home/jobs/$ITEM/config.xml
+
+sed -i '/projectUrl\//d' /var/jenkins_home/jobs/$ITEM/config.xml
+
+
+GITREPOSITORYGIT=$(sed -n 's/^ *GITREPOSITORYGIT= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+sed -i'' -r -e '/url\//i\<url>'"$GITREPOSITORYGIT"'</url>' /var/jenkins_home/jobs/$ITEM/config.xml
+
+sed -i '/url\//d' /var/jenkins_home/jobs/$ITEM/config.xml
+
+
+GITCREDENTIALID=$(sed -n 's/^ *GITCREDENTIALID= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+sed -i'' -r -e '/credentialsId\//i\<credentialsId>'"$GITCREDENTIALID"'</credentialsId>' /var/jenkins_home/jobs/$ITEM/config.xml
+
+sed -i '/credentialsId\//d' /var/jenkins_home/jobs/$ITEM/config.xml
+
+
+POMXMLLOCATION=$(sed -n 's/^ *POMXMLLOCATION= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+sed -i'' -r -e '/pom\//i\<pom>'"$POMXMLLOCATION"'</pom>' /var/jenkins_home/jobs/$ITEM/config.xml
+
+sed -i '/pom\//d' /var/jenkins_home/jobs/$ITEM/config.xml
+
+
+FRONTLOCATION=$(sed -n 's/^ *FRONTLOCATION= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+sed -i'' -r -e '/command1\//i\<command>cd '"$FRONTLOCATION"'\nnpm install\nnpm run build</command>' /var/jenkins_home/jobs/$ITEM/config.xml
+
+sed -i '/command1\//d' /var/jenkins_home/jobs/$ITEM/config.xml
+
+
+
+
+CONFIGNAME=$(sed -n 's/^ *CONFIGNAME= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+sed -i'' -r -e '/configName\//i\<configName>'"$CONFIGNAME"'</configName>' /var/jenkins_home/jobs/$ITEM/config.xml
+
+sed -i '/configName\//d' /var/jenkins_home/jobs/$ITEM/config.xml
+
+
+FRONTSOURCEFILE=$(sed -n 's/^ *FRONTSOURCEFILE= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+sed -i'' -r -e '/frontsourceFiles\//i\<sourceFiles>'"$FRONTSOURCEFILE"'</sourceFiles>' /var/jenkins_home/jobs/$ITEM/config.xml
+
+sed -i '/frontsourceFiles\//d' /var/jenkins_home/jobs/$ITEM/config.xml
+
+
+
+FRONTREMOVEPREFIX=$(sed -n 's/^ *FRONTREMOVEPREFIX= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+sed -i'' -r -e '/frontremovePrefix\//i\<removePrefix>'"$FRONTREMOVEPREFIX"'</removePrefix>' /var/jenkins_home/jobs/$ITEM/config.xml
+
+sed -i '/frontremovePrefix\//d' /var/jenkins_home/jobs/$ITEM/config.xml
+
+
+
+FRONTEXECCOMMAND=$(sed -n 's/^ *FRONTEXECCOMMAND= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+sed -i'' -r -e '/frontexecCommand\//i\<execCommand>'"$FRONTEXECCOMMAND"'</execCommand>' /var/jenkins_home/jobs/$ITEM/config.xml
+
+sed -i '/frontexecCommand\//d' /var/jenkins_home/jobs/$ITEM/config.xml
+
+
+
+BACKSOURCEFILE=$(sed -n 's/^ *BACKSOURCEFILE= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+sed -i'' -r -e '/backsourceFiles\//i\<sourceFiles>'"$BACKSOURCEFILE"'</sourceFiles>' /var/jenkins_home/jobs/$ITEM/config.xml
+
+sed -i '/backsourceFiles\//d' /var/jenkins_home/jobs/$ITEM/config.xml
+
+
+
+BACKREMOVEPREFIX=$(sed -n 's/^ *BACKREMOVEPREFIX= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+sed -i'' -r -e '/backremovePrefix\//i\<removePrefix>'"$BACKREMOVEPREFIX"'</removePrefix>' /var/jenkins_home/jobs/$ITEM/config.xml
+
+sed -i '/backremovePrefix\//d' /var/jenkins_home/jobs/$ITEM/config.xml
+
+
+
+BACKEXECCOMMAND=$(sed -n 's/^ *BACKEXECCOMMAND= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+sed -i'' -r -e '/backexecCommand\//i\<execCommand>'"$BACKEXECCOMMAND"'</execCommand>' /var/jenkins_home/jobs/$ITEM/config.xml
+
+sed -i '/backexecCommand\//d' /var/jenkins_home/jobs/$ITEM/config.xml
+
+
+```
+
+
+
+* com.dabsquared.gitlabjenkins.connection.GitLabConnectionConfig.xml 기본 파일
+
+```shell
+<?xml version='1.1' encoding='UTF-8'?>
+<com.dabsquared.gitlabjenkins.connection.GitLabConnectionConfig plugin="gitlab-plugin@1.5.13">
+  <useAuthenticatedEndpoint>true</useAuthenticatedEndpoint>
+  <connections>
+    <com.dabsquared.gitlabjenkins.connection.GitLabConnection>
+      <name/>
+      <url/>
+      <apiTokenId/>
+      <clientBuilder class="com.dabsquared.gitlabjenkins.gitlab.api.impl.AutodetectGitLabClientBuilder">
+        <id>autodetect</id>
+        <ordinal>0</ordinal>
+      </clientBuilder>
+      <ignoreCertificateErrors>false</ignoreCertificateErrors>
+      <connectionTimeout>10</connectionTimeout>
+      <readTimeout>10</readTimeout>
+    </com.dabsquared.gitlabjenkins.connection.GitLabConnection>
+  </connections>
+</com.dabsquared.gitlabjenkins.connection.GitLabConnectionConfig>
+
+```
+
+
+
+* ssakins-lab.sh
+
+```shell
+GITLABCONFIGNAME=$(sed -n 's/^ *GITLABCONFIGNAME= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+sed -i'' -r -e '/name\//i\<name>'"$GITLABCONFIGNAME"'</name>' /var/jenkins_home/com.dabsquared.gitlabjenkins.connection.GitLabConnectionConfig.xml 
+
+sed -i '/name\//d' /var/jenkins_home/com.dabsquared.gitlabjenkins.connection.GitLabConnectionConfig.xml 
+
+
+
+GITLABCONFIGURL=$(sed -n 's/^ *GITLABCONFIGURL= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+sed -i'' -r -e '/url\//i\<url>'"$GITLABCONFIGURL"'</url>' /var/jenkins_home/com.dabsquared.gitlabjenkins.connection.GitLabConnectionConfig.xml 
+
+sed -i '/url\//d' /var/jenkins_home/com.dabsquared.gitlabjenkins.connection.GitLabConnectionConfig.xml 
+
+
+
+
+GITLABCONFIGCREDENTIAL=$(sed -n 's/^ *GITLABCONFIGCREDENTIAL= *=*//p' /var/jenkins_home/accountInfo.sh)
+echo "import hudson.util.Secret
+def password = "\"$GITLABCONFIGCREDENTIAL\""
+def secret = Secret.fromString(password)
+println(secret.getEncryptedValue())" > /var/jenkins_home/ssakins-lab.groovy
+
+
+URL=$(sed -n 's/^ *URL= *=*//p' /var/jenkins_home/accountInfo.sh)
+PORT=$(sed -n 's/^ *PORT= *=*//p' /var/jenkins_home/accountInfo.sh)
+
+ENCRYPTED_PASSWORD=$(java -jar /bin/jenkins-cli.jar -s http://"$URL":"$PORT"/ groovy =< /var/jenkins_home/ssakins-lab.groovy)
+echo $ENCRYPTED_PASSWORD
+
+
+sed -i'' -r -e '/apiTokenId\//i\<apiTokenId>'"$ENCRYPTED_PASSWORD"'</apiTokenId>' /var/jenkins_home/com.dabsquared.gitlabjenkins.connection.GitLabConnectionConfig.xml 
+
+sed -i '/apiTokenId\//d' /var/jenkins_home/com.dabsquared.gitlabjenkins.connection.GitLabConnectionConfig.xml 
+
+```
+
+
+
+> lab.groovy 만들어진 모습
+
+```groovy
+import hudson.util.Secret
+def password = "credential"
+def secret = Secret.fromString(password)
+println(secret.getEncryptedValue())
+```
+
+
+
+
+
+> 그루비 사용하기 위해서 ssakins_home 위치에서 설치
+
+```shell
+wget -P /bin http://k3a201.p.ssafy.io:8282/jnlpJars/jenkins-cli.jar
+```
+
+
+
+* ssakins_home/gitcredential.groovy
+
+```shell
+import hudson.util.Secret
+def secret = Secret.fromString("1234")
+println(secret.getEncryptedValue())
+
+```
+
+여기서 비밀번호 설정 -> 출력됨
+
+
+
+```shell
+// temp.sh
+
+PASSWORD=$(sed -n 's/^ *GITLABCREDENTIAL *=*//p' /var/jenkins_home/Data)
+echo "import hudson.util.Secret
+def password = "\"$PASSWORD\""
+def secret = Secret.fromString(password)
+println(secret.getEncryptedValue())" > /var/jenkins_home/temp.groovy
+
+ENCRYPTED_PASSWORD=$(java -jar /bin/jenkins-cli.jar -s http://k3a201.p.ssafy.io:8282/ groovy =< /var/jenkins_home/temp.groovy)
+echo $ENCRYPTED_PASSWORD
+
+```
+
+```groovy
+// temp.groovy
+
+import hudson.util.Secret
+def password = "credential"
+def secret = Secret.fromString(password)
+println(secret.getEncryptedValue())
+
+```
+
+
+
+
+
+* 그루비 파일을 실행함
+
+```shell
+java -jar /bin/jenkins-cli.jar -s http://k3a201.p.ssafy.io:8282/ groovy =< ./gitcredential.groovy
+
+```
+
+
+
+* 그루비 사용
+
+```groovy
+// 복호화
+
+println(hudson.util.Secret.decrypt("{AQAAABAAAAAwlGBrc02snzrQn+M58w/OzGpyJKDwtpLEeqySUf2V8ScC6MS1crCKFzwZw37gZjOylik7el7PLEQb2TcRCkKq5Q==}"))
+```
+
+
+
+
+
+# 2020년 11월 10일
+
+* 오늘 한 일
+
+final 폴더에 sh파일이랑 xml 파일 다 넣기
+
+
+
+# 2020년 11월 11일
+
+* 오늘 할 일
+
+어제 넣었던 거 테스트하기 (한 번에 실행 안 될 수 있음)
+
+> name, hostname 순서 때문인지 잘 파악하기
+
+
+
+상대경로 안먹음 -> 다 절대경로로 바꾸기
+
+jobs 안에 config.xml 안생김
+
+파일명 오류 : credentials, publish_over_ssh 로 수정
+
+
+
+if 문 때문에 sh -> bash 명령어로 대체
+
+jenkins_cli 설치해야함 for groovy
+
+
+
+* 플러그인 설치
+
+publish_over_ssh 
+
+gitlab 
+
+nodejs 
+
+
+
+accountInfo.sh 경로 설정하기
+
+
+
+*  final <- final2
+
+com.dab
+
+
+
+
+
+* final <- final3
+
+jenkins_cli 위치 변경하기
+
+
+
+
+
+* 밥먹고하기...
+
+final 복사해서 credential 확인하기
+
+
+
+# 2020년 11월 12일
+
+* final 말고 final2 파일로 테스트해보기 (ssakins4)
+
+고쳐야되는 파일 몇개 수정해야됨 -> credential 부분
+
+> * 고친 부분
+>
+> ssakins-setting.sh
+>
+> ssakins_credential.sh
+
+
+
+* jenkins_cli 설치 부분에 http 빼기
+
+* gitlab일때 체크 부분 빼기
+* credential 비번 확인
+
+
+
+
+
+### 내일 할 일
+
+* 지금 안되는 거
+
+gitlab github 구분
+
+lab.sh 파일에 if 문 넣어서 수정해야함
+
+sh 파일이 실행되지 않음
+
+true / false 위치 파악해야함 (실테스트가 필요함)
+
+
+
+* 피피티 만들기
+
+
+
+# 2020년 11월 13일
+
+if -> ssakins-lab.sh
+
+else -> ssakins-github-plugin-configuration.sh
+
+
+
+새로운 도커 만들때
+
+accountInfo.sh + install.sh
+
+
+
+### 문제
+
+github, gitlab으로 실행할 경우 if 문으로 비교
+
+gitlab을 사용할 때 ssakins-lab.sh 내부의 sed 코드에서 $변수가 작동하지 않음
+
+단, ssakins-lab.sh안에서 sed문 밖에서 echo $는 작동됨 :smiley:
+
+
+
+> ### try
+>
+> * ssakins-setting.sh
+>
+> sh ssakins_lab.sh => **bash** ssakins_lab.sh 
+>
+> :red_circle: 안됨
+>
+> 
+>
+> * ssakins-setting.sh
+>
+> if 문 자체를 다 지워버림 -> sh ssakins-lab.sh을 실행안하고 ssakins-job.sh만 실행
+>
+> 두 sh 파일이 겹친다고 생각했지만 
+>
+> :red_circle: 그것도 아님 
+>
+> 
+>
+> * ssakins-setting.sh
+>
+> 여기서 사용되는 5개의 sh 파일의 실행 순서가 문제라고 생각함
+>
+> 현재 : jdk(config.xml) -> credentials(credentials.xml) -> lab(com.dab.con.xml) ->  ssh(jen.plu.pu.xml) -> job(jobconfig.xml)
+>
+> ssakins-setting.sh 내에 실행되는 5개의 sh 파일들 실행마다 **sleep 10** 줬음
+>
+> :red_circle: 순서 무관한 듯
+>
+> 
+>
+> * 5개의 sh 파일을 수동으로 실행시킴
+>
+> 값이 너무 잘 들어가서 완벽하다고 생각했음
+>
+> 근데 **docker restart** 하자마자 지랄남 -> gitlab 부분 xml 파일이 문제임
+>
+> :large_blue_circle: docker 시작할 때가 문제 -> 
+>
+> docker restart하면 젠킨스 > 시스템 관리 > gitlab부분 난리남 ->
+>
+> 당연히 /var/jenkins_home/ 에도 gitlab.xml 파일은 난장판
+>
+> :large_blue_circle: docker restart 후에는 gitlab 관련 다른 xml 파일이 새로 생김
+>
+> 
+>
+> * 새로 생기는 이유가 gitlab.xml 파일에서 <clientBuilder> 태그가 문제라고 생각했음
+>
+> 지우고 docker restart 해봤음
+>
+> :red_circle: 응 안돼
+
+
+
+### 내일 할 일
+
+... 하기싫어
+
+깃랩 버리고 깃헙만 하거나
+
+근데 깃헙도 안되면 어카냐..
+
+ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
+

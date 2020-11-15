@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: timja
+Build-Jdk: 1.8.0_222
+Extension-Name: publish-over-ssh
+Specification-Title: Send build artifacts over SSH
+Implementation-Title: publish-over-ssh
+Implementation-Version: 1.22
+Group-Id: org.jenkins-ci.plugins
+Short-Name: publish-over-ssh
+Long-Name: Publish Over SSH
+Url: https://github.com/jenkinsci/publish-over-ssh-plugin
+Minimum-Java-Version: 1.8
+Plugin-Version: 1.22
+Hudson-Version: 2.235.1
+Jenkins-Version: 2.235.1
+Plugin-Dependencies: jsch:0.1.55.2,publish-over:0.22,structs:1.20
+Plugin-Developers: slide:slide_o_mix:slide.o.mix@gmail.com
+Plugin-License-Name: The MIT license
+Plugin-ScmUrl: https://github.com/jenkinsci/publish-over-ssh-plugin
+
