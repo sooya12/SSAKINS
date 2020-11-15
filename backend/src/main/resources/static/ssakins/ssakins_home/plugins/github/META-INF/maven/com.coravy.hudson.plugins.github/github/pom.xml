@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
         <version>4.2</version>
-        <relativePath />
+        <relativePath/>
     </parent>
 
     <groupId>com.coravy.hudson.plugins.github</groupId>
     <artifactId>github</artifactId>
-    <version>	1.31.0</version>
+    <version>1.31.0</version>
     <packaging>hpi</packaging>
 
     <name>GitHub plugin</name>
@@ -64,7 +65,7 @@
             <url>https://repo.jenkins-ci.org/public/</url>
         </repository>
     </repositories>
-    
+
     <pluginRepositories>
         <pluginRepository>
             <id>repo.jenkins-ci.org</id>
@@ -76,7 +77,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.9</version>    
+            <version>3.9</version>
         </dependency>
 
         <dependency>
@@ -131,7 +132,8 @@
             <groupId>org.jenkins-ci.modules</groupId>
             <artifactId>instance-identity</artifactId>
             <version>2.2</version>
-            <scope>provided</scope><!-- https://wiki.jenkins.io/display/JENKINS/Instance+Identity "add a provided scope dependency to this module into your plugin" -->
+            <scope>provided
+            </scope><!-- https://wiki.jenkins.io/display/JENKINS/Instance+Identity "add a provided scope dependency to this module into your plugin" -->
         </dependency>
 
         <dependency>
@@ -170,7 +172,7 @@
             <version>${hamcrest.version}</version>
             <scope>test</scope>
         </dependency>
-      
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -305,7 +307,7 @@
                 <groupId>org.jenkins-ci</groupId>
                 <artifactId>annotation-indexer</artifactId>
                 <version>1.12</version>
-            </dependency>    
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

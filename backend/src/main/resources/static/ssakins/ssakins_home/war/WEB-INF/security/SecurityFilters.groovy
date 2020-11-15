@@ -42,52 +42,52 @@ import hudson.security.HttpSessionContextIntegrationFilter2
 // providers that apply to both patterns
 def commonProviders() {
     return [
-        bean(AnonymousProcessingFilter) {
-            key = "anonymous" // must match with the AnonymousProvider
-            userAttribute = "anonymous,"
-        },
-        bean(ExceptionTranslationFilter) {
-            accessDeniedHandler = new AccessDeniedHandlerImpl()
-            authenticationEntryPoint = bean(HudsonAuthenticationEntryPoint) {
-                loginFormUrl = '/'+securityRealm.getLoginUrl()+"?from={0}"
-            }
-        },
-        bean(UnwrapSecurityExceptionFilter)
+            bean(AnonymousProcessingFilter) {
+                key = "anonymous" // must match with the AnonymousProvider
+                userAttribute = "anonymous,"
+            },
+            bean(ExceptionTranslationFilter) {
+                accessDeniedHandler = new AccessDeniedHandlerImpl()
+                authenticationEntryPoint = bean(HudsonAuthenticationEntryPoint) {
+                    loginFormUrl = '/' + securityRealm.getLoginUrl() + "?from={0}"
+                }
+            },
+            bean(UnwrapSecurityExceptionFilter)
     ]
 }
 
 filter(ChainedServletFilter) {
     filters = [
-        // this persists the authentication across requests by using session
-        bean(HttpSessionContextIntegrationFilter2) {
-            // not allowing filter to create sessions, as it potentially tries to create
-            // sessions for any request (although it usually fails
-            // I suspect this is related to JENKINS-12585, in that
-            // it ends up setting Set-Cookie for image responses.
-            // Instead, we use layout.jelly to create sessions.
-            allowSessionCreation = false
-        },
-        // if any "Authorization: Basic xxx:yyy" is sent this is the filter that processes it
-        bean(BasicHeaderProcessor) {
-            // if basic authentication fails (which only happens incorrect basic auth credential is sent),
-            // respond with 401 with basic auth request, instead of redirecting the user to the login page,
-            // since users of basic auth tends to be a program and won't see the redirection to the form
-            // page as a failure
-            authenticationEntryPoint = bean(BasicProcessingFilterEntryPoint) {
-                realmName = "Jenkins"
-            }
-        },
-        bean(AuthenticationProcessingFilter2) {
-            authenticationManager = securityComponents.manager
-            rememberMeServices = securityComponents.rememberMe
-            authenticationFailureUrl = "/loginError"
-            defaultTargetUrl = "/"
-            filterProcessesUrl = "/j_acegi_security_check"
-        },
-        bean(RememberMeProcessingFilter) {
-            rememberMeServices = securityComponents.rememberMe
-            authenticationManager = securityComponents.manager
-        },
+            // this persists the authentication across requests by using session
+            bean(HttpSessionContextIntegrationFilter2) {
+                // not allowing filter to create sessions, as it potentially tries to create
+                // sessions for any request (although it usually fails
+                // I suspect this is related to JENKINS-12585, in that
+                // it ends up setting Set-Cookie for image responses.
+                // Instead, we use layout.jelly to create sessions.
+                allowSessionCreation = false
+            },
+            // if any "Authorization: Basic xxx:yyy" is sent this is the filter that processes it
+            bean(BasicHeaderProcessor) {
+                // if basic authentication fails (which only happens incorrect basic auth credential is sent),
+                // respond with 401 with basic auth request, instead of redirecting the user to the login page,
+                // since users of basic auth tends to be a program and won't see the redirection to the form
+                // page as a failure
+                authenticationEntryPoint = bean(BasicProcessingFilterEntryPoint) {
+                    realmName = "Jenkins"
+                }
+            },
+            bean(AuthenticationProcessingFilter2) {
+                authenticationManager = securityComponents.manager
+                rememberMeServices = securityComponents.rememberMe
+                authenticationFailureUrl = "/loginError"
+                defaultTargetUrl = "/"
+                filterProcessesUrl = "/j_acegi_security_check"
+            },
+            bean(RememberMeProcessingFilter) {
+                rememberMeServices = securityComponents.rememberMe
+                authenticationManager = securityComponents.manager
+            },
     ] + commonProviders()
 }
 
@@ -95,7 +95,7 @@ filter(ChainedServletFilter) {
 // of container authentication before 1.160 
 legacy(ChainedServletFilter) {
     filters = [
-        bean(BasicAuthenticationFilter)
+            bean(BasicAuthenticationFilter)
     ] + commonProviders()
     // when using container-authentication we can't hit /login directly.
     // we first have to hit protected /loginEntry, then let the container

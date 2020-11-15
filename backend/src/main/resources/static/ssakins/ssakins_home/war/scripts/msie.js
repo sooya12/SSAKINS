@@ -25,7 +25,7 @@
 
 function assertDocumentModeOK() {
     if (YAHOO.env.ua.ie && YAHOO.env.ua.ie !== document.documentMode) {
-        setTimeout(function() {
+        setTimeout(function () {
             alert("WARNING: Your Internet Explorer appears to be set to a non-default 'Document Mode' (see Developer Tools - press F12).\n" +
                 "\n" +
                 "Jenkins may not display properly in this browser.");

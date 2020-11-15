@@ -43,7 +43,7 @@ But you can override this behavior by having 'data="..."' attribute on each row,
 in which case the sort will be done on that field.
 */
 
-var Sortable = (function() {
+var Sortable = (function () {
 
 
     function Sortable(table) {
@@ -54,7 +54,7 @@ var Sortable = (function() {
         if (!firstRow) return;
 
         // We have a first row: assume it's the header, and make its contents clickable links
-        firstRow.each(function (cell){
+        firstRow.each(function (cell) {
             var noSort = cell.getAttribute('data-sort-disable');
             if (noSort) {
                 //TODO the data storage should be changed
@@ -70,7 +70,7 @@ var Sortable = (function() {
              * If we use innerText, we will get the unescaped version and potentially trigger a XSS.
              * Using the innerHTML will return the escaped content that could be reused directly within the wrapper.
              */
-            cell.innerHTML = '<a href="#" class="sortheader">'+cell.innerHTML+'<span class="sortarrow"></span></a>';
+            cell.innerHTML = '<a href="#" class="sortheader">' + cell.innerHTML + '<span class="sortarrow"></span></a>';
             this.arrows.push(cell.firstChild.lastChild);
 
             var self = this;
@@ -83,10 +83,10 @@ var Sortable = (function() {
         // figure out the initial sort preference
         this.pref = this.getStoredPreference();
         if (this.pref == null) {
-            firstRow.each(function (cell,i){
+            firstRow.each(function (cell, i) {
                 var initialSortDir = cell.getAttribute("initialSortDir");
                 if (initialSortDir != null) {
-                    this.pref = {column:i, direction:arrowTable[initialSortDir]};
+                    this.pref = {column: i, direction: arrowTable[initialSortDir]};
                 }
             }.bind(this));
         }
@@ -98,21 +98,21 @@ var Sortable = (function() {
         /**
          * SPAN tags that we use to render directional arrows, for each columns.
          */
-        arrows : null /*Array*/,
+        arrows: null /*Array*/,
 
         /**
          * Current sort preference.
          */
-        pref : null /* { column:int, direction:arrow } */,
+        pref: null /* { column:int, direction:arrow } */,
 
-        getFirstRow : function() {
+        getFirstRow: function () {
             if (this.table.rows && this.table.rows.length > 0) {
                 return $A(this.table.rows[0].cells);
             }
             return null;
         },
 
-        getDataRows : function() {
+        getDataRows: function () {
             var newRows = [];
             var rows = this.table.rows;
             for (var j = 1; j < rows.length; j++) {
@@ -124,14 +124,14 @@ var Sortable = (function() {
         /**
          * If there's a persisted sort direction setting, retrieve it
          */
-        getStoredPreference : function() {
+        getStoredPreference: function () {
             var key = this.getStorageKey();
-            if(storage.hasKey(key)){
+            if (storage.hasKey(key)) {
                 var val = storage.getItem(key);
-                if(val){
+                if (val) {
                     var vals = val.split(":");
-                    if(vals.length == 2) {
-                        return {column:parseInt(vals[0]), direction:arrowTable[vals[1]]};
+                    if (vals.length == 2) {
+                        return {column: parseInt(vals[0]), direction: arrowTable[vals[1]]};
                     }
                 }
             }
@@ -139,13 +139,13 @@ var Sortable = (function() {
         },
 
 
-        getStorageKey : function() {
+        getStorageKey: function () {
             var uri = document.location;
             var tableIndex = this.getIndexOfSortableTable();
             return "ts_direction::" + uri + "::" + tableIndex;
         },
 
-        savePreference : function() {
+        savePreference: function () {
             var key = this.getStorageKey();
             storage.setItem(key, this.pref.column + ":" + this.pref.direction.id);
         },
@@ -153,9 +153,9 @@ var Sortable = (function() {
         /**
          * Determine the sort function for the specified column
          */
-        getSorter : function(column) {
+        getSorter: function (column) {
             var rows = this.table.rows;
-            if (rows.length <= 1)   return sorter.fallback;
+            if (rows.length <= 1) return sorter.fallback;
 
             var itm = this.extractData(rows[1].cells[column]).trim();
             return sorter.determine(itm);
@@ -164,16 +164,16 @@ var Sortable = (function() {
         /**
          * Called when the column header gets clicked.
          */
-        onClicked : function(lnk) {
+        onClicked: function (lnk) {
             var arrow = lnk.lastChild;
             var th = lnk.parentNode;
 
             var column = th.cellIndex;
-            if (column==(this.pref||{}).column) {
+            if (column == (this.pref || {}).column) {
                 // direction change on the same row
                 this.pref.direction = this.pref.direction.next;
             } else {
-                this.pref = {column:column, direction: arrow.sortdir||arrowTable.up};
+                this.pref = {column: column, direction: arrow.sortdir || arrowTable.up};
             }
 
             arrow.sortdir = this.pref.direction; // remember the last sort direction on this column
@@ -186,29 +186,29 @@ var Sortable = (function() {
          * Call when data has changed. Reapply the current sort setting to the existing data rows.
          * @since 1.484
          */
-        refresh : function() {
-            if (this.pref==null)     return; // not sorting
+        refresh: function () {
+            if (this.pref == null) return; // not sorting
 
             var column = this.pref.column;
             var dir = this.pref.direction;
 
             var s = this.getSorter(column);
-            if(dir === arrowTable.up) {// ascending
+            if (dir === arrowTable.up) {// ascending
                 s = sorter.reverse(s);
             }
 
             // we allow some rows to stick to the top and bottom, so that is our first sort criteria
             // regardless of the sort function
             function rowPos(r) {
-                if (r.hasClassName("sorttop"))      return 0;
-                if (r.hasClassName("sortbottom"))   return 2;
+                if (r.hasClassName("sorttop")) return 0;
+                if (r.hasClassName("sortbottom")) return 2;
                 return 1;
             }
 
             var rows = this.getDataRows();
-            rows.sort(function(a,b) {
-                var x = rowPos(a)-rowPos(b);
-                if (x!=0)   return x;
+            rows.sort(function (a, b) {
+                var x = rowPos(a) - rowPos(b);
+                if (x != 0) return x;
 
                 return s(
                     this.extractData(a.cells[column]),
@@ -220,46 +220,48 @@ var Sortable = (function() {
             }.bind(this));
 
             // update arrow rendering
-            this.arrows.each(function(e,i){
+            this.arrows.each(function (e, i) {
                 // to check the columns with sort disabled
                 if (e) {
-                    e.innerHTML = ((i==column) ? dir : arrowTable.none).text;
+                    e.innerHTML = ((i == column) ? dir : arrowTable.none).text;
                 }
             });
         },
 
-        getIndexOfSortableTable : function(){
+        getIndexOfSortableTable: function () {
             return $(document.body).select("TABLE.sortable").indexOf(this.table);
         },
 
-        getInnerText : function(el) {
-        	if (typeof el == "string") return el;
-        	if (typeof el == "undefined") { return el }
-        	if (el.innerText) return el.innerText;	//Not needed but it is faster
-        	var str = "";
+        getInnerText: function (el) {
+            if (typeof el == "string") return el;
+            if (typeof el == "undefined") {
+                return el
+            }
+            if (el.innerText) return el.innerText;	//Not needed but it is faster
+            var str = "";
 
-        	var cs = el.childNodes;
-        	var l = cs.length;
-        	for (var i = 0; i < l; i++) {
-        		switch (cs[i].nodeType) {
-        			case 1: //ELEMENT_NODE
-        				str += this.getInnerText(cs[i]);
-        				break;
-        			case 3:	//TEXT_NODE
-        				str += cs[i].nodeValue;
-        				break;
-        		}
-        	}
-        	return str;
+            var cs = el.childNodes;
+            var l = cs.length;
+            for (var i = 0; i < l; i++) {
+                switch (cs[i].nodeType) {
+                    case 1: //ELEMENT_NODE
+                        str += this.getInnerText(cs[i]);
+                        break;
+                    case 3:	//TEXT_NODE
+                        str += cs[i].nodeValue;
+                        break;
+                }
+            }
+            return str;
         },
 
         // extract data for sorting from a cell
-        extractData : function(x) {
-          if(x==null) return '';
-          var data = x.getAttribute("data");
-          if(data!=null)
-            return data;
-          return this.getInnerText(x);
+        extractData: function (x) {
+            if (x == null) return '';
+            var data = x.getAttribute("data");
+            if (data != null)
+                return data;
+            return this.getInnerText(x);
         }
     };
 
@@ -293,7 +295,7 @@ var Sortable = (function() {
 
     // available sort functions
     var sorter = {
-        date : function(a,b) {
+        date: function (a, b) {
             /**
              * Note - 2-digit years under 50 are considered post-2000,
              * otherwise they're pre-2000. This is terrible, but
@@ -319,42 +321,43 @@ var Sortable = (function() {
                 }
                 return new Date(year, month, day, hours, minutes, seconds, 0);
             }
+
             return toDate(a) - toDate(b);
         },
 
-        currency : function(a,b) {
-            a = a.replace(/[^0-9.]/g,'');
-            b = b.replace(/[^0-9.]/g,'');
+        currency: function (a, b) {
+            a = a.replace(/[^0-9.]/g, '');
+            b = b.replace(/[^0-9.]/g, '');
             return parseFloat(a) - parseFloat(b);
         },
 
-        percent : function(a,b) {
-            a = a.replace(/[^0-9.<>]/g,'');
-            b = b.replace(/[^0-9.<>]/g,'');
+        percent: function (a, b) {
+            a = a.replace(/[^0-9.<>]/g, '');
+            b = b.replace(/[^0-9.<>]/g, '');
             if (a == "<100") a = "99.9";
             else if (a == ">0") a = "0.1";
             if (b == "<100") b = "99.9";
             else if (b == ">0") b = "0.1";
-            a = a.replace(/[^0-9.]/g,'');
-            b = b.replace(/[^0-9.]/g,'');
+            a = a.replace(/[^0-9.]/g, '');
+            b = b.replace(/[^0-9.]/g, '');
             return parseFloat(a) - parseFloat(b);
         },
 
-        numeric : function(a,b) {
+        numeric: function (a, b) {
             a = parseFloat(a);
             if (isNaN(a)) a = 0;
             b = parseFloat(b);
             if (isNaN(b)) b = 0;
-            return a-b;
+            return a - b;
         },
 
-        caseInsensitive : function(a,b) {
+        caseInsensitive: function (a, b) {
             return sorter.fallback(a.toLowerCase(), b.toLowerCase());
         },
 
-        fallback : function(a,b) {
-            if (a==b) return 0;
-            if (a<b) return -1;
+        fallback: function (a, b) {
+            if (a == b) return 0;
+            if (a < b) return -1;
             return 1;
         },
 
@@ -363,7 +366,7 @@ var Sortable = (function() {
          * @param {String} itm
          *      Text
          */
-        determine : function(itm) {
+        determine: function (itm) {
             var sortfn = this.caseInsensitive;
             if (itm.match(date_pattern)) sortfn = this.date;
             if (itm.match(/^[�$]/)) sortfn = this.currency;
@@ -372,7 +375,7 @@ var Sortable = (function() {
             return sortfn;
         },
 
-        reverse : function(f) {
+        reverse: function (f) {
             return function (a, b) {
                 return -f(a, b)
             };
@@ -390,18 +393,23 @@ var Sortable = (function() {
                 ]
             }
         );
-    } catch(e) {
+    } catch (e) {
         // no storage available
         storage = {
-            setItem : function() {},
-            getItem : function() { return null; },
-            hasKey : function() { return false; }
+            setItem: function () {
+            },
+            getItem: function () {
+                return null;
+            },
+            hasKey: function () {
+                return false;
+            }
         };
     }
 
     return {
-        Sortable : Sortable,
-        sorter : sorter
+        Sortable: Sortable,
+        sorter: sorter
     };
 })();
 

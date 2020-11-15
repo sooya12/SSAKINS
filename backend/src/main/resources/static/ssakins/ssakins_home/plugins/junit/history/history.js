@@ -39,7 +39,7 @@
      *
      * @param {String} carouselId - ID of the carousel
      */
-    function storeAndRestoreCarousel (carouselId) {
+    function storeAndRestoreCarousel(carouselId) {
         const carousel = $('#' + carouselId);
         carousel.on('slid.bs.carousel', function (e) {
             localStorage.setItem(carouselId, e.to);

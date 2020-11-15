@@ -8,29 +8,29 @@ version: 2.9.0
 .yui-skin-sam .mask {
     background-color: #000;
     opacity: .25;
-    filter: alpha(opacity=25);  /* Set opacity in IE */
+    filter: alpha(opacity=25); /* Set opacity in IE */
 }
 
 /* Panel styles */
 .yui-skin-sam .yui-panel-container {
-    padding:0 1px;
+    padding: 0 1px;
     /* Padding added for IE to allow 0,0 alignment with shadow */
-    *padding:2px;
+    *padding: 2px;
 }
 
 .yui-skin-sam .yui-panel {
     position: relative;
-    left:0;
-    top:0;
+    left: 0;
+    top: 0;
     border-style: solid;
     border-width: 1px 0;
     border-color: #808080;
     z-index: 1;
 
     /* Rollback rounded corner support for IE6/7 */
-    *border-width:1px;
-    *zoom:1;
-    _zoom:normal;
+    *border-width: 1px;
+    *zoom: 1;
+    _zoom: normal;
 }
 
 .yui-skin-sam .yui-panel .hd,
@@ -42,8 +42,8 @@ version: 2.9.0
     margin: 0 -1px;
 
     /* Rollback rounded corner support for IE6/7 */
-    *margin:0;
-    *border:0;
+    *margin: 0;
+    *border: 0;
 }
 
 .yui-skin-sam .yui-panel .hd {
@@ -57,8 +57,8 @@ version: 2.9.0
 
 .yui-skin-sam .yui-panel .hd {
     padding: 0 10px;
-    font-size: 93%;  /* 12px */
-    line-height: 2;  /* ~24px */
+    font-size: 93%; /* 12px */
+    line-height: 2; /* ~24px */
     *line-height: 1.9; /* For IE */
     font-weight: bold;
     color: #000;
@@ -86,7 +86,7 @@ version: 2.9.0
     width: 25px;
     height: 15px;
     background: url(../../../../assets/skins/sam/sprite.png) no-repeat 0 -300px;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 /* Panel underlay styles */
@@ -128,7 +128,7 @@ version: 2.9.0
 
     background-color: #000;
     opacity: .12;
-    filter: alpha(opacity=12);  /* Set opacity in IE */
+    filter: alpha(opacity=12); /* Set opacity in IE */
 }
 
 
@@ -146,7 +146,7 @@ version: 2.9.0
 
 /* Dialog default button style */
 .yui-skin-sam .yui-dialog .ft button.default {
-    font-weight:bold;
+    font-weight: bold;
 }
 
 /* Dialog default YUI Button style */
@@ -165,16 +165,16 @@ version: 2.9.0
 
 /* Dialog YUI Button disabled state */
 .yui-skin-sam .yui-dialog .ft span.yui-button-disabled {
-    background-position:0pt -1500px;
-    border-color:#ccc;
+    background-position: 0pt -1500px;
+    border-color: #ccc;
 }
 
 .yui-skin-sam .yui-dialog .ft span.yui-button-disabled .first-child {
-    border-color:#ccc;
+    border-color: #ccc;
 }
 
 .yui-skin-sam .yui-dialog .ft span.yui-button-disabled button {
-    color:#a6a6a6;
+    color: #a6a6a6;
 }
 
 /* SimpleDialog icon styles */
@@ -238,5 +238,5 @@ version: 2.9.0
 
 .yui-skin-sam .yui-tt-shadow-visible {
     opacity: .12;
-    filter: alpha(opacity=12);  /* For IE */
+    filter: alpha(opacity=12); /* For IE */
 }

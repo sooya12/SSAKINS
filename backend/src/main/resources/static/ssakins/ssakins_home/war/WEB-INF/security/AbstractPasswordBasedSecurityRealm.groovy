@@ -31,19 +31,19 @@ import jenkins.model.Jenkins
 
 authenticationManager(ProviderManager) {
     providers = [
-        // this does all the hard work.
-        // injected by the parsing code
-        authenticator,
+            // this does all the hard work.
+            // injected by the parsing code
+            authenticator,
 
-        // these providers apply everywhere
-        bean(RememberMeAuthenticationProvider) {
-            key = Jenkins.get().getSecretKey()
-        },
-        // this doesn't mean we allow anonymous access.
-        // we just authenticate anonymous users as such,
-        // so that later authorization can reject them if so configured
-        bean(AnonymousAuthenticationProvider) {
-            key = "anonymous"
-        }
+            // these providers apply everywhere
+            bean(RememberMeAuthenticationProvider) {
+                key = Jenkins.get().getSecretKey()
+            },
+            // this doesn't mean we allow anonymous access.
+            // we just authenticate anonymous users as such,
+            // so that later authorization can reject them if so configured
+            bean(AnonymousAuthenticationProvider) {
+                key = "anonymous"
+            }
     ]
 }

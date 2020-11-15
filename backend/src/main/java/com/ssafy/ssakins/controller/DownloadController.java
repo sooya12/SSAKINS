@@ -122,14 +122,14 @@ public class DownloadController {
         Resource resource = resourceLoader.getResource("classpath:static/ssakins/");
         files.add(resource.getFile());
         while (!files.isEmpty()) {
-            File dir =files.pop();
+            File dir = files.pop();
             //new zip entry and copying inputstream with file to zipOutputStream, after all closing streams
-            for(File file : dir.listFiles()) {
+            for (File file : dir.listFiles()) {
                 String name = base.relativize(file.toURI()).getPath();
                 if (file.isDirectory()) {
                     files.push(file);
                     //IOUtils.copy(fileInputStream, zipOutputStream);
-                    name = name.endsWith("/")?name:name+"/";
+                    name = name.endsWith("/") ? name : name + "/";
                     zipOutputStream.putNextEntry(new ZipEntry(name));
                     //zipOutputStream.closeEntry();
                 } else {
