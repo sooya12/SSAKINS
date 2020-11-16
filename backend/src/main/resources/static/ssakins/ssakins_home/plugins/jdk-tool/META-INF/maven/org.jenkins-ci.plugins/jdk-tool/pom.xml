@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
         <version>3.5</version>
-        <relativePath />
+        <relativePath/>
     </parent>
     <artifactId>jdk-tool</artifactId>
     <version>1.4</version>
@@ -15,7 +16,8 @@
         <java.level>8</java.level>
     </properties>
     <name>Oracle Java SE Development Kit Installer Plugin</name>
-    <description>Allows the Oracle Java SE Development Kit (JDK) to be installed via download from Oracle's website.</description>
+    <description>Allows the Oracle Java SE Development Kit (JDK) to be installed via download from Oracle's website.
+    </description>
     <url>https://github.com/jenkinsci/jdk-tool-plugin</url>
     <licenses>
         <license>
@@ -27,8 +29,8 @@
         <connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
         <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
-      <tag>jdk-tool-1.4</tag>
-  </scm>
+        <tag>jdk-tool-1.4</tag>
+    </scm>
     <repositories>
         <repository>
             <id>repo.jenkins-ci.org</id>

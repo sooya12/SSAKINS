@@ -26,19 +26,19 @@ version: 2.9.0
 
 }
 
-.yuimenubar li, 
+.yuimenubar li,
 .yuimenu li {
 
-    list-style-type: none;    
+    list-style-type: none;
 
 }
 
-.yuimenubar ul, 
+.yuimenubar ul,
 .yuimenu ul,
-.yuimenubar li, 
+.yuimenubar li,
 .yuimenu li,
 .yuimenu h6,
-.yuimenubar h6 { 
+.yuimenubar h6 {
 
     margin: 0;
     padding: 0;
@@ -84,7 +84,7 @@ version: 2.9.0
     its floated <li> elements in Firefox, Safari and and Opera.
 */
 
-.yuimenubar>.bd>ul:after {
+.yuimenubar > .bd > ul:after {
 
     content: ".";
     display: block;
@@ -112,15 +112,15 @@ version: 2.9.0
 
     font-style: normal;
     display: block;
-    
+
     /*
         The value for the left margin controls how much the help text is
         offset from the text of the menu item.  This value will need to 
         be customized depending on the longest text label of a menu item.
     */
-    
+
     margin: -1em 0 0 10em;
-    
+
 }
 
 /*
@@ -195,13 +195,13 @@ PLEASE NOTE:
 
 .hide-scrollbars * {
 
-	overflow: hidden;
+    overflow: hidden;
 
 }
 
 .hide-scrollbars select {
 
-	display: none;
+    display: none;
 
 }
 
@@ -219,7 +219,7 @@ when one of its submenus is visible.
 .yuimenu.show-scrollbars,
 .yuimenubar.show-scrollbars {
 
-	overflow: visible; 
+    overflow: visible;
 
 }
 
@@ -238,5 +238,5 @@ when one of its submenus is visible.
 }
 
 .yui-overlay.yui-force-redraw {
-   margin-bottom: 1px;
+    margin-bottom: 1px;
 }

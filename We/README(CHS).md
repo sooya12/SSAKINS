@@ -1,5 +1,3 @@
-
-
 ## :calendar: 20.10.14
 
 #### :black_nib: apt-get 와 apt
@@ -632,7 +630,7 @@ $ java -jar ~/bin/jenkins-cli.jar -s [Jenkins 경로] -webSocket help
 
 
 
-#### :black_nib: jenkins-cli로 Plugin 설치
+#### :black_nib: jenkins-cli.jar로 Plugin 설치
 
 ```shell
 $ java -jar ~/bin/jenkins-cli.jar -s http://localhost:8080/ install-plugin [plugin명] -deploy -restart
@@ -645,5 +643,451 @@ $ java -jar ~/bin/jenkins-cli.jar -s http://localhost:8080/ install-plugin maven
 
 // Publish-Over-SSH 설치
 $ java -jar ~/bin/jenkins-cli.jar -s http://localhost:8080/ install-plugin publish-over-ssh -deploy -restart
+```
+
+
+
+## :calendar: 20.10.27
+
+#### :black_nib: Backend로 설치 파일 받아서 install.sh 실행하기 (dos2unix)
+
+1. backend 코드를 Java 11로 실행
+
+2. 브라우저에서 localhost:8080/zip에 접속 - 자동으로 ssakins.zip 파일 다운로드 됨
+
+3. ssakins.zip 압축 해제하고 scp로 aws 서버에 ssakins 파일 이동
+
+   - ssakins 파일
+
+     > install.sh
+     >
+     > ssakins_home/
+
+4. install.sh 파일 실행으로 Docker 이미지 생성
+
+   ```sh
+   // 개행문자가 다르면 파일 실행이 안되서 dos2unix로 해결하기 위하여
+   $ sudo apt install dos2unix
+   $ dos2unix install.sh
+   
+   // install.sh 파일 실행
+   $ sh install.sh
+   ```
+
+   ![image-20201027111512534](https://lab.ssafy.com/s03-final/s03p31a201/uploads/14fbdb677327655cce6502fc2baf630a/image-20201027111512534.png)
+
+
+
+#### :black_nib: 도커 정지 및 삭제
+
+```sh
+$ sudo docker stop ssakins
+$ sudo docker rm ssakins
+```
+
+
+
+#### :black_nib: install.sh 실행 시 NodeJS, Maven, Publish-Over-SSH 플러그인 설치
+
+``` shell
+// install.sh 추가
+...
+
+sudo docker exec -u root ssakins sh /var/jenkins_home/ssakins/installPlugin.sh
+```
+
+```shell
+// ssakins_home/ssakins/installPlugin.sh
+
+wget -P /bin http://15.165.161.87:8000/jnlpJars/jenkins-cli.jar
+sleep 1
+
+echo "NodeJS, Maven, Publish-Over-SSH install!"
+
+java -jar /bin/jenkins-cli.jar -s http://15.165.161.87:8000/ install-plugin NodeJS maven-plugin publish-over-ssh -deploy -restart
+```
+
+
+
+#### :black_nib: ssakins Docker 죽이는 sh
+
+```shell
+// killDocker.sh
+$ sudo docker stop ssakins
+$ sudo docker rm ssakins
+
+$ sh killDocker.sh
+```
+
+
+
+#### :black_nib: wget으로 설정.zip 파일 받아서 unzip 하고 실행시키기
+
+```shell
+$ sudo apt install unzip
+$ wget [백엔드 주소]/zip -O ssakins.zip && unzip -d ssakins ssakins.zip && rm ssakins.zip
+
+// dos2unix로 개행문자 에러 처리
+$ sudo apt install dos2unix
+$ dos2unix ssakins/ssakins/install.sh
+
+$ sh ssakins/ssakins/install.sh
+```
+
+
+
+#### :black_nib: Global Tool - Maven 설정
+
+jenkins_home에 hudson.tasks.Maven.xml 파일로 설정하기
+
+```xml
+<?xml version='1.1' encoding='UTF-8'?>
+<hudson.tasks.Maven_-DescriptorImpl>
+  <installations>
+    <hudson.tasks.Maven_-MavenInstallation>
+      <name>maven</name>
+      <properties>
+        <hudson.tools.InstallSourceProperty>
+          <installers>
+            <hudson.tasks.Maven_-MavenInstaller>
+              <id>3.6.3</id>
+            </hudson.tasks.Maven_-MavenInstaller>
+          </installers>
+        </hudson.tools.InstallSourceProperty>
+      </properties>
+    </hudson.tasks.Maven_-MavenInstallation>
+  </installations>
+</hudson.tasks.Maven_-DescriptorImpl>
+```
+
+![image-20201027233016638](https://lab.ssafy.com/s03-final/s03p31a201/uploads/e963f88125a86a356aff7c966b49497e/image-20201027233016638.png)
+
+
+
+#### :black_nib: Global Tool - JDK 설정 (진행 중)
+
+docker에 접속하여 jenkins-cli.jar 사용해서 설정하기
+
+1. jenkins-cli.jar groovy 사용 (실패)
+
+   ```shell
+   // installJdk.groovy
+   dis=new hudson.model.JDK.DescriptorImpl();
+   dis.setInstallations(new hudson.model.JDK("JDK8", "/usr/local/openjdk-8"));
+   
+   // 실행 안됨
+   $ java -jar /bin/jenkins-cli.jar -s http://[Jenkins 주소]/ groovy installJdk.groovy 
+   ```
+
+   
+
+2. jenkins-cli.jar groovysh 사용
+
+   ```shell
+   $ sudo docker exec -u root -it [dockerName] /bin/bash
+   
+   $ java -jar /bin/jenkins-cli.jar -s http://[Jenkins 주소]/ groovysh
+   > dis=new hudson.model.JDK.DescriptorImpl();
+   > dis.setInstallations(new hudson.model.JDK("JDK8", "/usr/local/openjdk-8"));
+   ```
+
+![image-20201027222810488](https://lab.ssafy.com/s03-final/s03p31a201/uploads/259d4f1c9ea5a508d60c03296a552dac/image-20201027222810488.png)
+
+
+
+## :calendar: 20.11.02
+
+#### :black_nib: Global Tool - NodeJS 설정
+
+```xml
+<?xml version='1.1' encoding='UTF-8'?>
+<jenkins.plugins.nodejs.tools.NodeJSInstallation_-DescriptorImpl plugin="nodejs@1.3.9">
+    <installations class="jenkins.plugins.nodejs.tools.NodeJSInstallation-array">
+        <jenkins.plugins.nodejs.tools.NodeJSInstallation>
+            <name>nodejs 14</name>
+            <properties>
+                <hudson.tools.InstallSourceProperty>
+                    <installers>
+                        <jenkins.plugins.nodejs.tools.NodeJSInstaller>
+                            <id>14.14.0</id>
+                            <npmPackagesRefreshHours>72</npmPackagesRefreshHours>
+                            <force32Bit>false</force32Bit>
+                        </jenkins.plugins.nodejs.tools.NodeJSInstaller>
+                        <hudson.tools.CommandInstaller>
+                            <command></command>
+                            <toolHome></toolHome>
+                        </hudson.tools.CommandInstaller>
+                    </installers>
+                </hudson.tools.InstallSourceProperty>
+            </properties>
+        </jenkins.plugins.nodejs.tools.NodeJSInstallation>
+    </installations>
+</jenkins.plugins.nodejs.tools.NodeJSInstallation_-DescriptorImpl>
+```
+
+
+
+#### :black_nib: GlobalTool.sh 로 Maven, NodeJS 설치하기
+
+```shell
+// addGlobalTool.sh
+
+touch /var/jenkins_home/hudson.tasks.Maven.xml
+echo "<?xml version='1.1' encoding='UTF-8'?>
+      <hudson.tasks.Maven_-DescriptorImpl>
+          <installations>
+              <hudson.tasks.Maven_-MavenInstallation>
+                  <name>maven</name>
+                  <properties>
+                      <hudson.tools.InstallSourceProperty>
+                          <installers>
+                              <hudson.tasks.Maven_-MavenInstaller>
+                                  <id>3.6.3</id>
+                              </hudson.tasks.Maven_-MavenInstaller>
+                          </installers>
+                      </hudson.tools.InstallSourceProperty>
+                  </properties>
+              </hudson.tasks.Maven_-MavenInstallation>
+          </installations>
+      </hudson.tasks.Maven_-DescriptorImpl>" > /var/jenkins_home/hudson.tasks.Maven.xml
+
+touch /var/jenkins_home/jenkins.plugins.nodejs.tools.NodeJSInstallation.xml
+echo "  <?xml version='1.1' encoding='UTF-8'?>
+        <jenkins.plugins.nodejs.tools.NodeJSInstallation_-DescriptorImpl plugin="nodejs@1.3.9">
+            <installations class="jenkins.plugins.nodejs.tools.NodeJSInstallation-array">
+                <jenkins.plugins.nodejs.tools.NodeJSInstallation>
+                    <name>nodejs 14</name>
+                    <properties>
+                        <hudson.tools.InstallSourceProperty>
+                            <installers>
+                                <jenkins.plugins.nodejs.tools.NodeJSInstaller>
+                                    <id>14.14.0</id>
+                                    <npmPackagesRefreshHours>72</npmPackagesRefreshHours>
+                                    <force32Bit>false</force32Bit>
+                                </jenkins.plugins.nodejs.tools.NodeJSInstaller>
+                                <hudson.tools.CommandInstaller>
+                                    <command></command>
+                                    <toolHome></toolHome>
+                                </hudson.tools.CommandInstaller>
+                            </installers>
+                        </hudson.tools.InstallSourceProperty>
+                    </properties>
+                </jenkins.plugins.nodejs.tools.NodeJSInstallation>
+            </installations>
+        </jenkins.plugins.nodejs.tools.NodeJSInstallation_-DescriptorImpl>" > /var/jenkins_home/jenkins.plugins.nodejs.tools.NodeJSInstallation.xml
+```
+
+
+
+```나의 경로는 sooyaRepository```
+
+```나의 도커는 ssakins0```
+
+
+
+## :calendar: 20.11.07
+
+#### :black_nib: /jenkins_home/config.xml파일 JAVA_HOME 수정하기
+
+sh 파일에서 JAVA_HOME 검색
+
+config.xml 파일 만들어서 JAVA_HOME 변수 값 집어 넣기
+
+```shell
+JAVAHOME=$JAVA_HOME
+echo $JAVAHOME
+
+touch configTest.xml
+echo "
+<?xml version='1.1' encoding='UTF-8'?>
+<hudson>
+        <disabledAdministrativeMonitors/>
+        <version>2.249.2</version>
+        <installStateName>RUNNING</installStateName>
+        <numExecutors>2</numExecutors>
+        <mode>NORMAL</mode>
+        <useSecurity>true</useSecurity>
+        <authorizationStrategy class="hudson.security.AuthorizationStrategy$Unsecured"/>
+        <securityRealm class="hudson.security.SecurityRealm$None"/>
+        <disableRememberMe>false</disableRememberMe>
+        <projectNamingStrategy class="jenkins.model.ProjectNamingStrategy$DefaultProjectNamingStrategy"/>
+        <workspaceDir>${JENKINS_HOME}/workspace/${ITEM_FULL_NAME}</workspaceDir>
+        <buildsDir>${ITEM_ROOTDIR}/builds</buildsDir>
+        <jdks>
+                <jdk>
+                        <name>java</name>
+                        <home>$JAVAHOME</home>
+                        <properties/>
+                </jdk>
+        </jdks>
+        <viewsTabBar class="hudson.views.DefaultViewsTabBar"/>
+        <myViewsTabBar class="hudson.views.DefaultMyViewsTabBar"/>
+        <clouds/>
+        <scmCheckoutRetryCount>0</scmCheckoutRetryCount>
+        <views>
+                <hudson.model.AllView>
+                        <owner class="hudson" reference="../../.."/>
+                        <name>all</name>
+                        <filterExecutors>false</filterExecutors>
+                        <filterQueue>false</filterQueue>
+                        <properties class="hudson.model.View$PropertyList"/>
+                </hudson.model.AllView>
+        </views>
+        <primaryView>all</primaryView>
+        <slaveAgentPort>50000</slaveAgentPort>
+        <label></label>
+        <crumbIssuer class="hudson.security.csrf.DefaultCrumbIssuer">
+                <excludeClientIPFromCrumb>false</excludeClientIPFromCrumb>
+        </crumbIssuer>
+        <nodeProperties/>
+        <globalNodeProperties/>
+</hudson>" > ./configTest.xml
+```
+
+생성된 파일로 기존 config.xml 덮어쓰기..?
+
+
+
+sed 사용해서 <jdks/> 위에 내용 삽입하고 <jdks/> 삭제하기
+
+```shell
+$ sed -i'' -r -e '/jdks/i\<jdks>\n<jdk>\n<name>java</name>\n<home>/usr/lib/jvm/java-11-openjdk-amd64</home>\n</jdk>\n</jdks>' config.xml
+
+$ sed -i '/jdks\//d' config.xml
+```
+
+
+
+예쁘게 삽입하기
+
+```shell
+// sedConfig.sh
+
+JAVAHOME=$JAVA_HOME
+echo $JAVAHOME
+
+sed -i'' -r -e '/jdks/i\\t<jdks>\n\t\t<jdk>\n\t\t\t<name>java</name>\n\t\t\t<home>'$JAVAHOME'</home>\n\t\t</jdk>\n\t</jdks>' configOrigin.xml
+
+sed -i '/jdks\//d' configOrigin.xml
+```
+
+
+
+#### :black_nib: github-plugin-configuration.xml 파일 GITHUB Credential 변경하기
+
+github-plugin-configuration.xml
+
+```xml
+<?xml version='1.1' encoding='UTF-8'?>
+<github-plugin-configuration plugin="github@1.31.0">
+    <configs>
+        <github-server-config>
+            <name>GITHUBNAME</name>
+            <apiUrl>GITHUBURL</apiUrl>
+            <manageHooks>false</manageHooks>
+            <credentialsId>GITHUBCREDENTIAL</credentialsId>
+            <clientCacheSize>20</clientCacheSize>
+        </github-server-config>
+    </configs>
+</github-plugin-configuration>
+```
+
+
+
+github-variable.sh
+
+```shell
+GITHUBNAME=sooya12
+GITHUBURL='http://github.com/sooya12'
+GITHUBCREDENTIAL=github
+
+echo $GITHUBNAME $GITHUBURL $GITHUBCREDENTIAL
+
+sed -i 's|GITHUBNAME|'$GITHUBNAME'|g' github-plugin-configuration.xml
+
+sed -i 's|GITHUBURL|'$GITHUBURL'|g' github-plugin-configuration.xml
+
+sed -i 's|GITHUBCREDENTIAL|'$GITHUBCREDENTIAL'|g' github-plugin-configuration.xml
+```
+
+
+
+sed 사용 시, 하단의 에러 발생한다면 
+
+- '/'가 빠졌거나
+- '/'를 '|'로 바꿔주거나 
+- 넣어주는 값에 '/'가 섞여있기 때문에 따옴표로 넣어주는 값을 묶어주거나
+
+```shell
+$ sed: -e expression #1, char 26: unterminated `s' command
+```
+
+
+
+#### :black_nib: credential.xml 초기 코드 수정
+
+```shell
+// modifyCredential.sh
+
+echo 'change credential'
+VALUE='<java.util.concurrent.CopyOnWriteArrayList></java.util.concurrent.CopyOnWriteArrayList>'
+
+sed -i -r -e '/CopyOnWriteArrayList/c\\t\t\t'$VALUE credential.xml
+```
+
+
+
+## :calendar: 20.11.09
+
+#### :black_nib: mongoDB에 account 추가
+
+```shell
+> db.account.insert({ "id":1, "name":"현수", "email":"sooya@ssakins.com", "project":[{"name":"test1", "url":"k3a201.p.ssafy.io", "port":"8080", "git":{"id":"github", "name":"sooya12", "password":"1234", "giturl":"lab.ssafy.com/s03-final/s03p31a201", "type":"gitlab"}, "sshServer":{"key":"pemkeypemkeypemkey", "name":"ssh", "hostname":"k3a201.p.ssafy.io", "username":"ubuntu", "remoteDirectory":"deploy", "password":"1234"}, "servers":{"kind":"Spring", "name":"backend", "info":"/backend/src/main", "port":"8081", "options":["jvm", "jbm", "jim"]}}]})
+```
+
+
+
+```json
+> db.account.find().pretty()
+
+{
+        "_id" : ObjectId("5fa8d56fb5ab9511e8dc948a"),
+        "id" : 1,
+        "name" : "현수",
+        "email" : "sooya@ssakins.com",
+        "project" : [
+                {
+                        "name" : "test1",
+                        "url" : "k3a201.p.ssafy.io",
+                        "port" : "8080",
+                        "git" : {
+                                "id" : "github",
+                                "name" : "sooya12",
+                                "password" : "1234",
+                                "giturl" : "lab.ssafy.com/s03-final/s03p31a201",
+                                "type" : "gitlab"
+                        },
+                        "sshServer" : {
+                                "key" : "pemkeypemkeypemkey",
+                                "name" : "ssh",
+                                "hostname" : "k3a201.p.ssafy.io",
+                                "username" : "ubuntu",
+                                "remoteDirectory" : "deploy",
+                                "password" : "1234"
+                        },
+                        "servers" : {
+                                "kind" : "Spring",
+                                "name" : "backend",
+                                "info" : "/backend/src/main",
+                                "port" : "8081",
+                                "options" : [
+                                        "jvm",
+                                        "jbm",
+                                        "jim"
+                                ]
+                        }
+                }
+        ]
+}
 ```
 

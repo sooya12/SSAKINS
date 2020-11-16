@@ -9,11 +9,13 @@ version: 2.9.0
     background-color: #F2F2F2;
     zoom: 1;
 }
+
 /* Give the active handle a different color */
 .yui-skin-sam .yui-resize .yui-resize-handle-active {
     background-color: #7D98B8;
     zoom: 1;
 }
+
 .yui-skin-sam .yui-resize .yui-resize-handle-l,
 .yui-skin-sam .yui-resize .yui-resize-handle-r,
 .yui-skin-sam .yui-resize .yui-resize-handle-l-active,
@@ -21,10 +23,12 @@ version: 2.9.0
     height: 100%;
     zoom: 1;
 }
+
 /* Give a border to the 8-way knob style handles */
 .yui-skin-sam .yui-resize-knob .yui-resize-handle {
     border: 1px solid #808080;
 }
+
 /* Show the active handle when hovered */
 .yui-skin-sam .yui-resize-hover .yui-resize-handle-active {
     opacity: 1;
@@ -57,7 +61,7 @@ version: 2.9.0
 /* Setup the gripper */
 .yui-skin-sam .yui-resize .yui-resize-handle-inner-r,
 .yui-skin-sam .yui-resize .yui-resize-handle-inner-l {
-    background: transparent url( layout_sprite.png) no-repeat 0 -5px;
+    background: transparent url(layout_sprite.png) no-repeat 0 -5px;
     height: 16px;
     width: 5px;
     position: absolute;
@@ -76,28 +80,28 @@ version: 2.9.0
 
 /* Bottom Right Gripper */
 .yui-skin-sam .yui-resize .yui-resize-handle-br {
-    background-image: url( layout_sprite.png );
+    background-image: url(layout_sprite.png);
     background-repeat: no-repeat;
     background-position: -22px -62px;
 }
 
 /* Top Right Gripper */
 .yui-skin-sam .yui-resize .yui-resize-handle-tr {
-    background-image: url( layout_sprite.png );
+    background-image: url(layout_sprite.png);
     background-repeat: no-repeat;
     background-position: -22px -42px;
 }
 
 /* Top Left Gripper */
 .yui-skin-sam .yui-resize .yui-resize-handle-tl {
-    background-image: url( layout_sprite.png );
+    background-image: url(layout_sprite.png);
     background-repeat: no-repeat;
     background-position: -22px -82px;
 }
 
 /* Bottom Left Gripper */
 .yui-skin-sam .yui-resize .yui-resize-handle-bl {
-    background-image: url( layout_sprite.png );
+    background-image: url(layout_sprite.png);
     background-repeat: no-repeat;
     background-position: -22px -23px;
 }
@@ -133,9 +137,11 @@ version: 2.9.0
 .yui-skin-sam .yui-resize-textarea .yui-resize-handle-r {
     right: -8px;
 }
+
 .yui-skin-sam .yui-resize-textarea .yui-resize-handle-b {
     bottom: -8px;
 }
+
 .yui-skin-sam .yui-resize-textarea .yui-resize-handle-br {
     right: -8px;
     bottom: -8px;

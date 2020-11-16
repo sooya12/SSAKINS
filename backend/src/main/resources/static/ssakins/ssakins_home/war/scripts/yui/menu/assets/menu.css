@@ -26,19 +26,19 @@ version: 2.9.0
 
 }
 
-.yuimenubar li, 
+.yuimenubar li,
 .yuimenu li {
 
-    list-style-type: none;    
+    list-style-type: none;
 
 }
 
-.yuimenubar ul, 
+.yuimenubar ul,
 .yuimenu ul,
-.yuimenubar li, 
+.yuimenubar li,
 .yuimenu li,
 .yuimenu h6,
-.yuimenubar h6 { 
+.yuimenubar h6 {
 
     margin: 0;
     padding: 0;
@@ -84,7 +84,7 @@ version: 2.9.0
     its floated <li> elements in Firefox, Safari and and Opera.
 */
 
-.yuimenubar>.bd>ul:after {
+.yuimenubar > .bd > ul:after {
 
     content: ".";
     display: block;
@@ -112,15 +112,15 @@ version: 2.9.0
 
     font-style: normal;
     display: block;
-    
+
     /*
         The value for the left margin controls how much the help text is
         offset from the text of the menu item.  This value will need to 
         be customized depending on the longest text label of a menu item.
     */
-    
+
     margin: -1em 0 0 10em;
-    
+
 }
 
 /*
@@ -195,13 +195,13 @@ PLEASE NOTE:
 
 .hide-scrollbars * {
 
-	overflow: hidden;
+    overflow: hidden;
 
 }
 
 .hide-scrollbars select {
 
-	display: none;
+    display: none;
 
 }
 
@@ -219,7 +219,7 @@ when one of its submenus is visible.
 .yuimenu.show-scrollbars,
 .yuimenubar.show-scrollbars {
 
-	overflow: visible; 
+    overflow: visible;
 
 }
 
@@ -243,9 +243,8 @@ when one of its submenus is visible.
 .yuimenubar {
 
     background-color: #f6f7ee;
-    
-}
 
+}
 
 
 /* Menu style rules */
@@ -255,7 +254,7 @@ when one of its submenus is visible.
     background-color: #f6f7ee;
     border: solid 1px #c4c4be;
     padding: 1px;
-    
+
 }
 
 .yui-menu-shadow {
@@ -282,12 +281,12 @@ when one of its submenus is visible.
 /* Group titles */
 
 .yuimenu h6,
-.yuimenubar h6 { 
+.yuimenubar h6 {
 
     font-size: 100%;
     font-weight: normal;
     border: solid 1px #c4c4be;
-    color: #b9b9b9;    
+    color: #b9b9b9;
 
 }
 
@@ -312,14 +311,13 @@ when one of its submenus is visible.
 
 }
 
-.yuimenu ul.first-of-type, 
+.yuimenu ul.first-of-type,
 .yuimenu ul.hastitle,
 .yuimenu h6.first-of-type {
 
     border-width: 0;
 
 }
-
 
 
 /* Top and bottom scroll controls */
@@ -386,7 +384,7 @@ when one of its submenus is visible.
 .yuimenuitemlabel {
 
     padding: 2px 24px;
-    
+
 }
 
 .yuimenubaritemlabel {
@@ -425,10 +423,9 @@ when one of its submenus is visible.
 .yuimenuitemlabel .helptext {
 
     margin-top: -1.1em;
-    *margin-top: -1.2em;  /* For IE*/
-    
-}
+    *margin-top: -1.2em; /* For IE*/
 
+}
 
 
 /* MenuItem states */
