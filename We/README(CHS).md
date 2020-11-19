@@ -321,7 +321,7 @@ $ sudo apt-get install jenkins
 
 Jenkins 설치 중 에러 발생
 
-- ![image-20201016131042747](https://lab.ssafy.com/s03-final/s03p31a201/uploads/e88d2a521151ef12faceb1e050de0251/image-20201016131042747.png)
+- ![image](https://user-images.githubusercontent.com/52819764/99622663-f4b16380-2a6d-11eb-9e1e-6140d9267d16.png)
 
 - Jenkins에서는 Java 8 사용
 
@@ -612,8 +612,7 @@ config.xml에서 true를 false로 해서 잠금 해제
 ```xml
 <useSecurity>false</useSecurity>
 ```
-
-![image-20201026152526142](https://lab.ssafy.com/s03-final/s03p31a201/uploads/48c4a05142d426d99a2d4f235b6b6e02/image-20201026152526142.png)
+![image](https://user-images.githubusercontent.com/52819764/99622670-f9761780-2a6d-11eb-8275-7701666dc8d9.png)
 
 
 
@@ -674,7 +673,7 @@ $ java -jar ~/bin/jenkins-cli.jar -s http://localhost:8080/ install-plugin publi
    $ sh install.sh
    ```
 
-   ![image-20201027111512534](https://lab.ssafy.com/s03-final/s03p31a201/uploads/14fbdb677327655cce6502fc2baf630a/image-20201027111512534.png)
+   ![image](https://user-images.githubusercontent.com/52819764/99622679-fc710800-2a6d-11eb-8713-e43f93fe35c4.png)
 
 
 
@@ -760,7 +759,7 @@ jenkins_home에 hudson.tasks.Maven.xml 파일로 설정하기
 </hudson.tasks.Maven_-DescriptorImpl>
 ```
 
-![image-20201027233016638](https://lab.ssafy.com/s03-final/s03p31a201/uploads/e963f88125a86a356aff7c966b49497e/image-20201027233016638.png)
+![image](https://user-images.githubusercontent.com/52819764/99622691-01ce5280-2a6e-11eb-8b99-8169fc54caa0.png)
 
 
 
@@ -791,7 +790,7 @@ docker에 접속하여 jenkins-cli.jar 사용해서 설정하기
    > dis.setInstallations(new hudson.model.JDK("JDK8", "/usr/local/openjdk-8"));
    ```
 
-![image-20201027222810488](https://lab.ssafy.com/s03-final/s03p31a201/uploads/259d4f1c9ea5a508d60c03296a552dac/image-20201027222810488.png)
+![image](https://user-images.githubusercontent.com/52819764/99622696-0430ac80-2a6e-11eb-88c5-2d3fc4706f24.png)
 
 
 
