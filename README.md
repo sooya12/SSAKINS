@@ -1,6 +1,10 @@
 # SSAKINS
 
+#### 웹에서 간단히 옵션 선택으로 사용자가 만족하는 CI/CD 환경을 설치형 패키지 형태로 편리하게 제공하는 웹 서비스
+
 <img src="https://lab.ssafy.com/s03-final/s03p31a201/uploads/a5d0820a506c084cc15f343876fe76c5/ssakins.jpg" width="300px">
+
+
 
 ##### :bust_in_silhouette: 박형민 (팀장 / 백엔드 & 인프라)
 
@@ -12,11 +16,17 @@
 
 ##### :bust_in_silhouette: ​최현수 (팀원 / 백엔드 & 인프라)
 
+<br>
 
+<br>
 
-------
+## :runner: 기능 소개
 
-##### Login Page
+![image](https://lab.ssafy.com/s03-blockchain-sub3/s03p23a102/uploads/04a847429f412def35005d5b0fa562e7/image.png)
+
+<br>
+
+#### Login Page
 
 ![image](https://lab.ssafy.com/s03-final/s03p31a201/uploads/712bdc685e3e0674c188d6e674b3daaf/image.png)
 
@@ -38,15 +48,17 @@
 
 
 
+<br>
 
+<br>
 
 
 ## :keyboard: Code Style
 
 
-### Java
+### :page_with_curl: Java
 
-
+<br>
 
 #### Naming
 
@@ -94,7 +106,9 @@
 
 
 
-### Javascript
+### :page_with_curl: ​Javascript
+
+<br>
 
 #### Naming
 
@@ -110,9 +124,9 @@
 
 + html, css 에서는<!-- -->로 주석 처리하기
 
+<br>
 
-
----
+<br>
 
 
 
@@ -127,15 +141,17 @@
 
 README(이름)
 
+<br>
 
+<br>
 
 ## :straight_ruler: Branch 규칙
 
 feature/기능명 으로 develop에서 분기해서 사용하고, 기능 개발 완료 후 develop에 머지!
 
+<br>
 
-
-
+<br>
 
 ## :hammer: Stack
 
@@ -149,9 +165,9 @@ feature/기능명 으로 develop에서 분기해서 사용하고, 기능 개발 
 
 ![batge](https://img.shields.io/badge/Ubuntu-18.04.1%20LTS-black) ![batge](https://img.shields.io/badge/Docker-19.03.12-black) ![batge](https://img.shields.io/badge/NginX----black) ![batge](https://img.shields.io/badge/Jenkins-2.176.1-black)
 
+<br>
 
-
-
+<br>
 
 ## :bar_chart: Gantt Chart
 
@@ -189,7 +205,9 @@ gantt
     PPT	:2020-11-23, 4d
 ```
 
+<br>
 
+<br>
 
 ## :file_folder: File Directory
 
@@ -384,3 +402,6 @@ gantt
          └── Test.vue
 ```
 
+<br>
+
+<br>
