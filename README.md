@@ -2,7 +2,7 @@
 
 #### 웹에서 간단히 옵션 선택으로 사용자가 만족하는 CI/CD 환경을 설치형 패키지 형태로 편리하게 제공하는 웹 서비스
 
-<img src="https://lab.ssafy.com/s03-final/s03p31a201/uploads/a5d0820a506c084cc15f343876fe76c5/ssakins.jpg" width="300px">
+<img src="https://user-images.githubusercontent.com/52819764/99622483-98e6da80-2a6d-11eb-8047-363f5b9ef5c3.png" width="300px">
 
 
 
@@ -22,29 +22,29 @@
 
 ## :runner: 기능 소개
 
-![image](https://lab.ssafy.com/s03-blockchain-sub3/s03p23a102/uploads/04a847429f412def35005d5b0fa562e7/image.png)
+![image](https://user-images.githubusercontent.com/52819764/99622495-9dab8e80-2a6d-11eb-8645-e5201240131b.png)
 
 <br>
 
 #### Login Page
 
-![image](https://lab.ssafy.com/s03-final/s03p31a201/uploads/712bdc685e3e0674c188d6e674b3daaf/image.png)
+![image](https://user-images.githubusercontent.com/52819764/99622508-a13f1580-2a6d-11eb-9124-e5e5a8ee0209.png)
 
 #### Home Page
 
-![image](https://lab.ssafy.com/s03-final/s03p31a201/uploads/2f69afea5e2e1e6d759217ccee017366/image.png)
+![image](https://user-images.githubusercontent.com/52819764/99622513-a3a16f80-2a6d-11eb-8f28-83fe509ffdb6.png)
 
 #### Create Page
 
-![image](https://lab.ssafy.com/s03-final/s03p31a201//uploads/ab28a8e75ac4e2c6424993f899f27bde/image.png)
+![image](https://user-images.githubusercontent.com/52819764/99622521-a69c6000-2a6d-11eb-81ed-c89ccfd3d8a2.png)
 
 #### Detail Page
 
-![image](https://lab.ssafy.com/s03-final/s03p31a201//uploads/9c8692bbb2b3a2d231f9099a81633cd1/image.png)
+![image](https://user-images.githubusercontent.com/52819764/99622526-aa2fe700-2a6d-11eb-8492-7672aa3b9e0b.png)
 
 #### Detail Page - info
 
-![image](https://lab.ssafy.com/s03-final/s03p31a201//uploads/295de12c934f15118d8268abf7fad7ef/image.png)
+![image](https://user-images.githubusercontent.com/52819764/99622536-ad2ad780-2a6d-11eb-8ad8-5f5872697e7e.png)
 
 
 
