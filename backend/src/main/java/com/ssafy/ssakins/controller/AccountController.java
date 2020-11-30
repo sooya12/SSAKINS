@@ -34,9 +34,6 @@ public class AccountController {
         this.kakaoRedirectFrontURI = FRONT_SERVER_URI + "/main";
     }
 
-//    @Value("http://localhost:8000")
-//    private String FRONT_SERVER_URI;
-//    @Value("http://localhost:8080")
     @Value("${front.url}")
     private String FRONT_SERVER_URI;
     @Value("${backend.url}")
@@ -99,11 +96,10 @@ public class AccountController {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(con.getOutputStream()));
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
-            sb.append("&client_id=5087dfcc2c61ed08e9cf4a4282fbbf2c");
+            sb.append("&client_id=[CLIENT ID]");
             sb.append("&redirect_uri=" + kakaoRedirectBackURI); // 로그인 함수로 리다이렉트 하게 해 줌
-//            sb.append("&redirect_uri=" + "http://localhost:8080/account/login"); // 로그인 함수로 리다이렉트 하게 해 줌
             sb.append("&code=" + authorize_code);
-            sb.append("&client_secret=uJMkJL2dlOuueP3xHbnj00XDgccRH4q9");
+            sb.append("&client_secret=[CLIENT SECRET]");
 
             bw.write(sb.toString());
             bw.flush();
