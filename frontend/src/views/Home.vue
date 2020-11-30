@@ -102,7 +102,7 @@ export default {
   methods: {
     kakaoLogin() {
       window.location.href =
-        "https://kauth.kakao.com/oauth/authorize?client_id=5087dfcc2c61ed08e9cf4a4282fbbf2c&redirect_uri=" +
+        "https://kauth.kakao.com/oauth/authorize?client_id=[CLIENT ID]&redirect_uri=" +
         this.$store.state.server +
         "account/login&response_type=code";
     },
